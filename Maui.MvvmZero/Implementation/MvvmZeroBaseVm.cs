@@ -25,7 +25,7 @@ using FunctionZero.CommandZero;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Maui.MvvmZero
+namespace FunctionZero.Maui.MvvmZero
 {
     public class MvvmZeroBaseVm : IGuard, INotifyPropertyChanged
     {

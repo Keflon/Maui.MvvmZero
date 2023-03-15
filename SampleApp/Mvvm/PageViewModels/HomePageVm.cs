@@ -1,6 +1,6 @@
 ﻿using FunctionZero.CommandZero;
-using Maui.MvvmZero;
-using Maui.MvvmZero.Services;
+using FunctionZero.Maui.MvvmZero;
+using FunctionZero.Maui.MvvmZero.Services;
 using SampleApp.Mvvm.Pages;
 using SampleApp.Mvvm.ViewModels;
 using System;

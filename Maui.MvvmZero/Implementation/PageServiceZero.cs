@@ -29,7 +29,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Maui.MvvmZero
+namespace FunctionZero.Maui.MvvmZero
 {
     public class PageServiceZero : IPageServiceZero
     {

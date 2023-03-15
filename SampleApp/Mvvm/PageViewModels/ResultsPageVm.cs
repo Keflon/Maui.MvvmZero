@@ -1,5 +1,5 @@
 ﻿using FunctionZero.CommandZero;
-using Maui.MvvmZero;
+using FunctionZero.Maui.MvvmZero;
 using SampleApp.Mvvm.ViewModels;
 using System;
 using System.Collections.Generic;

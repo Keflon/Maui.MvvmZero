@@ -25,7 +25,7 @@ SOFTWARE.
 using System;
 using System.ComponentModel;
 
-namespace Maui.MvvmZero
+namespace FunctionZero.Maui.MvvmZero
 {
     /// <summary>
     /// If the ViewModel of a Page supports this interface, these methods are called by the page service.

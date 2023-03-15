@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Diagnostics;
 
-namespace Maui.MvvmZero.Services
+namespace FunctionZero.Maui.MvvmZero.Services
 {
     public class AutoPageTimer
     {

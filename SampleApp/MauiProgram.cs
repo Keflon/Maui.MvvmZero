@@ -1,4 +1,4 @@
-﻿using Maui.MvvmZero;
+﻿using FunctionZero.Maui.MvvmZero;
 using Microsoft.Extensions.Logging;
 using SampleApp.Mvvm.Pages;
 using SampleApp.Mvvm.PageViewModels;

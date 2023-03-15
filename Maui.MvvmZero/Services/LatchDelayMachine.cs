@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Maui.MvvmZero.Services
+namespace FunctionZero.Maui.MvvmZero.Services
 {
     public class LatchDelayMachine
     {

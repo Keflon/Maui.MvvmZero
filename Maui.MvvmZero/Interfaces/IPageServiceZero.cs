@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-namespace Maui.MvvmZero
+namespace FunctionZero.Maui.MvvmZero
 {
     public interface IPageServiceZero
     {

@@ -1,4 +1,4 @@
-# Maui.MvvmZero
+# FunctionZero.Maui.MvvmZero
 
 NuGet package [here](https://www.nuget.org/packages/FunctionZero.Maui.MvvmZero)
 
@@ -30,7 +30,7 @@ The rest is basically the same as found in the [Xamarin Turorial](https://github
 
 ### Is anybody out there?
 The more stars I get, the sooner I'm likely to write up some proper documentation, and even a sample app tutorial. ;)  
-Whilst you're here, take a look at [Maui.zBind](https://github.com/Keflon/FunctionZero.Maui.zBind) and tell all your friends. It's already included in Maui.MvvmZero.  
+Whilst you're here, take a look at [Maui.zBind](https://github.com/Keflon/FunctionZero.Maui.zBind) and tell all your friends. It's already included in FunctionZero.Maui.MvvmZero.  
 
 If you target WinUI, you'll want to make your pages _Transient_ until [this MAUI bug](https://github.com/dotnet/maui/issues/7698) is fixed.
 

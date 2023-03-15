@@ -28,9 +28,9 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
 using FunctionZero.CommandZero;
-using Maui.MvvmZero.Services;
+using FunctionZero.Maui.MvvmZero.Services;
 
-namespace Maui.MvvmZero
+namespace FunctionZero.Maui.MvvmZero
 {
     /// <summary>
     /// If you get a WinUI xaml compiler error after deriving from this class,
