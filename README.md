@@ -1,5 +1,7 @@
 # Maui.MvvmZero
 
+NuGet package [here](https://www.nuget.org/packages/FunctionZero.Maui.MvvmZero)
+
 [MvvmZero](https://github.com/Keflon/FunctionZero.MvvmZero) for MAUI.  
 
 If you have used [MvvmZero](https://github.com/Keflon/FunctionZero.MvvmZero) for Xamarin, you'll probably be able to work out how to use this by looking at the SampleApp.  
