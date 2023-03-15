@@ -15,7 +15,27 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		<Description>An easy to use library for building cross-platform MAUI applications very quickly. Includes FunctionZero.zBind, allowing fully featured databinding to expressions.</Description>
+		<Copyright>FunctionZero Ltd. 2023</Copyright>
+		<PackageProjectUrl>https://github.com/Keflon/Maui.MvvmZero</PackageProjectUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/Keflon/Maui.MvvmZero</RepositoryUrl>
+		<PackageTags>Mvvm iOS WinUI Android Tizen ICommand Command CommandZero CommandZeroAsync zbind expression parser databinding</PackageTags>
+		<PackageReleaseNotes>Initial release! You have been warned! :)</PackageReleaseNotes>
+		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+		<PackageId>FunctionZero.Maui.MvvmZero</PackageId>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Include="..\LICENSE.txt">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	  <None Include="..\README.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
 
 	<ItemGroup>
 	  <PackageReference Include="FunctionZero.CommandZero" Version="1.1.0" />
