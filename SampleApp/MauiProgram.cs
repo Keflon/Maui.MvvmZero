@@ -27,10 +27,12 @@ namespace SampleApp
                 .AddSingleton<NavigationPage>((arg) => new NavigationPage())
                 .AddSingleton<HomePageVm>()
                 .AddSingleton<HomePage>()
-                .AddSingleton<ListPageVm>()
-                .AddSingleton<ListPage>()
-                .AddSingleton<TreePageVm>()
-                .AddSingleton<TreePage>();
+                .AddSingleton<CabbagesPageVm>()
+                .AddSingleton<CabbagesPage>()
+                .AddSingleton<OnionsPageVm>()
+                .AddSingleton<OnionsPage>()
+                .AddSingleton<ResultsPageVm>()
+                .AddSingleton<ResultsPage>();
 
             return builder.Build();
         }

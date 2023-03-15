@@ -141,8 +141,17 @@ namespace Maui.MvvmZero
             TPage page = GetPage<TPage>();
             var vm = GetViewModel<TViewModel>();
 
-            page.BindingContext = vm;
+            try
+            {
 
+                page.BindingContext = vm;
+
+            }
+            catch (Exception ex)
+            {
+
+                Debug.WriteLine(ex.Message);
+            }
             return (page, vm);
         }
 
@@ -215,6 +224,7 @@ namespace Maui.MvvmZero
         {
             var navStack = CurrentNavigationPage.NavigationStack;
 
+#if false // This has been fixed.
             // CurrentNavigationPage.PopToRootAsync does not raise OnPageDisappearing on the top page,
             // so we must do it here.
             // Odd, given the appearing / disappearing methods are called when backgrounding, foregrounding etc.
@@ -223,6 +233,7 @@ namespace Maui.MvvmZero
                 var topPage = navStack[navStack.Count - 1];
                 (topPage.BindingContext as IHasOwnerPage)?.OnOwnerPageDisappearing();
             }
+#endif
             await CurrentNavigationPage.PopToRootAsync(animated);
         }
 

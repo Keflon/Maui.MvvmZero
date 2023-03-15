@@ -19,6 +19,7 @@
 
 	<ItemGroup>
 	  <PackageReference Include="FunctionZero.CommandZero" Version="1.1.0" />
+	  <PackageReference Include="FunctionZero.Maui.zBind" Version="1.1.0" />
 	</ItemGroup>
 
 </Project>

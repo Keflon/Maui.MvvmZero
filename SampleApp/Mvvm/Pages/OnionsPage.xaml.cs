@@ -1,8 +1,8 @@
 namespace SampleApp.Mvvm.Pages;
 
-public partial class TreePage : ContentPage
+public partial class OnionsPage : ContentPage
 {
-	public TreePage()
+	public OnionsPage()
 	{
 		InitializeComponent();
 	}
