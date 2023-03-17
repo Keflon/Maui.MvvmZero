@@ -34,7 +34,7 @@ namespace FunctionZero.Maui.MvvmZero
 {
     /// <summary>
     /// If you get a WinUI xaml compiler error after deriving from this class,
-    /// reference this library directly in your UWP project to resolve it.
+    /// reference this library directly in your WinUI project to resolve it.
     /// </summary>
     public abstract class MvvmZeroBasePageVm : MvvmZeroBaseVm, IHasOwnerPage
     {
@@ -71,25 +71,43 @@ namespace FunctionZero.Maui.MvvmZero
 
         public virtual void OnOwnerPageAppearing()
         {
+            Debug.WriteLine($"OnOwnerPageAppearing {this}");
             IsOwnerPageVisible = true;
             OwnerPageAppearing?.Invoke(this, EventArgs.Empty);
         }
 
         public virtual void OnOwnerPageDisappearing()
         {
+            Debug.WriteLine($"OnOwnerPageDisappearing {this}");
             IsOwnerPageVisible = false;
             OwnerPageDisappearing?.Invoke(this, EventArgs.Empty);
         }
 
         public virtual void OnOwnerPagePushed(bool isModal)
         {
+            Debug.WriteLine($"OnOwnerPagePushed {this}");
             IsOnNavigationStack = true;
         }
 
         public virtual void OnOwnerPagePopped(bool isModal)
         {
+            Debug.WriteLine($"OnOwnerPagePopped {this}");
             IsOnNavigationStack = false;
         }
+
+        public virtual void OnOwnerPageAddedToVisualTree()
+        {
+            Debug.WriteLine($"OnOwnerPageAddedToVisualTree {this}");
+
+        }
+
+        public virtual void OnOwnerPageRemovedFromVisualTree()
+        {
+            Debug.WriteLine($"OnOwnerPageRemovedFromVisualTree {this}");
+
+        }
+
+
 
         #endregion
     }

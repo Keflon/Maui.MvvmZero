@@ -34,11 +34,13 @@ namespace FunctionZero.Maui.MvvmZero
     {
         /// <summary>
         /// Tells us whether the owner page is visible.
+        /// Managed using OnOwnerPageAppearing and OnOwnerPageDisappearing.
         /// Implementors must raise INPC.
         /// </summary>
         bool IsOwnerPageVisible { get; }
         /// <summary>
         /// Tells us whether the owner page is on a navigation stack.
+        /// // Managed using OnOwnerPagePushed and OnOwnerPagePopped.
         /// Implementors must raise INPC.
         /// </summary>
         bool IsOnNavigationStack { get; }
@@ -49,5 +51,13 @@ namespace FunctionZero.Maui.MvvmZero
         void OnOwnerPageDisappearing();
         void OnOwnerPagePushed(bool isModal);
         void OnOwnerPagePopped(bool isModal);
+
+
+        #region Helpers for e.g. when Flyout changes the Detail property and we wish to PopToRoot on the outgoing Nav stack.
+
+        void OnOwnerPageAddedToVisualTree();
+        void OnOwnerPageRemovedFromVisualTree();
+
+        #endregion
     }
 }

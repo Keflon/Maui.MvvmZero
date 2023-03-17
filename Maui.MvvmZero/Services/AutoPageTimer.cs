@@ -6,7 +6,7 @@ namespace FunctionZero.Maui.MvvmZero.Services
 {
     public class AutoPageTimer
     {
-        private readonly IHasOwnerPage _ownerPageVm;
+        private IHasOwnerPage _ownerPageVm;
         private readonly IDispatcherTimer _timer;
 
         public int MillisecondInterval { get; }
@@ -27,10 +27,21 @@ namespace FunctionZero.Maui.MvvmZero.Services
             _timer.Interval = TimeSpan.FromMilliseconds(MillisecondInterval);
             _timer.Tick += RawTimerCallback;
 
-
             _ownerPageVm.PropertyChanged += _ownerPage_PropertyChanged;
             if (_ownerPageVm.IsOwnerPageVisible)
                 StartTimer();
+        }
+
+        /// <summary>
+        /// Call Detach if ownerPageVm goes out of scope and this object remains in scope.
+        /// If ownerPageVm has the only reference to this instance (e.g. it is created by the ownerPageVm constructor and not shared), there is no need to detach.
+        /// </summary>
+        public void Detach()
+        {
+            if(_ownerPageVm != null)
+                _ownerPageVm.PropertyChanged -= _ownerPage_PropertyChanged;
+
+            _ownerPageVm = null;
         }
 
         private void _ownerPage_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -56,6 +67,7 @@ namespace FunctionZero.Maui.MvvmZero.Services
                 throw new InvalidOperationException("Attempt to start a running timer!");
             }
             _timer.Start();
+            Debug.WriteLine($"Timer started for {_ownerPageVm}");
         }
         private void StopTimer()
         {
@@ -64,6 +76,7 @@ namespace FunctionZero.Maui.MvvmZero.Services
                 throw new InvalidOperationException("Attempt to stop a running timer!");
             }
             _timer.Stop();
+            Debug.WriteLine($"Timer stopped for {_ownerPageVm}");
         }
 
         private void RawTimerCallback(object sender, EventArgs e)

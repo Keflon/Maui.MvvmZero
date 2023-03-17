@@ -33,10 +33,15 @@ namespace FunctionZero.Maui.MvvmZero
 {
     public class PageServiceZero : IPageServiceZero
     {
+        bool _report = false;
+
         private readonly Func<INavigation> _navigationGetter;
         public Func<Type, object> TypeFactory { get; }
 
         private INavigation CurrentNavigationPage => _navigationGetter();
+
+        private readonly List<Page> _pagesOnAnyNavigationStack;
+        private readonly List<Page> _currentVisiblePageList;
 
         /// <summary>
         /// Creates a PageServiceZero associated with the provided NavigationPage.
@@ -49,6 +54,9 @@ namespace FunctionZero.Maui.MvvmZero
         {
             _navigationGetter = navigationGetter;
             TypeFactory = typeFactory;
+
+            _pagesOnAnyNavigationStack = new();
+            _currentVisiblePageList = new();
         }
 
         public void Init(Application currentApplication)
@@ -63,62 +71,98 @@ namespace FunctionZero.Maui.MvvmZero
             currentApplication.ModalPopped += CurrentApplication_ModalPopped;
         }
 
-        private async void CurrentApplication_DescendantRemoved(object sender, ElementEventArgs e)
+        private void CurrentApplication_DescendantAdded(object sender, ElementEventArgs e)
         {
-            if (e.Element is ContentPage cp)
+            if (e.Element is Page cp)
             {
-                Debug.WriteLine($"Descendant Removed: {cp}");
+
+                if (_report) Debug.WriteLine($"Descendant Added: {cp}");
+
+                cp.Disappearing += PageDisappearing;
+                cp.Appearing += PageAppearing;
+
+                var hop = cp.BindingContext as IHasOwnerPage;
+                hop?.OnOwnerPageAddedToVisualTree();
 
                 if (cp.Navigation != null)
                 {
-                    Debug.WriteLine($"Page Popped: {cp}");
-                    if (cp.BindingContext is IHasOwnerPage hop)
-                        hop.OnOwnerPagePopped(false);
+                    bool isOnNavigationStack = cp.Navigation.NavigationStack.Contains(cp);
+                    bool isOnAnyNavigationStack = _pagesOnAnyNavigationStack.Contains(cp);
+
+                    if (isOnNavigationStack && (!isOnAnyNavigationStack))
+                    {
+                        _pagesOnAnyNavigationStack.Add(cp);
+                        hop?.OnOwnerPagePushed(false);
+                    }
+                    else if (!isOnNavigationStack && isOnAnyNavigationStack)
+                        throw new InvalidOperationException($"Page {cp} is 'counted' when not on navigation stack!");
                 }
+            }
+        }
+
+        private async void CurrentApplication_DescendantRemoved(object sender, ElementEventArgs e)
+        {
+            if (e.Element is Page cp)
+            {
+                if (_report) Debug.WriteLine($"Descendant Removed: {cp}");
+
+                var hop = cp.BindingContext as IHasOwnerPage;
+
+                bool isOnNavigationStack = cp.Navigation.NavigationStack.Contains(cp);
+                bool isOnAnyNavigationStack = _pagesOnAnyNavigationStack.Contains(cp);
+
+                if ((!isOnNavigationStack) && isOnAnyNavigationStack)
+                {
+                    _pagesOnAnyNavigationStack.Remove(cp);
+                    hop?.OnOwnerPagePopped(false);
+                }
+                else if (isOnNavigationStack && (!isOnAnyNavigationStack))
+                    throw new InvalidOperationException($"Removed Page {cp} is not 'counted' when is on navigation stack!");
+
+                hop?.OnOwnerPageRemovedFromVisualTree();
 
                 cp.Appearing -= PageAppearing;
 
-                await Task.Yield();
+                await Task.Yield();     // Is this still necessary? Probably. Reason - I expect the disappearing event is raised after DescendantRemoved.
 
                 cp.Disappearing -= PageDisappearing;
             }
         }
 
-        private void CurrentApplication_DescendantAdded(object sender, ElementEventArgs e)
-        {
-            if (e.Element is ContentPage cp)
-            {
-                Debug.WriteLine($"Descendant Added: {cp}");
-                cp.Disappearing += PageDisappearing;
-                cp.Appearing += PageAppearing;
-
-                if (cp.Navigation != null)
-                {
-                    Debug.WriteLine($"Page Pushed: {cp}");
-                    if (cp.BindingContext is IHasOwnerPage hop)
-                        hop.OnOwnerPagePushed(false);
-                }
-            }
-        }
-
         private void PageAppearing(object sender, EventArgs e)
         {
-            Debug.WriteLine($"Page Appearing: {sender}");
-            if (((Page)sender).BindingContext is IHasOwnerPage hop)
+            var page = (Page)sender;
+
+            if (_report) Debug.WriteLine($"Page Appearing: {sender}");
+            if (_currentVisiblePageList.Contains(page))
+                throw new InvalidOperationException("Page already in _currentVisiblePageList");
+
+            _currentVisiblePageList.Add(page);
+            if (page.BindingContext is IHasOwnerPage hop)
                 hop.OnOwnerPageAppearing();
 
         }
 
         private void PageDisappearing(object sender, EventArgs e)
         {
-            Debug.WriteLine($"Page Disappearing: {sender}");
+            var page = (Page)sender;
+            if (!_currentVisiblePageList.Contains(page))
+                throw new InvalidOperationException("Page not in _currentVisiblePageList");
+
+            _currentVisiblePageList.Remove(page);
+            if (_report) Debug.WriteLine($"Page Disappearing: {sender}");
             if (((Page)sender).BindingContext is IHasOwnerPage hop)
                 hop.OnOwnerPageDisappearing();
         }
 
+        public int GetVisiblePageCountForVm(object vm)
+        {
+            return _currentVisiblePageList.Where(page => page.BindingContext == vm).Count();
+        }
+
         private void CurrentApplication_ModalPopped(object sender, ModalPoppedEventArgs e)
         {
-            Debug.WriteLine($"Modal Removed: {e.Modal}");
+            if (_report) Debug.WriteLine($"Modal Removed: {e.Modal}");
 
             if (e.Modal is Page page)
                 if (page.BindingContext is IHasOwnerPage hop)
@@ -127,12 +171,15 @@ namespace FunctionZero.Maui.MvvmZero
 
         private void CurrentApplication_ModalPushed(object sender, ModalPushedEventArgs e)
         {
-            Debug.WriteLine($"Modal Added: {e.Modal}");
+            if (_report) Debug.WriteLine($"Modal Added: {e.Modal}");
 
             if (e.Modal is Page page)
                 if (page.BindingContext is IHasOwnerPage hop)
                     hop.OnOwnerPagePushed(true);
         }
+
+
+        #region MyRegion
 
         public (TPage page, TViewModel viewModel) GetMvvmPage<TPage, TViewModel>()
             where TPage : Page
@@ -150,7 +197,7 @@ namespace FunctionZero.Maui.MvvmZero
             catch (Exception ex)
             {
 
-                Debug.WriteLine(ex.Message);
+                if (_report) Debug.WriteLine(ex.Message);
             }
             return (page, vm);
         }
@@ -272,6 +319,7 @@ namespace FunctionZero.Maui.MvvmZero
         //        current = current.Parent;
         //    }
         //    return null;
-        //}
+        //} 
+        #endregion
     }
 }

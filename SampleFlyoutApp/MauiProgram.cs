@@ -51,9 +51,9 @@ namespace SampleFlyoutApp
             var root = new FlyoutPage();
             root.Title = "Hello";
 
-            root.Flyout = pageService.GetMvvmPage<FlyoutContentPage, FlyoutContentPageVm>().page;
-            // Detail cannot be null. Will be overwritten immediately after being presented.
-            root.Detail = new ContentPage();
+            //root.Flyout = pageService.GetMvvmPage<FlyoutContentPage, FlyoutContentPageVm>().page;
+            //// Detail cannot be null. Will be overwritten immediately after being presented.
+            //root.Detail = new ContentPage();
 
             return root;
         }

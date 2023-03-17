@@ -65,6 +65,7 @@ namespace FunctionZero.Maui.MvvmZero
         void RemovePageBelowTop();
         Task PushPageAsync(Page page, bool isModal, bool animated = true);
         TViewModel FindAncestorPageVm<TViewModel>() where TViewModel : class;
+        int GetVisiblePageCountForVm(object vm);
         //void RemovePageAtIndex(int index);
         //void GetNavigationStackCount(bool isModal = false);
     }
