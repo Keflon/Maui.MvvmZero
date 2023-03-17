@@ -34,7 +34,7 @@ namespace FunctionZero.Maui.MvvmZero
     public class PageServiceZero : IPageServiceZero
     {
         private readonly Func<INavigation> _navigationGetter;
-        private Func<Type, object> _typeFactory;
+        public Func<Type, object> TypeFactory { get; }
 
         private INavigation CurrentNavigationPage => _navigationGetter();
 
@@ -48,7 +48,7 @@ namespace FunctionZero.Maui.MvvmZero
         public PageServiceZero(Func<INavigation> navigationGetter, Func<Type, object> typeFactory)
         {
             _navigationGetter = navigationGetter;
-            _typeFactory = typeFactory;
+            TypeFactory = typeFactory;
         }
 
         public void Init(Application currentApplication)
@@ -157,12 +157,13 @@ namespace FunctionZero.Maui.MvvmZero
 
         public TPage GetPage<TPage>() where TPage : Page
         {
-            TPage page = (TPage)_typeFactory(typeof(TPage));
+            TPage page = (TPage)TypeFactory(typeof(TPage));
             return page;
         }
+
         public TViewModel GetViewModel<TViewModel>() where TViewModel : class
         {
-            TViewModel vm = (TViewModel)_typeFactory(typeof(TViewModel));
+            TViewModel vm = (TViewModel)TypeFactory(typeof(TViewModel));
             return vm;
         }
 
