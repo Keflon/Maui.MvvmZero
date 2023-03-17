@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SampleFlyoutApp.Mvvm.Pages.Root.FlyoutContentPage"
+             Title="FlyoutContentPage"
+             x:Name="Self"
+             >
+    <!--IconImageSource="hamburger.png"-->
+    <VerticalStackLayout 
+        BackgroundColor="Red"
+        BindableLayout.ItemsSource="{Binding Items}"
+        >
+        <BindableLayout.ItemTemplate>
+            <DataTemplate>
+                <Button Text="{Binding Name}" Command="{Binding BindingContext.ItemTappedCommand, Source={x:Reference Self}}" CommandParameter="{Binding}"/>
+            </DataTemplate>
+        </BindableLayout.ItemTemplate>
+    </VerticalStackLayout>
+</ContentPage>

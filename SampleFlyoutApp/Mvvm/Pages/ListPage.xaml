@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SampleFlyoutApp.Mvvm.Pages.ListPage"
+             Title="ListPage">
+    <VerticalStackLayout>
+        <Label Text="{Binding}"/>
+        <Button Text="{Binding Test1Command.Text}" Command="{Binding Test1Command}"/>
+    </VerticalStackLayout>
+</ContentPage>
