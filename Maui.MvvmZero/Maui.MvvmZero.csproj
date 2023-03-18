@@ -21,11 +21,14 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/Keflon/Maui.MvvmZero</RepositoryUrl>
 		<PackageTags>Mvvm iOS WinUI Android Tizen ICommand Command CommandZero CommandZeroAsync zbind expression parser databinding</PackageTags>
-		<PackageReleaseNotes>Initial release! You have been warned! :)</PackageReleaseNotes>
+		<PackageReleaseNotes>Initial releases! You have been warned! :)
+Fixes and enhancements for IHasOwnerPage when root page is a Flyout.
+No consideration yet for modal pages, may or may not work.
+</PackageReleaseNotes>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 		<PackageId>FunctionZero.Maui.MvvmZero</PackageId>
 		<RootNamespace>FunctionZero.Maui.MvvmZero</RootNamespace>
-		<Version>1.0.2</Version>
+		<Version>1.1.0</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
