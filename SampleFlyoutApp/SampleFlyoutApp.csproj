@@ -73,6 +73,9 @@
 	  <MauiXaml Update="Mvvm\Pages\Root\FlyoutContentPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Mvvm\Pages\TestPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Mvvm\Pages\TreePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

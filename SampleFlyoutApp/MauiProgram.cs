@@ -38,6 +38,8 @@ namespace SampleFlyoutApp
                .AddSingleton<ListPlayPage>()
                .AddSingleton<ListPlayPageVm>()
 
+               .AddTransient<TestPage>()
+               .AddTransient<TestPageVm>()
                ;
 
 

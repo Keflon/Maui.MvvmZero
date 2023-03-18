@@ -26,7 +26,10 @@ namespace SampleFlyoutApp.Mvvm.PageViewModels.Root
             {
                 new DetailPageItemVm("One", pageServiceZero.GetMvvmPage<HomePage, HomePageVm>().page, true),
                 new DetailPageItemVm("Two", pageServiceZero.GetMvvmPage<ListPage, ListPageVm>().page, true),
-                new DetailPageItemVm("Three", pageServiceZero.GetMvvmPage<TreePage, TreePageVm>().page, false)
+                new DetailPageItemVm("Three", pageServiceZero.GetMvvmPage<TreePage, TreePageVm>().page, false),
+                new DetailPageItemVm("Test", pageServiceZero.GetMvvmPage<TestPage, TestPageVm>().page, true)
+
+
             };
             Items = items;
         }
