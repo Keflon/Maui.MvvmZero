@@ -10,8 +10,8 @@
             HorizontalOptions="Center" />
 
         <Button Text="{Binding PushPageCommand.Text}" Command="{Binding PushPageCommand}"/>
+        <Button Text="{Binding PopPageCommand.Text}" Command="{Binding PopPageCommand}" Margin="0,0,0,50"/>
         <Button Text="{Binding PushModalPageCommand.Text}" Command="{Binding PushModalPageCommand}"/>
-        <Button Text="{Binding PopPageCommand.Text}" Command="{Binding PopPageCommand}"/>
         <Button Text="{Binding PopModalPageCommand.Text}" Command="{Binding PopModalPageCommand}"/>
 
     </VerticalStackLayout>

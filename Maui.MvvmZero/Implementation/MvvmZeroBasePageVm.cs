@@ -85,13 +85,13 @@ namespace FunctionZero.Maui.MvvmZero
 
         public virtual void OnOwnerPagePushed(bool isModal)
         {
-            Debug.WriteLine($"OnOwnerPagePushed {this}");
+            Debug.WriteLine($"OnOwnerPagePushed {this} Modal={isModal}");
             IsOnNavigationStack = true;
         }
 
         public virtual void OnOwnerPagePopped(bool isModal)
         {
-            Debug.WriteLine($"OnOwnerPagePopped {this}");
+            Debug.WriteLine($"OnOwnerPagePopped {this} Modal={isModal}");
             IsOnNavigationStack = false;
         }
 

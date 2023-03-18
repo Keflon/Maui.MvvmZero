@@ -69,6 +69,22 @@ namespace FunctionZero.Maui.MvvmZero
 
             currentApplication.ModalPushed += CurrentApplication_ModalPushed;
             currentApplication.ModalPopped += CurrentApplication_ModalPopped;
+
+
+            currentApplication.PageAppearing += CurrentApplication_PageAppearing;
+            currentApplication.PageDisappearing += CurrentApplication_PageDisappearing;
+        }
+
+        private void CurrentApplication_PageDisappearing(object sender, Page e)
+        {
+            Debug.WriteLine($"CurrentApplication_PageDisappearing: {e}");
+
+        }
+
+        private void CurrentApplication_PageAppearing(object sender, Page e)
+        {
+            Debug.WriteLine($"CurrentApplication_PageAppearing: {e}");
+
         }
 
         private void CurrentApplication_DescendantAdded(object sender, ElementEventArgs e)
