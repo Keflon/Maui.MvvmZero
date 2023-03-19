@@ -77,13 +77,13 @@ namespace FunctionZero.Maui.MvvmZero
 
         private void CurrentApplication_PageDisappearing(object sender, Page e)
         {
-            Debug.WriteLine($"CurrentApplication_PageDisappearing: {e}");
+            //Debug.WriteLine($"CurrentApplication_PageDisappearing: {e}");
 
         }
 
         private void CurrentApplication_PageAppearing(object sender, Page e)
         {
-            Debug.WriteLine($"CurrentApplication_PageAppearing: {e}");
+            //Debug.WriteLine($"CurrentApplication_PageAppearing: {e}");
 
         }
 
