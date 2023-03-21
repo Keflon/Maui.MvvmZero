@@ -21,10 +21,10 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/Keflon/Maui.MvvmZero</RepositoryUrl>
 		<PackageTags>MAUI Mvvm Navigation iOS WinUI Android Tizen FunctionZero</PackageTags>
-		<PackageReleaseNotes>Initial releases! You have been warned! :)
+		<PackageReleaseNotes>Initial releases! Seems stable, but you have been warned! :)
 Small fix to stop silent consumption of an unlikely exception.
-Note that modal pages have now been tested and IHasOwnerPage events work for OnOwnerPagePushed and OnOwnerPagePopped
-</PackageReleaseNotes>
+Note: IHasOwnerPage support for modal pages is limited to OnOwnerPagePushed and OnOwnerPagePopped.
+If that is limiting for you, raise an issue and I'll see what I can do.</PackageReleaseNotes>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 		<PackageId>FunctionZero.Maui.MvvmZero</PackageId>
 		<RootNamespace>FunctionZero.Maui.MvvmZero</RootNamespace>
