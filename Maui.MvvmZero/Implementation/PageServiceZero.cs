@@ -76,7 +76,7 @@ namespace FunctionZero.Maui.MvvmZero
 
         private void CurrentApplication_PageAppearing(object sender, Page e)
         {
-            // This is not called when a page is popped!
+            // This is not called when a page is popped! https://github.com/dotnet/maui/issues/14092
             Debug.WriteLine($"CurrentApplication_PageAppearing: {e}");
         }
 
