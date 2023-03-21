@@ -1,4 +1,4 @@
-﻿using FunctionZero.Maui.MvvmZero;
+﻿ using FunctionZero.Maui.MvvmZero;
 using Microsoft.Extensions.Logging;
 using SampleFlyoutApp.Mvvm.Pages;
 using SampleFlyoutApp.Mvvm.Pages.Root;
@@ -26,7 +26,7 @@ namespace SampleFlyoutApp
 
             builder.Services
                .AddSingleton<IPageServiceZero>(CreatePageService)
-               .AddSingleton<FlyoutPage>(CreateRootPage)
+               .AddSingleton<FlyoutPage>()
                .AddSingleton<HomePage>()
                .AddSingleton<HomePageVm>()
                .AddSingleton<FlyoutContentPage>()
@@ -44,16 +44,6 @@ namespace SampleFlyoutApp
 
 
             return builder.Build();
-        }
-
-        private static FlyoutPage CreateRootPage(IServiceProvider arg)
-        {
-            var pageService = arg.GetService<IPageServiceZero>();
-
-            var root = new FlyoutPage();
-            root.Title = "Hello";
-
-            return root;
         }
 
         private static IPageServiceZero CreatePageService(IServiceProvider arg)

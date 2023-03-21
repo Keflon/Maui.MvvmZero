@@ -21,13 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-using Microsoft.Maui.Controls;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FunctionZero.Maui.MvvmZero
 {
@@ -70,28 +64,26 @@ namespace FunctionZero.Maui.MvvmZero
             currentApplication.ModalPushed += CurrentApplication_ModalPushed;
             currentApplication.ModalPopped += CurrentApplication_ModalPopped;
 
-
             currentApplication.PageAppearing += CurrentApplication_PageAppearing;
             currentApplication.PageDisappearing += CurrentApplication_PageDisappearing;
         }
 
         private void CurrentApplication_PageDisappearing(object sender, Page e)
         {
-            //Debug.WriteLine($"CurrentApplication_PageDisappearing: {e}");
+            Debug.WriteLine($"CurrentApplication_PageDisappearing: {e}");
 
         }
 
         private void CurrentApplication_PageAppearing(object sender, Page e)
         {
-            //Debug.WriteLine($"CurrentApplication_PageAppearing: {e}");
-
+            // This is not called when a page is popped!
+            Debug.WriteLine($"CurrentApplication_PageAppearing: {e}");
         }
 
         private void CurrentApplication_DescendantAdded(object sender, ElementEventArgs e)
         {
             if (e.Element is Page cp)
             {
-
                 if (_report) Debug.WriteLine($"Descendant Added: {cp}");
 
                 cp.Disappearing += PageDisappearing;
@@ -105,18 +97,20 @@ namespace FunctionZero.Maui.MvvmZero
                     bool isOnNavigationStack = cp.Navigation.NavigationStack.Contains(cp);
                     bool isOnAnyNavigationStack = _pagesOnAnyNavigationStack.Contains(cp);
 
+                    // If the page is on the navigation stack that we're not tracking, it has been pushed.
                     if (isOnNavigationStack && (!isOnAnyNavigationStack))
                     {
                         _pagesOnAnyNavigationStack.Add(cp);
                         hop?.OnOwnerPagePushed(false);
                     }
+                    // Otherwise if we're tracking the page when it is not on the navigation stack, something has gone wrong!
                     else if (!isOnNavigationStack && isOnAnyNavigationStack)
                         throw new InvalidOperationException($"Page {cp} is 'counted' when not on navigation stack!");
                 }
             }
         }
 
-        private async void CurrentApplication_DescendantRemoved(object sender, ElementEventArgs e)
+        private async void CurrentApplication_DescendantRemoved(object sender, ElementEventArgs e) 
         {
             if (e.Element is Page cp)
             {
@@ -127,11 +121,13 @@ namespace FunctionZero.Maui.MvvmZero
                 bool isOnNavigationStack = cp.Navigation.NavigationStack.Contains(cp);
                 bool isOnAnyNavigationStack = _pagesOnAnyNavigationStack.Contains(cp);
 
+                // If the page is not on the navigation stack and we are tracking it, it has been popped.
                 if ((!isOnNavigationStack) && isOnAnyNavigationStack)
                 {
                     _pagesOnAnyNavigationStack.Remove(cp);
                     hop?.OnOwnerPagePopped(false);
                 }
+                // Otherwise if the page is on the navigation stack and we're not tracking it, something has gone wrong!
                 else if (isOnNavigationStack && (!isOnAnyNavigationStack))
                     throw new InvalidOperationException($"Removed Page {cp} is not 'counted' when is on navigation stack!");
 
@@ -139,7 +135,7 @@ namespace FunctionZero.Maui.MvvmZero
 
                 cp.Appearing -= PageAppearing;
 
-                await Task.Yield();     // Is this still necessary? Probably. Reason - I expect the disappearing event is raised after DescendantRemoved.
+                await Task.Yield();     // Reason: The disappearing event is (was?) raised after DescendantRemoved.
 
                 cp.Disappearing -= PageDisappearing;
             }

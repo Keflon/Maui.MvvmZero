@@ -27,11 +27,12 @@ namespace FunctionZero.Maui.MvvmZero
     public interface IPageServiceZero
     {
         /// <summary>
-        /// Call this only if you create a PageService before Application.Current is set, 
-        /// and you don't have the application instance to inject to the constructor at the time of creation.
+        /// Call this after Application.Current is set, 
+        /// e.g. from the App.xaml.cs constructor.
         /// </summary>
         /// <param name="currentApplication"></param>
         void Init(Application currentApplication);
+
 
         Func<Type, object> TypeFactory { get; }
 
@@ -46,25 +47,99 @@ namespace FunctionZero.Maui.MvvmZero
             where TPage : Page
             where TViewModel : class;
 
+        /// <summary>
+        /// Gets a Page of a given type.
+        /// Typically this is delegated to a factory that delegates to your IoC container.
+        /// It is then the container's responsibility to provide Singletons or Transient instances.
+        /// </summary>
+        /// <typeparam name="TPage">The type of the return value.</typeparam>
+        /// <returns>A page of the specified type.</returns>
         TPage GetPage<TPage>() where TPage : Page;
 
+        /// <summary>
+        /// Gets a ViewModel of a given type.
+        /// Typically this is delegated to a factory that delegates to your IoC container.
+        /// It is then the container's responsibility to provide Singletons or Transient instances.
+        /// </summary>
+        /// <typeparam name="TViewModel">The type of the return value.</typeparam>
+        /// <returns>An instance of the specified type.</returns>
         TViewModel GetViewModel<TViewModel>() where TViewModel : class;
 
+        /// <summary>
+        /// Retrieves a Page instance and a ViewModel instance,
+        /// sets the Page BindingContext to the ViewModel,
+        /// then pushes the Page onto an existing INavigation Page.
+        /// </summary>
+        /// <typeparam name="TPage">The type of Page to push</typeparam>
+        /// <typeparam name="TViewModel">The type of ViewModel to bind to the Page</typeparam>
+        /// <param name="initViewModelActionAsync">An async lambda that is called immediately before the Page is pushed.
+        /// Use this to provide any initialisation to the ViewModel found in the argument.</param>
+        /// <param name="isModal">Whether to push to the Modal stack</param>
+        /// <param name="animated">Whether to animate the push</param>
+        /// <returns>The ViewModel associated with the Page instance</returns>
         Task<TViewModel> PushPageAsync<TPage, TViewModel>(Func<TViewModel, Task> initViewModelActionAsync, bool isModal = false, bool animated = true)
             where TPage : Page
             where TViewModel : class;
 
+        /// <summary>
+        /// Retrieves a Page instance and a ViewModel instance,
+        /// sets the Page BindingContext to the ViewModel,
+        /// then pushes the Page onto an existing INavigation Page.
+        /// </summary>
+        /// <typeparam name="TPage">The type of Page to push</typeparam>
+        /// <typeparam name="TViewModel">The type of ViewModel to bind to the Page</typeparam>
+        /// <param name="initViewModelAction">A lambda that is called immediately before the Page is pushed.
+        /// Use this to provide any initialisation to the ViewModel found in the argument.</param>
+        /// <param name="isModal">Whether to push to the Modal stack.</param>
+        /// <param name="animated">Whether to animate the push.</param>
+        /// <returns>The ViewModel associated with the Page instance</returns>
         Task<TViewModel> PushPageAsync<TPage, TViewModel>(Action<TViewModel> initViewModelAction, bool isModal = false, bool animated = true)
             where TPage : Page
             where TViewModel : class;
 
+        /// <summary>
+        /// Retrieves a Page instance then pushes the Page onto an existing INavigation Page.
+        /// </summary>
+        /// <typeparam name="TPage">The type of Page to push</typeparam>
+        /// <param name="setStateAction">A lambda that is called immediately before the Page is pushed.
+        /// Use this to provide any initialisation to the Page found in the argument.</param>
+        /// <param name="isModal">Whether to push to the Modal stack.</param>
+        /// <param name="isAnimated">Whether to animate the push.</param>
+        /// <returns>The Page that was pushed.</returns>
         Task<Page> PushPageAsync<TPage>(Func<TPage, Task> setStateAction, bool isModal = false, bool isAnimated = true) where TPage : Page;
+        /// <summary>
+        /// Pops a Page from the navigation stack.
+        /// </summary>
+        /// <param name="isModal">Whether to pop from the modal or non-modal stack.</param>
+        /// <param name="animated">Whether to animate the pop.</param>
+        /// <returns></returns>
         Task PopAsync(bool isModal, bool animated = true);
+        /// <summary>
+        /// Pops all Pages from the navigation stack.
+        /// </summary>
+        /// <param name="isModal">Whether to pop-all from the modal or non-modal stack.</param>
+        /// <param name="animated">Whether to animate the pop.</param>
+        /// <returns></returns>
         Task PopToRootAsync(bool animated = true);
-
+        /// <summary>
+        /// Removes the page below the top page on the non-modal stack.
+        /// </summary>
         void RemovePageBelowTop();
         Task PushPageAsync(Page page, bool isModal, bool animated = true);
+        /// <summary>
+        /// Walks up the non-modal navigation stack looking for a Page with a BindingContext matching the provided ViewModel type.
+        /// </summary>
+        /// <typeparam name="TViewModel">The type of ViewModel whose Page we're looking for.</typeparam>
+        /// <returns>The ViewModel, or null if no match is found.</returns>
         TViewModel FindAncestorPageVm<TViewModel>() where TViewModel : class;
+        /// <summary>
+        /// Retrieves the number of Pages known about that have the specified ViewModel instance as their BindingContext.
+        /// Note that this counts ViewModels across all non-modal navigation stacks, 
+        /// e.g. in the case where the root page is a Flyout with multiple Navigation stacks.
+        /// Note Different Pages can legitimately share the same viewmodel instance.
+        /// </summary>
+        /// <param name="vm">The ViewModel instance to match.</param>
+        /// <returns>A count of all matches.</returns>
         int GetVisiblePageCountForVm(object vm);
         //void RemovePageAtIndex(int index);
         //void GetNavigationStackCount(bool isModal = false);
