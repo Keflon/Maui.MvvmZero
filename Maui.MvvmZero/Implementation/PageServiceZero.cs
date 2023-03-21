@@ -152,7 +152,6 @@ namespace FunctionZero.Maui.MvvmZero
             _currentVisiblePageList.Add(page);
             if (page.BindingContext is IHasOwnerPage hop)
                 hop.OnOwnerPageAppearing();
-
         }
 
         private void PageDisappearing(object sender, EventArgs e)
@@ -190,9 +189,6 @@ namespace FunctionZero.Maui.MvvmZero
                     hop.OnOwnerPagePushed(true);
         }
 
-
-        #region MyRegion
-
         public (TPage page, TViewModel viewModel) GetMvvmPage<TPage, TViewModel>()
             where TPage : Page
             where TViewModel : class
@@ -202,14 +198,12 @@ namespace FunctionZero.Maui.MvvmZero
 
             try
             {
-
                 page.BindingContext = vm;
-
             }
             catch (Exception ex)
             {
-
                 if (_report) Debug.WriteLine(ex.Message);
+                throw;
             }
             return (page, vm);
         }
@@ -332,6 +326,5 @@ namespace FunctionZero.Maui.MvvmZero
         //    }
         //    return null;
         //} 
-        #endregion
     }
 }
