@@ -10,11 +10,11 @@ namespace SampleFlyoutApp
         {
             InitializeComponent();
 
+            pageService.Init(this);
+
             mainPage.Flyout = pageService.GetMvvmPage<FlyoutContentPage, FlyoutContentPageVm>().page;
             // Detail cannot be null. Will be overwritten immediately after being presented.
             mainPage.Detail = new ContentPage();
-
-            pageService.Init(this);
             MainPage = mainPage;
         }
     }
