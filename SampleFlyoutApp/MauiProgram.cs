@@ -38,6 +38,7 @@ namespace SampleFlyoutApp
                .AddSingleton<ListPlayPage>()
                .AddSingleton<ListPlayPageVm>()
 
+               // TestPage/Vm are transient because there can be more than one on a navigation stack at any time.
                .AddTransient<TestPage>()
                .AddTransient<TestPageVm>()
                ;

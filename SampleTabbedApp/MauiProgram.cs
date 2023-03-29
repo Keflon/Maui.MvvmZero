@@ -38,7 +38,7 @@ namespace SampleTabbedApp
 
                // TestPage/Vm are transient because there can be more than one on a navigation stack at any time.
                .AddTransient<TestPage>()
-               .AddSingleton<TestPageVm>()
+               .AddTransient<TestPageVm>()
                ;
 
             return builder.Build();

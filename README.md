@@ -24,9 +24,18 @@ Other goodies:
 - and more...  
 
 ## QuickStart:
-Look at MauiProgram.cs for registrations.  
-Look at App.xaml.cs to get things off the ground.
+There are 3 sample applications  
+1. SampleApp. Has a root navigation page and pages can be pushed / popped.
+2. SampleFlyoutApp. This has a flyout managing multiple navigation pages.
+3. SampleTabbedApp. This has a TabbedPage managing multiple navigation pages.
+
+For each sample application, look at
+1. MauiProgram.cs for registrations.
+2. App.xaml.cs to get things off the ground.
+
 The rest is basically the same as found in the [Xamarin Turorial](https://github.com/Keflon/MvvmZeroTutorialApp)
+
+
 
 ### Is anybody out there?
 The more stars I get, the sooner I'm likely to write up some proper documentation, and even a sample app tutorial. ;)  
