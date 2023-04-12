@@ -43,7 +43,8 @@ namespace SampleApp.Mvvm.PageViewModels
         private async Task CabbagesPageCommandExecuteAsync(/* Optional : object arg */)
         {
             // Take us to the CabbagesPage page ...
-            await _pageService.PushPageAsync<CabbagesPage, CabbagesPageVm>((vm) => { /* Initialize the vm in here if necessary */ });
+            //await _pageService.PushPageAsync<CabbagesPage, CabbagesPageVm>((vm) => { /* Initialize the vm in here if necessary */ });
+            await _pageService.PushVmAsync<CabbagesPageVm>((vm) => { /* Initialize the vm in here if necessary */ });
         }
 
         private async Task OnionsPageCommandExecuteAsync(/* Optional : object arg */)

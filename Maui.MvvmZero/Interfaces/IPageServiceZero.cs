@@ -141,6 +141,7 @@ namespace FunctionZero.Maui.MvvmZero
         /// <param name="vm">The ViewModel instance to match.</param>
         /// <returns>A count of all matches.</returns>
         int GetVisiblePageCountForVm(object vm);
+        Task<TViewModel> PushVmAsync<TViewModel>(Action<TViewModel> initViewModelAction, bool isModal = false, bool isAnimated = true) where TViewModel : class;
         //void RemovePageAtIndex(int index);
         //void GetNavigationStackCount(bool isModal = false);
     }

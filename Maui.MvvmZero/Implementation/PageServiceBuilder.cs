@@ -10,7 +10,7 @@ namespace FunctionZero.Maui.MvvmZero
     {
         private Func<INavigation> _navigationGetter;
         private Func<Type, object> _typeFactory;
-        private Dictionary<Type, Func<IView>> _viewFinder;
+        private Dictionary<Type, Func<Page, IView>> _viewFinder;
 
         public PageServiceBuilder()
         {
@@ -34,14 +34,14 @@ namespace FunctionZero.Maui.MvvmZero
             return this;
         }
 
-        public PageServiceBuilder AddViewFinder<TViewModel>(Func<IView> viewFactory)
+        public PageServiceBuilder AddViewFinder<TViewModel>(Func<Page, IView> viewFactory)
         {
             _viewFinder.Add(typeof(TViewModel), viewFactory);
             return this;
         }
         public PageServiceBuilder AddViewFinder<TView, TViewModel>()
         {
-            _viewFinder.Add(typeof(TViewModel), ()=>(IView)_typeFactory(typeof(TView)));
+            _viewFinder.Add(typeof(TViewModel), (ownerPage)=>(IView)_typeFactory(typeof(TView)));
             return this;
         }
 
@@ -53,9 +53,9 @@ namespace FunctionZero.Maui.MvvmZero
             return new PageServiceZero(_navigationGetter, _typeFactory, ViewFinder);
         }
 
-        private IView ViewFinder(object arg)
+        private IView ViewFinder(Type vmType, Page ownerPage)
         {
-            return _viewFinder[arg.GetType()].Invoke();
+            return _viewFinder[vmType].Invoke(ownerPage);
         }
     }
 }

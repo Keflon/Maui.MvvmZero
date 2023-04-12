@@ -42,10 +42,17 @@ namespace SampleApp
             var retval = new PageServiceBuilder().
                 SetNavigationGetter(()=> App.Current.MainPage.Navigation)
                 .SetTypeFactory((type) => arg.GetService(type))
+                //.AddViewFinder<CabbagesPageVm>((ownerPage)=>GetCabbagesPage(arg))
+                .AddViewFinder<CabbagesPage, CabbagesPageVm>()
                 .Build();
 
 
             return retval;
+        }
+
+        private static IView GetCabbagesPage(IServiceProvider arg)
+        {
+            return arg.GetService<CabbagesPage>();
         }
     }
 }

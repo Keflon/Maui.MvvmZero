@@ -32,7 +32,7 @@ namespace FunctionZero.Maui.MvvmZero
 
         private readonly Func<INavigation> _navigationGetter;
         private Func<Type, object> _typeFactory;
-        private readonly Func<object, IView> _viewFinder;
+        private readonly Func<Type, Page, IView> _viewFinder;
 
         private INavigation CurrentNavigationPage => _navigationGetter();
 
@@ -46,7 +46,7 @@ namespace FunctionZero.Maui.MvvmZero
         /// </summary>
         /// <param name="navigationGetter">A Func that returns the navigationPage to push to and pop from.</param>
         /// <param name="typeFactory">A Func that returns a requested type. Wire it directly to your IoC container if you have one.</param>
-        public PageServiceZero(Func<INavigation> navigationGetter, Func<Type, object> typeFactory, Func<object, IView> viewFinder)
+        public PageServiceZero(Func<INavigation> navigationGetter, Func<Type, object> typeFactory, Func<Type, Page, IView> viewFinder)
         {
             _navigationGetter = navigationGetter;
             _typeFactory = typeFactory;
@@ -276,6 +276,25 @@ namespace FunctionZero.Maui.MvvmZero
             await setStateAction(page);
             await PushPageAsync(page, isModal, isAnimated);
             return page;
+        }
+
+        public async Task<TViewModel> PushVmAsync<TViewModel>(Action<TViewModel> initViewModelAction, bool isModal = false, bool isAnimated = true) where TViewModel : class
+        {
+            var page = (Page)_viewFinder.Invoke(typeof(TViewModel), _navigationGetter().NavigationStack.Last());
+            var vm = GetViewModel<TViewModel>();
+
+            try
+            {
+                page.BindingContext = vm;
+            }
+            catch (Exception ex)
+            {
+                if (_report) Debug.WriteLine(ex.Message);
+                throw;
+            }
+            await PushPageAsync(page, isModal, isAnimated);
+
+            return vm;
         }
 
         // Don't do anything fancy in PopAsync because the system can bypass this method and pop stuff directly.
