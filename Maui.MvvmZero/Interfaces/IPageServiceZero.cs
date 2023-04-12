@@ -34,7 +34,7 @@ namespace FunctionZero.Maui.MvvmZero
         void Init(Application currentApplication);
 
 
-        Func<Type, object> TypeFactory { get; }
+        //Func<Type, object> TypeFactory { get; }
 
 
         /// <summary>

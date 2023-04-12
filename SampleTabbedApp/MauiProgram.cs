@@ -46,14 +46,13 @@ namespace SampleTabbedApp
 
         private static IPageServiceZero CreatePageService(IServiceProvider arg)
         {
-            var retval = new PageServiceZero
-            (
+            var retval = new PageServiceBuilder().
                 // A lambda to get the current navigation page.
-                () => ((TabbedPage)App.Current.MainPage).CurrentPage.Navigation,
+                SetNavigationGetter(() => ((TabbedPage)App.Current.MainPage).CurrentPage.Navigation)
                 // A lambda to get instances of pages and viewmodels.
                 // This is a proxy to the IoC container, and that is where lifetime (Singleton / Transient) is set.
-                (type) => arg.GetService(type)
-            );
+                .SetTypeFactory((type) => arg.GetService(type))
+                .Build();
 
             return retval;
         }

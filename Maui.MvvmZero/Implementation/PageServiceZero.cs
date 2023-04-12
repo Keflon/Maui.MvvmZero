@@ -21,6 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
+using System;
 using System.Diagnostics;
 
 namespace FunctionZero.Maui.MvvmZero
@@ -30,7 +31,8 @@ namespace FunctionZero.Maui.MvvmZero
         bool _report = false;
 
         private readonly Func<INavigation> _navigationGetter;
-        public Func<Type, object> TypeFactory { get; }
+        private Func<Type, object> _typeFactory;
+        private readonly Func<object, IView> _viewFinder;
 
         private INavigation CurrentNavigationPage => _navigationGetter();
 
@@ -44,10 +46,11 @@ namespace FunctionZero.Maui.MvvmZero
         /// </summary>
         /// <param name="navigationGetter">A Func that returns the navigationPage to push to and pop from.</param>
         /// <param name="typeFactory">A Func that returns a requested type. Wire it directly to your IoC container if you have one.</param>
-        public PageServiceZero(Func<INavigation> navigationGetter, Func<Type, object> typeFactory)
+        public PageServiceZero(Func<INavigation> navigationGetter, Func<Type, object> typeFactory, Func<object, IView> viewFinder)
         {
             _navigationGetter = navigationGetter;
-            TypeFactory = typeFactory;
+            _typeFactory = typeFactory;
+            _viewFinder = viewFinder;
 
             _pagesOnAnyNavigationStack = new();
             _currentVisiblePageList = new();
@@ -210,13 +213,13 @@ namespace FunctionZero.Maui.MvvmZero
 
         public TPage GetPage<TPage>() where TPage : Page
         {
-            TPage page = (TPage)TypeFactory(typeof(TPage));
+            TPage page = (TPage)_typeFactory(typeof(TPage));
             return page;
         }
 
         public TViewModel GetViewModel<TViewModel>() where TViewModel : class
         {
-            TViewModel vm = (TViewModel)TypeFactory(typeof(TViewModel));
+            TViewModel vm = (TViewModel)_typeFactory(typeof(TViewModel));
             return vm;
         }
 
@@ -234,19 +237,29 @@ namespace FunctionZero.Maui.MvvmZero
             return mvvmPage.viewModel;
         }
 
+
         public async Task<TViewModel> PushPageAsync<TPage, TViewModel>(Action<TViewModel> initViewModelAction, bool isModal, bool animated)
-            where TPage : Page
-            where TViewModel : class
+    where TPage : Page
+    where TViewModel : class
         {
-            var mvvmPage = GetMvvmPage<TPage, TViewModel>();
-
-            if (initViewModelAction != null)
-                initViewModelAction(mvvmPage.viewModel);
-
-            await PushPageAsync(mvvmPage.page, isModal, animated);
-
-            return mvvmPage.viewModel;
+            // Call the async overload with a synchronous action.
+            return await PushPageAsync<TPage, TViewModel>(async (vm) => initViewModelAction(vm), isModal, animated);
         }
+
+        //public async Task<TViewModel> PushPageAsync<TViewModel>(Func<TViewModel, Task> initViewModelActionAsync, bool isModal, bool animated)
+        //    where TViewModel : class
+        //{
+        //    var mvvmPage = GetMvvmPage<TPage, TViewModel>();
+
+        //    if (initViewModelActionAsync != null)
+        //        await initViewModelActionAsync(mvvmPage.viewModel);
+
+        //    await PushPageAsync(mvvmPage.page, isModal, animated);
+
+        //    return mvvmPage.viewModel;
+        //}
+
+
 
         public async Task PushPageAsync(Page page, bool isModal, bool animated)
         {

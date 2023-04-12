@@ -39,11 +39,11 @@ namespace SampleApp
 
         private static IPageServiceZero CreatePageService(IServiceProvider arg)
         {
-            var retval = new PageServiceZero
-            (
-                () => App.Current.MainPage.Navigation,
-                (type) => arg.GetService(type)
-            );
+            var retval = new PageServiceBuilder().
+                SetNavigationGetter(()=> App.Current.MainPage.Navigation)
+                .SetTypeFactory((type) => arg.GetService(type))
+                .Build();
+
 
             return retval;
         }

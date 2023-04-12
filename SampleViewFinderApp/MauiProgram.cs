@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using FunctionZero.Maui.MvvmZero;
+using Microsoft.Extensions.Logging;
+using Microsoft.Maui.Embedding;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SampleViewFinderApp
 {
@@ -19,7 +22,31 @@ namespace SampleViewFinderApp
 		builder.Logging.AddDebug();
 #endif
 
+            builder.Services
+    .AddSingleton<IPageServiceZero>(CreatePageService)
+    .AddSingleton<NavigationPage>((arg) => new NavigationPage())
+    //.AddSingleton<HomePageVm>()
+    //.AddSingleton<HomePage>()
+    //.AddSingleton<CabbagesPageVm>()
+    //.AddSingleton<CabbagesPage>()
+    //.AddSingleton<OnionsPageVm>()
+    //.AddSingleton<OnionsPage>()
+    //.AddSingleton<ResultsPageVm>()
+    //.AddSingleton<ResultsPage>();
+
+    ;
+
             return builder.Build();
+        }
+
+        private static IPageServiceZero CreatePageService(IServiceProvider arg)
+        {
+            var retval = new PageServiceBuilder().
+                SetNavigationGetter(() => App.Current.MainPage.Navigation)
+                .SetTypeFactory((type) => arg.GetService(type))
+                .Build();
+
+            return retval;
         }
     }
 }
