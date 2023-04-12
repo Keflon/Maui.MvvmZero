@@ -12,6 +12,7 @@ namespace SampleViewFinderApp
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UsePageServiceZero()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -23,7 +24,6 @@ namespace SampleViewFinderApp
 #endif
 
             builder.Services
-    .AddSingleton<IPageServiceZero>(CreatePageService)
     .AddSingleton<NavigationPage>((arg) => new NavigationPage())
     //.AddSingleton<HomePageVm>()
     //.AddSingleton<HomePage>()
@@ -37,16 +37,6 @@ namespace SampleViewFinderApp
     ;
 
             return builder.Build();
-        }
-
-        private static IPageServiceZero CreatePageService(IServiceProvider arg)
-        {
-            var retval = new PageServiceBuilder().
-                SetNavigationGetter(() => App.Current.MainPage.Navigation)
-                .SetTypeFactory((type) => arg.GetService(type))
-                .Build();
-
-            return retval;
         }
     }
 }

@@ -44,7 +44,9 @@ namespace SampleApp.Mvvm.PageViewModels
         {
             // Take us to the CabbagesPage page ...
             //await _pageService.PushPageAsync<CabbagesPage, CabbagesPageVm>((vm) => { /* Initialize the vm in here if necessary */ });
-            await _pageService.PushVmAsync<CabbagesPageVm>((vm) => { /* Initialize the vm in here if necessary */ });
+
+            // Test PushVmAsync.
+            await _pageService.PushVmAsync<CabbagesPageVm>((vm) => { /* Initialize the vm in here if necessary */ }, "All your base");
         }
 
         private async Task OnionsPageCommandExecuteAsync(/* Optional : object arg */)

@@ -30,11 +30,11 @@ namespace FunctionZero.Maui.MvvmZero
     {
         bool _report = false;
 
-        private readonly Func<INavigation> _navigationGetter;
-        private Func<Type, object> _typeFactory;
-        private readonly Func<Type, Page, IView> _viewFinder;
+        public Func<INavigation> NavigationGetter { get; }
+        public Func<Type, object> TypeFactory { get; }
+        private readonly Func<Type, object, IView> _viewFinder;
 
-        private INavigation CurrentNavigationPage => _navigationGetter();
+        private INavigation CurrentNavigationPage => NavigationGetter();
 
         private readonly List<Page> _pagesOnAnyNavigationStack;
         private readonly List<Page> _currentVisiblePageList;
@@ -46,10 +46,10 @@ namespace FunctionZero.Maui.MvvmZero
         /// </summary>
         /// <param name="navigationGetter">A Func that returns the navigationPage to push to and pop from.</param>
         /// <param name="typeFactory">A Func that returns a requested type. Wire it directly to your IoC container if you have one.</param>
-        public PageServiceZero(Func<INavigation> navigationGetter, Func<Type, object> typeFactory, Func<Type, Page, IView> viewFinder)
+        internal PageServiceZero(Func<INavigation> navigationGetter, Func<Type, object> typeFactory, Func<Type, object, IView> viewFinder)
         {
-            _navigationGetter = navigationGetter;
-            _typeFactory = typeFactory;
+            NavigationGetter = navigationGetter;
+            TypeFactory = typeFactory;
             _viewFinder = viewFinder;
 
             _pagesOnAnyNavigationStack = new();
@@ -113,7 +113,7 @@ namespace FunctionZero.Maui.MvvmZero
             }
         }
 
-        private async void CurrentApplication_DescendantRemoved(object sender, ElementEventArgs e) 
+        private async void CurrentApplication_DescendantRemoved(object sender, ElementEventArgs e)
         {
             if (e.Element is Page cp)
             {
@@ -213,13 +213,13 @@ namespace FunctionZero.Maui.MvvmZero
 
         public TPage GetPage<TPage>() where TPage : Page
         {
-            TPage page = (TPage)_typeFactory(typeof(TPage));
+            TPage page = (TPage)TypeFactory(typeof(TPage));
             return page;
         }
 
         public TViewModel GetViewModel<TViewModel>() where TViewModel : class
         {
-            TViewModel vm = (TViewModel)_typeFactory(typeof(TViewModel));
+            TViewModel vm = (TViewModel)TypeFactory(typeof(TViewModel));
             return vm;
         }
 
@@ -246,21 +246,6 @@ namespace FunctionZero.Maui.MvvmZero
             return await PushPageAsync<TPage, TViewModel>(async (vm) => initViewModelAction(vm), isModal, animated);
         }
 
-        //public async Task<TViewModel> PushPageAsync<TViewModel>(Func<TViewModel, Task> initViewModelActionAsync, bool isModal, bool animated)
-        //    where TViewModel : class
-        //{
-        //    var mvvmPage = GetMvvmPage<TPage, TViewModel>();
-
-        //    if (initViewModelActionAsync != null)
-        //        await initViewModelActionAsync(mvvmPage.viewModel);
-
-        //    await PushPageAsync(mvvmPage.page, isModal, animated);
-
-        //    return mvvmPage.viewModel;
-        //}
-
-
-
         public async Task PushPageAsync(Page page, bool isModal, bool animated)
         {
             if (isModal == false)
@@ -278,9 +263,9 @@ namespace FunctionZero.Maui.MvvmZero
             return page;
         }
 
-        public async Task<TViewModel> PushVmAsync<TViewModel>(Action<TViewModel> initViewModelAction, bool isModal = false, bool isAnimated = true) where TViewModel : class
+        public async Task<TViewModel> PushVmAsync<TViewModel>(Action<TViewModel> initViewModelAction, object hint = null, bool isModal = false, bool isAnimated = true) where TViewModel : class
         {
-            var page = (Page)_viewFinder.Invoke(typeof(TViewModel), _navigationGetter().NavigationStack.Last());
+            var page = (Page)_viewFinder.Invoke(typeof(TViewModel), hint);
             var vm = GetViewModel<TViewModel>();
 
             try

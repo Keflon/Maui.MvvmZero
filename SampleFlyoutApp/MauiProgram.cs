@@ -14,6 +14,7 @@ namespace SampleFlyoutApp
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UsePageServiceZero()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -25,7 +26,6 @@ namespace SampleFlyoutApp
 #endif
 
             builder.Services
-               .AddSingleton<IPageServiceZero>(CreatePageService)
                .AddSingleton<FlyoutPage>()
                .AddSingleton<HomePage>()
                .AddSingleton<HomePageVm>()
@@ -45,19 +45,6 @@ namespace SampleFlyoutApp
 
 
             return builder.Build();
-        }
-
-        private static IPageServiceZero CreatePageService(IServiceProvider arg)
-        {
-            var retval = new PageServiceBuilder().
-                // A lambda to get the current navigation page.
-                SetNavigationGetter(() => ((FlyoutPage)App.Current.MainPage).Detail.Navigation)
-                // A lambda to get instances of pages and viewmodels.
-                // This is a proxy to the IoC container, and that is where lifetime (Singleton / Transient) is set.
-                .SetTypeFactory((type) => arg.GetService(type))
-                .Build();
-
-            return retval;
         }
     }
 }

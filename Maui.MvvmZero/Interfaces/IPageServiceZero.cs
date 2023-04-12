@@ -34,7 +34,8 @@ namespace FunctionZero.Maui.MvvmZero
         void Init(Application currentApplication);
 
 
-        //Func<Type, object> TypeFactory { get; }
+        Func<Type, object> TypeFactory { get; }
+        Func<INavigation> NavigationGetter { get; }
 
 
         /// <summary>
@@ -141,7 +142,7 @@ namespace FunctionZero.Maui.MvvmZero
         /// <param name="vm">The ViewModel instance to match.</param>
         /// <returns>A count of all matches.</returns>
         int GetVisiblePageCountForVm(object vm);
-        Task<TViewModel> PushVmAsync<TViewModel>(Action<TViewModel> initViewModelAction, bool isModal = false, bool isAnimated = true) where TViewModel : class;
+        Task<TViewModel> PushVmAsync<TViewModel>(Action<TViewModel> initViewModelAction, object hint = null, bool isModal = false, bool isAnimated = true) where TViewModel : class;
         //void RemovePageAtIndex(int index);
         //void GetNavigationStackCount(bool isModal = false);
     }

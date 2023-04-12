@@ -12,6 +12,13 @@ namespace SampleApp
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UsePageServiceZero(thing =>
+                {
+                    //thing.SetNavigationGetter(() => App.Current.MainPage.Navigation); // This is the default behaviour.
+                    //thing.AddViewFinder<CabbagesPageVm>((pageService) => GetCabbagesPage(pageService));
+                    thing.AddViewFinder<CabbagesPage, CabbagesPageVm>();
+                })
+
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -23,7 +30,7 @@ namespace SampleApp
 #endif
 
             builder.Services
-                .AddSingleton<IPageServiceZero>(CreatePageService)
+                
                 .AddSingleton<NavigationPage>((arg) => new NavigationPage())
                 .AddSingleton<HomePageVm>()
                 .AddSingleton<HomePage>()
@@ -37,22 +44,9 @@ namespace SampleApp
             return builder.Build();
         }
 
-        private static IPageServiceZero CreatePageService(IServiceProvider arg)
+        private static IView GetCabbagesPage(ViewFinderParameters parameters)
         {
-            var retval = new PageServiceBuilder().
-                SetNavigationGetter(()=> App.Current.MainPage.Navigation)
-                .SetTypeFactory((type) => arg.GetService(type))
-                //.AddViewFinder<CabbagesPageVm>((ownerPage)=>GetCabbagesPage(arg))
-                .AddViewFinder<CabbagesPage, CabbagesPageVm>()
-                .Build();
-
-
-            return retval;
-        }
-
-        private static IView GetCabbagesPage(IServiceProvider arg)
-        {
-            return arg.GetService<CabbagesPage>();
+            return (IView)parameters.pageService.TypeFactory(typeof(CabbagesPage));
         }
     }
 }

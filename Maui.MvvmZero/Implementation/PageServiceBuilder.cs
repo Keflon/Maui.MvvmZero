@@ -9,10 +9,19 @@ namespace FunctionZero.Maui.MvvmZero
     public class PageServiceBuilder
     {
         private Func<INavigation> _navigationGetter;
+        private PageServiceZero _pageService;
         private Func<Type, object> _typeFactory;
-        private Dictionary<Type, Func<Page, IView>> _viewFinder;
+        private Dictionary<Type, Func<ViewFinderParameters, IView>> _viewFinder;
+        private readonly Func<INavigation> _defaultNavigationGetter;
+        private readonly Func<Type, object> _defaultTypeFactory;
 
-        public PageServiceBuilder()
+        internal PageServiceBuilder(Func<INavigation> defaultNavigationGetter, Func<Type, object> defaultTypeFactory) : this()
+        {
+            _defaultNavigationGetter = defaultNavigationGetter;
+            _defaultTypeFactory = defaultTypeFactory;
+        }
+
+        internal PageServiceBuilder()
         {
             _viewFinder = new();
         }
@@ -34,28 +43,29 @@ namespace FunctionZero.Maui.MvvmZero
             return this;
         }
 
-        public PageServiceBuilder AddViewFinder<TViewModel>(Func<Page, IView> viewFactory)
+        public PageServiceBuilder AddViewFinder<TViewModel>(Func<ViewFinderParameters, IView> viewFactory)
         {
             _viewFinder.Add(typeof(TViewModel), viewFactory);
             return this;
         }
         public PageServiceBuilder AddViewFinder<TView, TViewModel>()
         {
-            _viewFinder.Add(typeof(TViewModel), (ownerPage)=>(IView)_typeFactory(typeof(TView)));
+            _viewFinder.Add(typeof(TViewModel), (parameters) => (IView)_typeFactory(typeof(TView)));
             return this;
         }
 
         public IPageServiceZero Build()
         {
-            //if (_viewFinder == null && _typeFactory == null)
-            //    throw new InvalidOperationException("Must call at least one of SetTypeFactory or AddViewFinder");
-
-            return new PageServiceZero(_navigationGetter, _typeFactory, ViewFinder);
+            _typeFactory = _typeFactory ?? _defaultTypeFactory;
+            _navigationGetter = _navigationGetter ?? _defaultNavigationGetter;
+            _pageService = new PageServiceZero(_navigationGetter, _typeFactory, ViewFinder);
+            return _pageService;
         }
 
-        private IView ViewFinder(Type vmType, Page ownerPage)
+        private IView ViewFinder(Type vmType, object hint)
         {
-            return _viewFinder[vmType].Invoke(ownerPage);
+            var parameters = new ViewFinderParameters(vmType, this._pageService, hint);
+            return _viewFinder[vmType].Invoke(parameters);
         }
     }
 }
