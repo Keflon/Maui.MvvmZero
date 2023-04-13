@@ -30,8 +30,7 @@ namespace SampleApp
 #endif
 
             builder.Services
-                
-                .AddSingleton<NavigationPage>((arg) => new NavigationPage())
+                .AddSingleton<NavigationPage>()
                 .AddSingleton<HomePageVm>()
                 .AddSingleton<HomePage>()
                 .AddSingleton<CabbagesPageVm>()
@@ -42,11 +41,6 @@ namespace SampleApp
                 .AddSingleton<ResultsPage>();
 
             return builder.Build();
-        }
-
-        private static IView GetCabbagesPage(ViewFinderParameters parameters)
-        {
-            return (IView)parameters.pageService.TypeFactory(typeof(CabbagesPage));
         }
     }
 }

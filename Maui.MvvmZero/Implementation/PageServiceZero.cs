@@ -21,7 +21,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
+using FunctionZero.Maui.MvvmZero.Workaround;
 using System;
+using System.Collections;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 
 namespace FunctionZero.Maui.MvvmZero
@@ -29,10 +32,11 @@ namespace FunctionZero.Maui.MvvmZero
     public class PageServiceZero : IPageServiceZero
     {
         bool _report = false;
+        private DataTemplate _multiPageItemTemplate;
 
         public Func<INavigation> NavigationGetter { get; }
         public Func<Type, object> TypeFactory { get; }
-        private readonly Func<Type, object, IView> _viewFinder;
+        internal readonly Func<Type, object, IView> _viewFinder;
 
         private INavigation CurrentNavigationPage => NavigationGetter();
 
@@ -54,6 +58,8 @@ namespace FunctionZero.Maui.MvvmZero
 
             _pagesOnAnyNavigationStack = new();
             _currentVisiblePageList = new();
+
+            _multiPageItemTemplate = new ViewDataTemplateSelector(this);
         }
 
         public void Init(Application currentApplication)
@@ -329,6 +335,40 @@ namespace FunctionZero.Maui.MvvmZero
 
             return null;
         }
+
+        public MultiPage<Page> GetMultiPage<TPage>(IEnumerable viewModelCollection) where TPage : MultiPage<Page>
+        {
+            var page = (MultiPage<Page>)TypeFactory(typeof(TPage));
+
+            page.ItemsSource = viewModelCollection;
+            page.ItemTemplate = _multiPageItemTemplate;
+
+            return page;
+        }
+
+        public MultiPage<Page> GetMultiPage<TPage>(params Type[] vmTypes) where TPage : MultiPage<Page>
+        {
+            var page = (MultiPage<Page>)TypeFactory(typeof(TPage));
+
+            var vmCollection = new ObservableCollection<object>();
+
+            foreach (var vmType in vmTypes)
+                vmCollection.Add(this.TypeFactory(vmType));
+
+            if (page is AdaptedTabbedPage adaptedPage)
+            {
+                adaptedPage.ItemTemplate = _multiPageItemTemplate;
+                adaptedPage.ItemsSource = vmCollection;
+            }
+            else
+            {
+                page.ItemsSource = vmCollection;
+                page.ItemTemplate = _multiPageItemTemplate;
+            }
+            return page;
+        }
+
+
 
         //private INavigation GetNavigationForPage(Page thePage)
         //{

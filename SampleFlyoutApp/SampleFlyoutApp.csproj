@@ -76,6 +76,9 @@
 	  <MauiXaml Update="Mvvm\Pages\TestPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Mvvm\Pages\TestTabbedPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Mvvm\Pages\TreePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

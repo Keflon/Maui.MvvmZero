@@ -19,19 +19,30 @@ namespace SampleFlyoutApp.Mvvm.PageViewModels.Root
         public ICommand ItemTappedCommand { get; }
         public IList<DetailPageItemVm> Items { get; }
         public DetailPageItemVm SelectedItem { get => _selectedItem; set => SetProperty(ref _selectedItem, value); }
-        public FlyoutContentPageVm(IPageServiceZero pageServiceZero)
+        public FlyoutContentPageVm(IPageServiceZero pageService)
         {
             ItemTappedCommand = new CommandBuilder().AddGuard(this).SetExecute(ItemTappedCommandExecute).Build();
             var items = new List<DetailPageItemVm>
             {
-                new DetailPageItemVm("One", pageServiceZero.GetMvvmPage<HomePage, HomePageVm>().page, true),
-                new DetailPageItemVm("Two", pageServiceZero.GetMvvmPage<ListPage, ListPageVm>().page, true),
-                new DetailPageItemVm("Three", pageServiceZero.GetMvvmPage<TreePage, TreePageVm>().page, false),
-                new DetailPageItemVm("Test", pageServiceZero.GetMvvmPage<TestPage, TestPageVm>().page, true)
+                new DetailPageItemVm("One", pageService.GetMvvmPage<HomePage, HomePageVm>().page, true),
+                new DetailPageItemVm("Two", pageService.GetMvvmPage<ListPage, ListPageVm>().page, true),
+                new DetailPageItemVm("Three", pageService.GetMvvmPage<TreePage, TreePageVm>().page, false),
+                new DetailPageItemVm("Test", pageService.GetMvvmPage<TestPage, TestPageVm>().page, true),
+                new DetailPageItemVm("Tabbed Test", GetTabbedTestPage(pageService), true)
 
-
-            };
+        };
             Items = items;
+        }
+
+        private Page GetTabbedTestPage(IPageServiceZero pageService)
+        {
+            var retval = new TabbedPage();
+
+            retval.Children.Add(new NavigationPage(pageService.GetMvvmPage<TestPage, TestPageVm>().page) { Title = "Ready" });
+            retval.Children.Add(new NavigationPage(pageService.GetMvvmPage<TestPage, TestPageVm>().page) { Title = "Steady" });
+            retval.Children.Add(new NavigationPage(pageService.GetMvvmPage<TestPage, TestPageVm>().page) { Title = "Go" });
+
+            return retval;
         }
 
         private void ItemTappedCommandExecute(object arg)

@@ -48,9 +48,22 @@ namespace FunctionZero.Maui.MvvmZero
             _viewFinder.Add(typeof(TViewModel), viewFactory);
             return this;
         }
-        public PageServiceBuilder AddViewFinder<TView, TViewModel>()
+
+        public PageServiceBuilder AddViewFinder<TView, TViewModel>(bool wrapInNavigationPage = false)
         {
-            _viewFinder.Add(typeof(TViewModel), (parameters) => (IView)_typeFactory(typeof(TView)));
+            Func<ViewFinderParameters, Page> getter;
+
+            if (wrapInNavigationPage)
+                getter = (ViewFinderParameters p) =>
+                {
+                    var page = (Page)_typeFactory(typeof(TView));
+                    return new NavigationPage(page) { Title = page.Title };
+                } ;
+            else
+                getter = (ViewFinderParameters p) => (Page)_typeFactory(typeof(TView));
+
+            _viewFinder.Add(typeof(TViewModel), getter);
+
             return this;
         }
 

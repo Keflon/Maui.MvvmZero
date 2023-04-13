@@ -22,6 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.Collections;
+
 namespace FunctionZero.Maui.MvvmZero
 {
     public interface IPageServiceZero
@@ -145,5 +147,8 @@ namespace FunctionZero.Maui.MvvmZero
         Task<TViewModel> PushVmAsync<TViewModel>(Action<TViewModel> initViewModelAction, object hint = null, bool isModal = false, bool isAnimated = true) where TViewModel : class;
         //void RemovePageAtIndex(int index);
         //void GetNavigationStackCount(bool isModal = false);
+
+        MultiPage<Page> GetMultiPage<TPage>(IEnumerable itemsSource) where TPage : MultiPage<Page>;
+        MultiPage<Page> GetMultiPage<TPage>(params Type[] types) where TPage : MultiPage<Page>;
     }
 }

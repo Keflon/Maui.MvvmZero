@@ -1,4 +1,5 @@
 ﻿using FunctionZero.Maui.MvvmZero;
+using FunctionZero.Maui.MvvmZero.Workaround;
 using Microsoft.Extensions.Logging;
 using SampleTabbedApp.Mvvm.Pages;
 using SampleTabbedApp.Mvvm.PageViewModels;
@@ -12,7 +13,16 @@ namespace SampleTabbedApp
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
-                .UsePageServiceZero()
+                .UsePageServiceZero(
+                thing =>
+                {
+                    thing
+                        .AddViewFinder<ReadyPage, ReadyPageVm>(true)
+                        .AddViewFinder<SteadyPage, SteadyPageVm>(true)
+                        .AddViewFinder<GoPage, GoPageVm>(true)
+                        ;
+                }
+                )
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -25,11 +35,12 @@ namespace SampleTabbedApp
 
             builder.Services
                // Get our root page from the container!
+               .AddSingleton<AdaptedTabbedPage>()
                .AddSingleton<TabbedPage>()
 
-               .AddSingleton<ReadyPage>()
-               .AddSingleton<SteadyPage>()
-               .AddSingleton<GoPage>()
+               .AddTransient<ReadyPage>()
+               .AddTransient<SteadyPage>()
+               .AddTransient<GoPage>()
 
                .AddSingleton<ReadyPageVm>()
                .AddSingleton<SteadyPageVm>()

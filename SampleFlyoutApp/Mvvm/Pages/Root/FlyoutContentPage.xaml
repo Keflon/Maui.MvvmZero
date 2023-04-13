@@ -6,6 +6,7 @@
              x:Name="Self"
              >
     <!--IconImageSource="hamburger.png"-->
+   
     <VerticalStackLayout 
         BackgroundColor="Red"
         BindableLayout.ItemsSource="{Binding Items}"
