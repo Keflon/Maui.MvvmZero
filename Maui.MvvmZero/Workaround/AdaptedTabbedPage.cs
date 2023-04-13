@@ -20,6 +20,7 @@ namespace FunctionZero.Maui.MvvmZero.Workaround
         private void RebuildPages()
         {
             Children.Clear();
+
             if (ItemsSource != null)
                 foreach (var item in ItemsSource)
                 {
@@ -51,12 +52,12 @@ namespace FunctionZero.Maui.MvvmZero.Workaround
         }
 
         /// <summary>
-        /// ATTENTION: Hiding base implementation.
+        /// ATTENTION: Hiding base implementation!
         /// </summary>
         public static new readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(nameof(ItemsSource), typeof(IEnumerable), typeof(AdaptedTabbedPage), null, BindingMode.OneWay, null, ItemsSourcePropertyChanged);
 
         /// <summary>
-        /// ATTENTION: Hiding base implementation.
+        /// ATTENTION: Hiding base implementation!
         /// </summary>
         public new IEnumerable ItemsSource
         {
@@ -101,7 +102,7 @@ namespace FunctionZero.Maui.MvvmZero.Workaround
                     }
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    for (int c = 0; c < e.OldStartingIndex; c++)
+                    for (int c = 0; c < e.OldItems.Count; c++)
                     {
                         this.Children.RemoveAt(e.OldStartingIndex);
                     }

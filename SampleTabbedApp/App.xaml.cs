@@ -38,20 +38,30 @@ namespace SampleTabbedApp
             MainPage = rootPage;
         }
 
+        //private bool TimerTick()
+        //{
+        //    var tp = (AdaptedTabbedPage)MainPage;
+        //    var items = (IList)tp.ItemsSource;
+        //    if(items.Count == 3)
+        //    {
+        //        items.RemoveAt(2);
+        //    }
+        //    else
+        //    {
+        //        items.Add(_pageService.TypeFactory(typeof(SteadyPageVm)));
+        //    }
+
+
+        //    return true;
+        //}
         private bool TimerTick()
         {
             var tp = (AdaptedTabbedPage)MainPage;
             var items = (IList)tp.ItemsSource;
-            if(items.Count == 3)
-            {
-                items.RemoveAt(1);
-            }
-            else
-            {
-                items.Insert(1, _pageService.TypeFactory(typeof(SteadyPageVm)));
-            }
 
-
+            var item = items[2];
+            items.RemoveAt(2);
+            items.Insert(0, item);
             return true;
         }
     }
