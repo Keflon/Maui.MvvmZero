@@ -8,11 +8,11 @@ namespace FunctionZero.Maui.MvvmZero
 {
     internal class ViewDataTemplateSelector : DataTemplateSelector
     {
-        private readonly IPageServiceZero _pageService;
+        private readonly Func<Type, IView> _templateGetter;
 
-        public ViewDataTemplateSelector(IPageServiceZero pageService)
+        public ViewDataTemplateSelector(Func<Type, IView> templateGetter)
         {
-            _pageService = pageService;
+            _templateGetter = templateGetter;
         }
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
         {
@@ -21,7 +21,7 @@ namespace FunctionZero.Maui.MvvmZero
         private object GetTemplate(object item)
         {
             // 'item' is  our view-model. Get the corresponding Page.
-            var page = (Page)((PageServiceZero)_pageService).GetInstance(item.GetType());
+            var page = (IView)_templateGetter(item.GetType());
             return page;
         }
     }

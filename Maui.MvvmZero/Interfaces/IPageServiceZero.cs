@@ -35,10 +35,7 @@ namespace FunctionZero.Maui.MvvmZero
         /// <param name="currentApplication"></param>
         void Init(Application currentApplication);
 
-
-        //Func<Type, object> TypeFactory { get; }
         Func<INavigation> NavigationGetter { get; }
-
 
         /// <summary>
         /// Makes a TPage with a BindingContext set to a TViewModel

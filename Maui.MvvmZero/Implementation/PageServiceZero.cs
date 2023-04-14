@@ -34,14 +34,18 @@ namespace FunctionZero.Maui.MvvmZero
     {
         bool _report = false;
         private DataTemplate _multiPageItemTemplate;
-
-        public Func<INavigation> NavigationGetter { get; }
-        private Func<Type, object> TypeFactory { get; }
+        private Func<Type, object> _typeFactory;
         private readonly Func<Type, object, IView> _viewFinder;
+        public Func<INavigation> NavigationGetter { get; }
 
-        private IView GetViewForViewModel<TViewModel>(object hint)
+
+        private IView GetViewForViewModel<TViewModel>(object hint) where TViewModel : class
         {
             return _viewFinder(typeof(TViewModel), hint);
+        }
+        private IView GetViewForViewModel(Type viewModel, object hint)
+        {
+            return _viewFinder(viewModel, hint);
         }
 
         private TInstanceType GetInstance<TInstanceType>()
@@ -50,7 +54,7 @@ namespace FunctionZero.Maui.MvvmZero
         }
         internal object GetInstance(Type instanceType)
         {
-            var retval = TypeFactory(instanceType);
+            var retval = _typeFactory(instanceType);
 
             if (retval == null)
                 throw new Exception($"Cannot get an instance of {instanceType}. Make sure you have registered it in your Container!");
@@ -73,13 +77,13 @@ namespace FunctionZero.Maui.MvvmZero
         internal PageServiceZero(Func<INavigation> navigationGetter, Func<Type, object> typeFactory, Func<Type, object, IView> viewFinder)
         {
             NavigationGetter = navigationGetter;
-            TypeFactory = typeFactory;
+            _typeFactory = typeFactory;
             _viewFinder = viewFinder;
 
             _pagesOnAnyNavigationStack = new();
             _currentVisiblePageList = new();
 
-            _multiPageItemTemplate = new ViewDataTemplateSelector(this);
+            _multiPageItemTemplate = new ViewDataTemplateSelector((viewModelType) => GetViewForViewModel(viewModelType, null));
         }
 
         public void Init(Application currentApplication)
@@ -100,7 +104,6 @@ namespace FunctionZero.Maui.MvvmZero
         private void CurrentApplication_PageDisappearing(object sender, Page e)
         {
             Debug.WriteLine($"CurrentApplication_PageDisappearing: {e}");
-
         }
 
         private void CurrentApplication_PageAppearing(object sender, Page e)
@@ -195,11 +198,6 @@ namespace FunctionZero.Maui.MvvmZero
                 hop.OnOwnerPageDisappearing();
         }
 
-        public int GetVisiblePageCountForVm(object vm)
-        {
-            return _currentVisiblePageList.Where(page => page.BindingContext == vm).Count();
-        }
-
         private void CurrentApplication_ModalPopped(object sender, ModalPoppedEventArgs e)
         {
             if (_report) Debug.WriteLine($"Modal Removed: {e.Modal}");
@@ -217,7 +215,11 @@ namespace FunctionZero.Maui.MvvmZero
                 if (page.BindingContext is IHasOwnerPage hop)
                     hop.OnOwnerPagePushed(true);
         }
-
+        
+        public int GetVisiblePageCountForVm(object vm)
+        {
+            return _currentVisiblePageList.Where(page => page.BindingContext == vm).Count();
+        }
         public (TPage page, TViewModel viewModel) GetMvvmPage<TPage, TViewModel>()
             where TPage : Page
             where TViewModel : class
@@ -246,16 +248,6 @@ namespace FunctionZero.Maui.MvvmZero
         public TViewModel GetViewModel<TViewModel>() where TViewModel : class
         {
             return GetInstance<TViewModel>();
-
-            //try
-            //{
-            //    TViewModel vm = (TViewModel)TypeFactory(typeof(TViewModel));
-            //    return vm;
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw new Exception($"Cannot get an instance of {typeof(TViewModel)}. Make sure you have registered it in your Container!", ex);
-            //}
         }
 
         public async Task<TViewModel> PushPageAsync<TPage, TViewModel>(Func<TViewModel, Task> initViewModelActionAsync, bool isModal, bool animated)
@@ -271,7 +263,6 @@ namespace FunctionZero.Maui.MvvmZero
 
             return mvvmPage.viewModel;
         }
-
 
         public async Task<TViewModel> PushPageAsync<TPage, TViewModel>(Action<TViewModel> initViewModelAction, bool isModal, bool animated)
     where TPage : Page
