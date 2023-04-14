@@ -37,7 +37,7 @@ namespace SampleFlyoutApp
                .AddSingleton<AdaptedTabbedPage>()
                .AddSingleton<HomePage>()
                .AddSingleton<HomePageVm>()
-               //.AddSingleton<FlyoutFlyoutPage>()
+               .AddSingleton<FlyoutFlyoutPage>()
                .AddSingleton<FlyoutFlyoutPageVm>()
                .AddSingleton<TreePage>()
                .AddSingleton<TreePageVm>()
