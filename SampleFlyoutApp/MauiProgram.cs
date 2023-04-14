@@ -16,7 +16,7 @@ namespace SampleFlyoutApp
                 .UseMauiApp<App>()
                 .UsePageServiceZero(config =>
                 {
-                    config.MapVmToPage<FlyoutContentPageVm, FlyoutContentPage>();
+                    config.MapVmToPage<FlyoutFlyoutPageVm, FlyoutFlyoutPage>();
                 })
 
                 .ConfigureFonts(fonts =>
@@ -33,8 +33,8 @@ namespace SampleFlyoutApp
                .AddSingleton<FlyoutPage>()
                .AddSingleton<HomePage>()
                .AddSingleton<HomePageVm>()
-               .AddSingleton<FlyoutContentPage>()
-               .AddSingleton<FlyoutContentPageVm>()
+               .AddSingleton<FlyoutFlyoutPage>()
+               .AddSingleton<FlyoutFlyoutPageVm>()
                .AddSingleton<TreePage>()
                .AddSingleton<TreePageVm>()
                .AddSingleton<ListPage>()

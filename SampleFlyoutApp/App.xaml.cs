@@ -12,7 +12,7 @@ namespace SampleFlyoutApp
 
             pageService.Init(this);
 
-            var flyoutPage = pageService.GetFlyoutPage<FlyoutPage, FlyoutContentPageVm>();
+            var flyoutPage = pageService.GetFlyoutPage<FlyoutPage, FlyoutFlyoutPageVm>();
             MainPage = flyoutPage;
         }
     }

@@ -12,14 +12,14 @@ using System.Windows.Input;
 
 namespace SampleFlyoutApp.Mvvm.PageViewModels.Root
 {
-    public class FlyoutContentPageVm : MvvmZeroBasePageVm
+    public class FlyoutFlyoutPageVm : MvvmZeroBasePageVm
     {
         private DetailPageItemVm _selectedItem;
 
         public ICommand ItemTappedCommand { get; }
         public IList<DetailPageItemVm> Items { get; }
         public DetailPageItemVm SelectedItem { get => _selectedItem; set => SetProperty(ref _selectedItem, value); }
-        public FlyoutContentPageVm(IPageServiceZero pageService)
+        public FlyoutFlyoutPageVm(IPageServiceZero pageService)
         {
             ItemTappedCommand = new CommandBuilder().AddGuard(this).SetExecute(ItemTappedCommandExecute).Build();
             var items = new List<DetailPageItemVm>

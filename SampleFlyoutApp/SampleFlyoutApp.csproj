@@ -61,6 +61,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Mvvm\Pages\Root\FlyoutFlyoutPage.xaml.cs">
+	    <DependentUpon>FlyoutFlyoutPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiXaml Update="Mvvm\Pages\HomePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -70,7 +76,7 @@
 	  <MauiXaml Update="Mvvm\Pages\ListPlayPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Mvvm\Pages\Root\FlyoutContentPage.xaml">
+	  <MauiXaml Update="Mvvm\Pages\Root\FlyoutFlyoutPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Mvvm\Pages\TestPage.xaml">
