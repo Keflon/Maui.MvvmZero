@@ -16,8 +16,9 @@ namespace SampleFlyoutApp
                 .UseMauiApp<App>()
                 .UsePageServiceZero(config =>
                 {
-                    config.AddViewFinder<FlyoutContentPage, FlyoutContentPageVm>();
+                    config.MapVmToPage<FlyoutContentPageVm, FlyoutContentPage>();
                 })
+
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

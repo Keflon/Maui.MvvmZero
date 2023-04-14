@@ -12,11 +12,9 @@ namespace SampleApp
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
-                .UsePageServiceZero(thing =>
+                .UsePageServiceZero(builder =>
                 {
-                    //thing.SetNavigationGetter(() => App.Current.MainPage.Navigation); // This is the default behaviour.
-                    //thing.AddViewFinder<CabbagesPageVm>((pageService) => GetCabbagesPage(pageService));
-                    thing.AddViewFinder<CabbagesPage, CabbagesPageVm>();
+                    builder.MapVmToPage<CabbagesPageVm, CabbagesPage>();
                 })
 
                 .ConfigureFonts(fonts =>

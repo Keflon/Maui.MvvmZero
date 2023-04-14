@@ -35,17 +35,17 @@ namespace FunctionZero.Maui.MvvmZero
         bool _report = false;
         private DataTemplate _multiPageItemTemplate;
         private Func<Type, object> _typeFactory;
-        private readonly Func<Type, object, IView> _viewFinder;
+        private readonly Func<Type, object, IView> _viewMapper;
         public Func<INavigation> NavigationGetter { get; }
 
 
         private IView GetViewForViewModel<TViewModel>(object hint) where TViewModel : class
         {
-            return _viewFinder(typeof(TViewModel), hint);
+            return _viewMapper(typeof(TViewModel), hint);
         }
         private IView GetViewForViewModel(Type viewModel, object hint)
         {
-            return _viewFinder(viewModel, hint);
+            return _viewMapper(viewModel, hint);
         }
 
         private TInstanceType GetInstance<TInstanceType>()
@@ -74,11 +74,11 @@ namespace FunctionZero.Maui.MvvmZero
         /// </summary>
         /// <param name="navigationGetter">A Func that returns the navigationPage to push to and pop from.</param>
         /// <param name="typeFactory">A Func that returns a requested type. Wire it directly to your IoC container if you have one.</param>
-        internal PageServiceZero(Func<INavigation> navigationGetter, Func<Type, object> typeFactory, Func<Type, object, IView> viewFinder)
+        internal PageServiceZero(Func<INavigation> navigationGetter, Func<Type, object> typeFactory, Func<Type, object, IView> viewMapper)
         {
             NavigationGetter = navigationGetter;
             _typeFactory = typeFactory;
-            _viewFinder = viewFinder;
+            _viewMapper = viewMapper;
 
             _pagesOnAnyNavigationStack = new();
             _currentVisiblePageList = new();
@@ -244,6 +244,11 @@ namespace FunctionZero.Maui.MvvmZero
             TPage page = GetInstance<TPage>();
             return page;
         }
+        public TView GetView<TView>() where TView : IView // IView allows Page. View doesn't. => IView can do everything. Is that a good thing?
+        {
+            TView view = GetInstance<TView>();
+            return view;
+        }
 
         public TViewModel GetViewModel<TViewModel>() where TViewModel : class
         {
@@ -368,7 +373,6 @@ namespace FunctionZero.Maui.MvvmZero
 
         public MultiPage<Page> GetMultiPage<TPage>(params Type[] vmTypes) where TPage : MultiPage<Page>
         {
-            //var page = (MultiPage<Page>)TypeFactory(typeof(TPage));
             var page = GetInstance<TPage>();
 
             var vmCollection = new ObservableCollection<object>();

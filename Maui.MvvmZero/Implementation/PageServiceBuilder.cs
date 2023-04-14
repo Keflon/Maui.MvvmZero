@@ -11,7 +11,7 @@ namespace FunctionZero.Maui.MvvmZero
         private Func<INavigation> _navigationGetter;
         private PageServiceZero _pageService;
         private Func<Type, object> _typeFactory;
-        private Dictionary<Type, Func<ViewFinderParameters, IView>> _viewFinder;
+        private Dictionary<Type, Func<ViewMapperParameters, IView>> _viewMap;
         private readonly Func<INavigation> _defaultNavigationGetter;
         private readonly Func<Type, object> _defaultTypeFactory;
 
@@ -23,7 +23,7 @@ namespace FunctionZero.Maui.MvvmZero
 
         internal PageServiceBuilder()
         {
-            _viewFinder = new();
+            _viewMap = new();
         }
 
         public PageServiceBuilder SetNavigationGetter(Func<INavigation> navigationGetter)
@@ -43,26 +43,37 @@ namespace FunctionZero.Maui.MvvmZero
             return this;
         }
 
-        public PageServiceBuilder AddViewFinder<TViewModel>(Func<ViewFinderParameters, IView> viewFactory)
+        public PageServiceBuilder MapVmToPage<TViewModel>(Func<ViewMapperParameters, IView> viewFactory)
         {
-            _viewFinder.Add(typeof(TViewModel), viewFactory);
+            _viewMap.Add(typeof(TViewModel), viewFactory);
             return this;
         }
 
-        public PageServiceBuilder AddViewFinder<TView, TViewModel>(bool wrapInNavigationPage = false) where TView : Page
+        public PageServiceBuilder MapVmToPage<TViewModel, TPage>(bool wrapInNavigationPage = false) where TPage : Page
         {
-            Func<ViewFinderParameters, Page> getter;
+            Func<ViewMapperParameters, Page> getter;
 
             if (wrapInNavigationPage)
-                getter = (ViewFinderParameters p) =>
+                getter = (ViewMapperParameters p) =>
                 {
-                    var page = (Page)p.pageService.GetPage<TView>();
+                    var page = (Page)p.PageService.GetPage<TPage>();
                     return new NavigationPage(page) { Title = page.Title };
                 };
             else
-                getter = (ViewFinderParameters p) => p.pageService.GetPage<TView>();
+                getter = (ViewMapperParameters p) => p.PageService.GetPage<TPage>();
 
-            _viewFinder.Add(typeof(TViewModel), getter);
+            _viewMap.Add(typeof(TViewModel), getter);
+
+            return this;
+        }
+
+        public PageServiceBuilder MapVmToView<TViewModel, TView>() where TView : IView
+        {
+            Func<ViewMapperParameters, IView> getter;
+
+            getter = (ViewMapperParameters p) => p.PageService.GetView<TView>();
+
+            _viewMap.Add(typeof(TViewModel), getter);
 
             return this;
         }
@@ -71,25 +82,25 @@ namespace FunctionZero.Maui.MvvmZero
         {
             _typeFactory = _typeFactory ?? _defaultTypeFactory;
             _navigationGetter = _navigationGetter ?? _defaultNavigationGetter;
-            _pageService = new PageServiceZero(_navigationGetter, _typeFactory, ViewFinder);
+            _pageService = new PageServiceZero(_navigationGetter, _typeFactory, ViewMapper);
             return _pageService;
         }
 
-        private IView ViewFinder(Type vmType, object hint)
+        private IView ViewMapper(Type vmType, object hint)
         {
 
             try
             {
-                var parameters = new ViewFinderParameters(vmType, this._pageService, hint);
-                return _viewFinder[vmType](parameters);
+                var parameters = new ViewMapperParameters(vmType, this._pageService, hint);
+                return _viewMap[vmType](parameters);
             }
-            catch(KeyNotFoundException kex)
+            catch (KeyNotFoundException kex)
             {
                 throw new Exception($"Cannot resolve the View for type {vmType}. You must register them in UsePageServiceZero. TODO: More details.", kex);
             }
-            catch(NullReferenceException nrex)
+            catch (NullReferenceException nrex)
             {
-                throw new Exception($"Cannot resolve the View for type {vmType}. Don't know why, look at the innter exception? TODO: More details.", nrex);
+                throw new Exception($"Cannot resolve the View for type {vmType}. If you see this can you raise a bug please? TODO: More details.", nrex);
 
             }
             catch (Exception ex)
