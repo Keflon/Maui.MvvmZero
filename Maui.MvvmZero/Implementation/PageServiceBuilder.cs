@@ -49,18 +49,18 @@ namespace FunctionZero.Maui.MvvmZero
             return this;
         }
 
-        public PageServiceBuilder AddViewFinder<TView, TViewModel>(bool wrapInNavigationPage = false)
+        public PageServiceBuilder AddViewFinder<TView, TViewModel>(bool wrapInNavigationPage = false) where TView : Page
         {
             Func<ViewFinderParameters, Page> getter;
 
             if (wrapInNavigationPage)
                 getter = (ViewFinderParameters p) =>
                 {
-                    var page = (Page)_typeFactory(typeof(TView));
+                    var page = (Page)p.pageService.GetPage<TView>();
                     return new NavigationPage(page) { Title = page.Title };
-                } ;
+                };
             else
-                getter = (ViewFinderParameters p) => (Page)_typeFactory(typeof(TView));
+                getter = (ViewFinderParameters p) => p.pageService.GetPage<TView>();
 
             _viewFinder.Add(typeof(TViewModel), getter);
 
@@ -77,8 +77,25 @@ namespace FunctionZero.Maui.MvvmZero
 
         private IView ViewFinder(Type vmType, object hint)
         {
-            var parameters = new ViewFinderParameters(vmType, this._pageService, hint);
-            return _viewFinder[vmType].Invoke(parameters);
+
+            try
+            {
+                var parameters = new ViewFinderParameters(vmType, this._pageService, hint);
+                return _viewFinder[vmType](parameters);
+            }
+            catch(KeyNotFoundException kex)
+            {
+                throw new Exception($"Cannot resolve the View for type {vmType}. You must register them in UsePageServiceZero. TODO: More details.", kex);
+            }
+            catch(NullReferenceException nrex)
+            {
+                throw new Exception($"Cannot resolve the View for type {vmType}. Don't know why, look at the innter exception? TODO: More details.", nrex);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Cannot resolve the View for type {vmType}. The mapping has been registered in UsePageServiceZero but your container cannot provide a suitable view. TODO: More details.", ex);
+            }
         }
     }
 }

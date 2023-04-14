@@ -36,7 +36,7 @@ namespace FunctionZero.Maui.MvvmZero
         void Init(Application currentApplication);
 
 
-        Func<Type, object> TypeFactory { get; }
+        //Func<Type, object> TypeFactory { get; }
         Func<INavigation> NavigationGetter { get; }
 
 
@@ -150,5 +150,13 @@ namespace FunctionZero.Maui.MvvmZero
 
         MultiPage<Page> GetMultiPage<TPage>(IEnumerable itemsSource) where TPage : MultiPage<Page>;
         MultiPage<Page> GetMultiPage<TPage>(params Type[] types) where TPage : MultiPage<Page>;
+        FlyoutPage GetFlyoutPage<TFlyoutPage, TFlyoutFlyoutVm, TFlyoutDetailVm>()
+            where TFlyoutPage : FlyoutPage
+            where TFlyoutFlyoutVm : class
+            where TFlyoutDetailVm : class;
+
+        FlyoutPage GetFlyoutPage<TFlyoutPage, TFlyoutFlyoutVm>()
+            where TFlyoutPage : FlyoutPage
+            where TFlyoutFlyoutVm : class;
     }
 }

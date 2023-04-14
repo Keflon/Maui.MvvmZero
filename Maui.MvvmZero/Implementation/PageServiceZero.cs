@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 using FunctionZero.Maui.MvvmZero.Workaround;
+using Microsoft.Maui.Controls.Internals;
 using System;
 using System.Collections;
 using System.Collections.ObjectModel;
@@ -35,8 +36,27 @@ namespace FunctionZero.Maui.MvvmZero
         private DataTemplate _multiPageItemTemplate;
 
         public Func<INavigation> NavigationGetter { get; }
-        public Func<Type, object> TypeFactory { get; }
-        internal readonly Func<Type, object, IView> _viewFinder;
+        private Func<Type, object> TypeFactory { get; }
+        private readonly Func<Type, object, IView> _viewFinder;
+
+        private IView GetViewForViewModel<TViewModel>(object hint)
+        {
+            return _viewFinder(typeof(TViewModel), hint);
+        }
+
+        private TInstanceType GetInstance<TInstanceType>()
+        {
+            return (TInstanceType)GetInstance(typeof(TInstanceType));
+        }
+        internal object GetInstance(Type instanceType)
+        {
+            var retval = TypeFactory(instanceType);
+
+            if (retval == null)
+                throw new Exception($"Cannot get an instance of {instanceType}. Make sure you have registered it in your Container!");
+
+            return retval;
+        }
 
         private INavigation CurrentNavigationPage => NavigationGetter();
 
@@ -219,14 +239,23 @@ namespace FunctionZero.Maui.MvvmZero
 
         public TPage GetPage<TPage>() where TPage : Page
         {
-            TPage page = (TPage)TypeFactory(typeof(TPage));
+            TPage page = GetInstance<TPage>();
             return page;
         }
 
         public TViewModel GetViewModel<TViewModel>() where TViewModel : class
         {
-            TViewModel vm = (TViewModel)TypeFactory(typeof(TViewModel));
-            return vm;
+            return GetInstance<TViewModel>();
+
+            //try
+            //{
+            //    TViewModel vm = (TViewModel)TypeFactory(typeof(TViewModel));
+            //    return vm;
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw new Exception($"Cannot get an instance of {typeof(TViewModel)}. Make sure you have registered it in your Container!", ex);
+            //}
         }
 
         public async Task<TViewModel> PushPageAsync<TPage, TViewModel>(Func<TViewModel, Task> initViewModelActionAsync, bool isModal, bool animated)
@@ -271,7 +300,7 @@ namespace FunctionZero.Maui.MvvmZero
 
         public async Task<TViewModel> PushVmAsync<TViewModel>(Action<TViewModel> initViewModelAction, object hint = null, bool isModal = false, bool isAnimated = true) where TViewModel : class
         {
-            var page = (Page)_viewFinder.Invoke(typeof(TViewModel), hint);
+            var page = (Page)GetViewForViewModel<TViewModel>(hint);
             var vm = GetViewModel<TViewModel>();
 
             try
@@ -338,7 +367,7 @@ namespace FunctionZero.Maui.MvvmZero
 
         public MultiPage<Page> GetMultiPage<TPage>(IEnumerable viewModelCollection) where TPage : MultiPage<Page>
         {
-            var page = (MultiPage<Page>)TypeFactory(typeof(TPage));
+            var page = GetInstance<TPage>();
 
             page.ItemsSource = viewModelCollection;
             page.ItemTemplate = _multiPageItemTemplate;
@@ -348,13 +377,15 @@ namespace FunctionZero.Maui.MvvmZero
 
         public MultiPage<Page> GetMultiPage<TPage>(params Type[] vmTypes) where TPage : MultiPage<Page>
         {
-            var page = (MultiPage<Page>)TypeFactory(typeof(TPage));
+            //var page = (MultiPage<Page>)TypeFactory(typeof(TPage));
+            var page = GetInstance<TPage>();
 
             var vmCollection = new ObservableCollection<object>();
 
             foreach (var vmType in vmTypes)
-                vmCollection.Add(this.TypeFactory(vmType));
+                vmCollection.Add(GetInstance(vmType));
 
+            // Because https://github.com/dotnet/maui/issues/14572
             if (page is AdaptedTabbedPage adaptedPage)
             {
                 adaptedPage.ItemTemplate = _multiPageItemTemplate;
@@ -368,7 +399,48 @@ namespace FunctionZero.Maui.MvvmZero
             return page;
         }
 
+        public FlyoutPage GetFlyoutPage<TFlyoutPage, TFlyoutFlyoutVm, TFlyoutDetailVm>()
+            where TFlyoutPage : FlyoutPage
+            where TFlyoutFlyoutVm : class
+            where TFlyoutDetailVm : class
+        {
+            var page = GetPage<TFlyoutPage>();
+            var flyoutFlyoutPage = (Page)GetViewForViewModel<TFlyoutFlyoutVm>(null);
+            var flyoutDetailPage = (Page)GetViewForViewModel<TFlyoutDetailVm>(null);
 
+            flyoutFlyoutPage.BindingContext = GetViewModel<TFlyoutFlyoutVm>();
+            flyoutDetailPage.BindingContext = GetViewModel<TFlyoutDetailVm>();
+
+            page.Title = page.Title ?? string.Empty;
+            flyoutFlyoutPage.Title = flyoutFlyoutPage.Title ?? string.Empty;
+            flyoutDetailPage.Title = flyoutDetailPage.Title ?? string.Empty;
+
+            page.Flyout = flyoutFlyoutPage;
+            page.Detail = flyoutDetailPage;
+
+            return page;
+        }
+
+        public FlyoutPage GetFlyoutPage<TFlyoutPage, TFlyoutFlyoutVm>()
+            where TFlyoutPage : FlyoutPage
+            where TFlyoutFlyoutVm : class
+        {
+            var page = GetPage<TFlyoutPage>();
+            var flyoutFlyoutPage = (Page)GetViewForViewModel<TFlyoutFlyoutVm>(null);
+            var flyoutDetailPage = new ContentPage();       // Flyout.Detail must be set to something before presentation.
+
+            flyoutFlyoutPage.BindingContext = GetViewModel<TFlyoutFlyoutVm>();
+
+            page.Title = page.Title ?? string.Empty;
+            flyoutFlyoutPage.Title = flyoutFlyoutPage.Title ?? string.Empty;
+            flyoutDetailPage.Title = flyoutDetailPage.Title ?? string.Empty;
+
+            page.Flyout = flyoutFlyoutPage;
+            page.Detail = flyoutDetailPage;
+
+
+            return page;
+        }
 
         //private INavigation GetNavigationForPage(Page thePage)
         //{

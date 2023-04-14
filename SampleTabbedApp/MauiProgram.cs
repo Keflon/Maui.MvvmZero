@@ -14,9 +14,9 @@ namespace SampleTabbedApp
             builder
                 .UseMauiApp<App>()
                 .UsePageServiceZero(
-                thing =>
+                serviceBuilder =>
                 {
-                    thing
+                    serviceBuilder
                         .AddViewFinder<ReadyPage, ReadyPageVm>(true)
                         .AddViewFinder<SteadyPage, SteadyPageVm>(true)
                         .AddViewFinder<GoPage, GoPageVm>(true)

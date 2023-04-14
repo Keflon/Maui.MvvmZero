@@ -1,5 +1,4 @@
-﻿using FunctionZero.Maui.MvvmZero.Implementation;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,12 +13,13 @@ namespace FunctionZero.Maui.MvvmZero
             // Add an initialisation service for MAUI to call. Haven't found a use for it yet ...
             appBuilder.Services.AddSingleton<IMauiInitializeService, PageServiceInitializationService>();
 
-            // Build the PageService and add it to the Container ...
+            // Create the pageServiceBuilder.
             var pageServiceBuilder = new PageServiceBuilder(DefaultNavigationGetter, (type) => appBuilder.Services.BuildServiceProvider().GetService(type));
-            // If there is a configuration callback provided by the user, call it.
+
+            // If there is a configuration callback provided by the user, call it and pass in the pageServiceBuilder.
             configureDelegate?.Invoke(pageServiceBuilder);
 
-            // Generate the PageService ...
+            // Generate the PageService.
             var pageService = pageServiceBuilder.Build();
 
             // Add it to the Container as a Singleton.
@@ -36,8 +36,8 @@ namespace FunctionZero.Maui.MvvmZero
             if (Application.Current.MainPage is FlyoutPage flyoutPage)
                 return flyoutPage.Detail.Navigation; 
 
-            if (Application.Current.MainPage is TabbedPage tabbedPage)
-                return tabbedPage.CurrentPage.Navigation; 
+            if (Application.Current.MainPage is MultiPage<Page> multiPage)
+                return multiPage.CurrentPage.Navigation; 
 
             if (Application.Current.MainPage is Page page)
                 return page.Navigation;

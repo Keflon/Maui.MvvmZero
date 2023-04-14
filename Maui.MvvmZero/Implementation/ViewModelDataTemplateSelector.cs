@@ -21,7 +21,7 @@ namespace FunctionZero.Maui.MvvmZero
         private object GetTemplate(object item)
         {
             // 'item' is  our view-model. Get the corresponding Page.
-            var page = (Page)((PageServiceZero)_pageService)._viewFinder.Invoke(item.GetType(), null);
+            var page = (Page)((PageServiceZero)_pageService).GetInstance(item.GetType());
             return page;
         }
     }

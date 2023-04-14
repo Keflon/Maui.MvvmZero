@@ -14,7 +14,10 @@ namespace SampleFlyoutApp
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
-                .UsePageServiceZero()
+                .UsePageServiceZero(config =>
+                {
+                    config.AddViewFinder<FlyoutContentPage, FlyoutContentPageVm>();
+                })
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
