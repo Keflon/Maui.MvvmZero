@@ -57,7 +57,7 @@ namespace FunctionZero.Maui.MvvmZero
             var retval = _typeFactory(instanceType);
 
             if (retval == null)
-                throw new Exception($"Cannot get an instance of {instanceType}. Make sure you have registered it in your Container!");
+                throw new TypeFactoryException($"ERROR: Cannot get an instance of {instanceType}. Make sure you have registered it in your Container!", instanceType);
 
             return retval;
         }

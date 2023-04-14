@@ -1,4 +1,5 @@
 ﻿ using FunctionZero.Maui.MvvmZero;
+using FunctionZero.Maui.MvvmZero.Workaround;
 using Microsoft.Extensions.Logging;
 using SampleFlyoutApp.Mvvm.Pages;
 using SampleFlyoutApp.Mvvm.Pages.Root;
@@ -17,6 +18,7 @@ namespace SampleFlyoutApp
                 .UsePageServiceZero(config =>
                 {
                     config.MapVmToPage<FlyoutFlyoutPageVm, FlyoutFlyoutPage>();
+                    config.MapVmToPage<TestPageVm, TestPage>();
                 })
 
                 .ConfigureFonts(fonts =>
@@ -31,9 +33,11 @@ namespace SampleFlyoutApp
 
             builder.Services
                .AddSingleton<FlyoutPage>()
+               // because https://github.com/dotnet/maui/issues/14572
+               .AddSingleton<AdaptedTabbedPage>()
                .AddSingleton<HomePage>()
                .AddSingleton<HomePageVm>()
-               .AddSingleton<FlyoutFlyoutPage>()
+               //.AddSingleton<FlyoutFlyoutPage>()
                .AddSingleton<FlyoutFlyoutPageVm>()
                .AddSingleton<TreePage>()
                .AddSingleton<TreePageVm>()

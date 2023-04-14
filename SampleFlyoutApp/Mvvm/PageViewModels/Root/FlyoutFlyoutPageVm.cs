@@ -1,5 +1,6 @@
 ﻿using FunctionZero.CommandZero;
 using FunctionZero.Maui.MvvmZero;
+using FunctionZero.Maui.MvvmZero.Workaround;
 using Microsoft.Maui;
 using SampleFlyoutApp.Mvvm.Pages;
 using System;
@@ -36,12 +37,17 @@ namespace SampleFlyoutApp.Mvvm.PageViewModels.Root
 
         private Page GetTabbedTestPage(IPageServiceZero pageService)
         {
-            var retval = new TabbedPage();
+#if true
+            // Use ItemsSource and an ItemTemplate.
+            var retval = pageService.GetMultiPage<AdaptedTabbedPage>(typeof(TestPageVm), typeof(TestPageVm), typeof(TestPageVm));
+#else
+            // Write to Children directly. Less cool!
+            var retval = pageService.GetView<AdaptedTabbedPage>();
 
             retval.Children.Add(new NavigationPage(pageService.GetMvvmPage<TestPage, TestPageVm>().page) { Title = "Ready" });
             retval.Children.Add(new NavigationPage(pageService.GetMvvmPage<TestPage, TestPageVm>().page) { Title = "Steady" });
             retval.Children.Add(new NavigationPage(pageService.GetMvvmPage<TestPage, TestPageVm>().page) { Title = "Go" });
-
+#endif
             return retval;
         }
 

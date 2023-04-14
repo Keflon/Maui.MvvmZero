@@ -96,16 +96,26 @@ namespace FunctionZero.Maui.MvvmZero
             }
             catch (KeyNotFoundException kex)
             {
-                throw new Exception($"Cannot resolve the View for type {vmType}. You must register them in UsePageServiceZero. TODO: More details.", kex);
+                string shortType = Path.GetExtension(vmType.ToString()).Substring(1);
+                string message = $"ERROR: Cannot resolve the View for type {shortType}\r\n";
+                message += "You must register a View for a ViewModel in UsePageServiceZero in the CreateMauiApp method.\r\n";
+                message += "\r\n";
+                message += "Like this:\r\n";
+                message += "\r\n";
+                message += $".UsePageServiceZero(config =>\r\n{{\r\n    config.MapVmToPage<{shortType}, SomePage>();\r\n    ...\r\n}})";
+                throw new ViewMapperException(message, vmType, kex);
             }
             catch (NullReferenceException nrex)
             {
-                throw new Exception($"Cannot resolve the View for type {vmType}. If you see this can you raise a bug please? TODO: More details.", nrex);
-
+                throw new ViewMapperException($"Cannot resolve the View for type {vmType}. If you see this can you raise a bug please? TODO: More details.", vmType, nrex);
             }
-            catch (Exception ex)
+            catch (TypeFactoryException ex)
             {
-                throw new Exception($"Cannot resolve the View for type {vmType}. The mapping has been registered in UsePageServiceZero but your container cannot provide a suitable view. TODO: More details.", ex);
+                throw new ViewMapperException($"ERROR: Cannot resolve the View for type {vmType}. The mapping has been registered in UsePageServiceZero but your container cannot provide a suitable view instance.", vmType, ex);
+            }
+            catch
+            {
+                throw;
             }
         }
     }
