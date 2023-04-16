@@ -1,5 +1,7 @@
 # FunctionZero.Maui.MvvmZero
 
+## Major improvements and new documentation coming in April 2023. Check back soon or follow the repo to get early updates!  
+
 NuGet package [here](https://www.nuget.org/packages/FunctionZero.Maui.MvvmZero)
 
 [MvvmZero](https://github.com/Keflon/FunctionZero.MvvmZero) for MAUI.  

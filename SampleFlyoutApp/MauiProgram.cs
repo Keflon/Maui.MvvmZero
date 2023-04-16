@@ -15,10 +15,10 @@ namespace SampleFlyoutApp
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
-                .UsePageServiceZero(config =>
+                .UseMvvmZero(config =>
                 {
                     config.MapVmToPage<FlyoutFlyoutPageVm, FlyoutFlyoutPage>();
-                    config.MapVmToPage<TestPageVm, TestPage>();
+                    config.MapVmToPage<TestPageVm, GetPageForTestPage>();
                 })
 
                 .ConfigureFonts(fonts =>

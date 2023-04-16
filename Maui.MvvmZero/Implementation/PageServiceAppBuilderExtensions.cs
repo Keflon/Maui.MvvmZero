@@ -8,7 +8,7 @@ namespace FunctionZero.Maui.MvvmZero
 {
     public static class PageServiceAppBuilderExtensions
     {
-        public static MauiAppBuilder UsePageServiceZero(this MauiAppBuilder appBuilder, Action<PageServiceBuilder> configureDelegate = null)
+        public static MauiAppBuilder UseMvvmZero(this MauiAppBuilder appBuilder, Action<PageServiceBuilder> configureDelegate = null)
         {
             // Add an initialisation service for MAUI to call. Haven't found a use for it yet ...
             appBuilder.Services.AddSingleton<IMauiInitializeService, PageServiceInitializationService>();

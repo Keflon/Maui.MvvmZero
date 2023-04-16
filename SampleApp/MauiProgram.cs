@@ -12,7 +12,7 @@ namespace SampleApp
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
-                .UsePageServiceZero(builder =>
+                .UseMvvmZero(builder =>
                 {
                     builder.MapVmToPage<CabbagesPageVm, CabbagesPage>();
                 })

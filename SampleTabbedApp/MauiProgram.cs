@@ -13,7 +13,7 @@ namespace SampleTabbedApp
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
-                .UsePageServiceZero(
+                .UseMvvmZero(
                 serviceBuilder =>
                 {
                     serviceBuilder
