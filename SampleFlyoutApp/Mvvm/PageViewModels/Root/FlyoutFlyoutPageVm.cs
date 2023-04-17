@@ -1,5 +1,6 @@
 ﻿using FunctionZero.CommandZero;
 using FunctionZero.Maui.MvvmZero;
+using FunctionZero.Maui.MvvmZero.PageControllers;
 using FunctionZero.Maui.MvvmZero.Workaround;
 using Microsoft.Maui;
 using SampleFlyoutApp.Mvvm.Pages;
@@ -16,12 +17,17 @@ namespace SampleFlyoutApp.Mvvm.PageViewModels.Root
     public class FlyoutFlyoutPageVm : MvvmZeroBasePageVm
     {
         private DetailPageItemVm _selectedItem;
+        private FlyoutController _flyoutController;
+        private readonly IPageServiceZero _pageService;
 
         public ICommand ItemTappedCommand { get; }
         public IList<DetailPageItemVm> Items { get; }
         public DetailPageItemVm SelectedItem { get => _selectedItem; set => SetProperty(ref _selectedItem, value); }
+
         public FlyoutFlyoutPageVm(IPageServiceZero pageService)
         {
+            _pageService = pageService;
+
             ItemTappedCommand = new CommandBuilder().AddGuard(this).SetExecute(ItemTappedCommandExecute).Build();
             var items = new List<DetailPageItemVm>
             {
@@ -66,7 +72,8 @@ namespace SampleFlyoutApp.Mvvm.PageViewModels.Root
                 if (SelectedItem == null)
                     throw new InvalidOperationException("Null SelectedItem");
 
-                ((FlyoutPage)Application.Current.MainPage).Detail = SelectedItem.ThePage;
+                _pageService.FlyoutController.Detail = SelectedItem.ThePage;
+                //((FlyoutPage)Application.Current.MainPage).Detail = SelectedItem.ThePage;
             }
         }
 

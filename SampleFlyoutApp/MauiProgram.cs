@@ -35,6 +35,7 @@ namespace SampleFlyoutApp
                .AddSingleton<FlyoutPage>()
                // because https://github.com/dotnet/maui/issues/14572
                .AddSingleton<AdaptedTabbedPage>()
+               .AddSingleton<AdaptedFlyoutPage>()               
                .AddSingleton<HomePage>()
                .AddSingleton<HomePageVm>()
                .AddSingleton<FlyoutFlyoutPage>()

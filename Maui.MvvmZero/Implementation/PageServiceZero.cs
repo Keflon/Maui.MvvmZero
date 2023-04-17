@@ -21,6 +21,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
+using FunctionZero.Maui.MvvmZero;
+using FunctionZero.Maui.MvvmZero.PageControllers;
 using FunctionZero.Maui.MvvmZero.Workaround;
 using Microsoft.Maui.Controls.Internals;
 using System;
@@ -34,6 +36,8 @@ namespace FunctionZero.Maui.MvvmZero
     {
         bool _report = false;
         private DataTemplate _multiPageItemTemplate;
+        private readonly FlyoutController _flyoutController;
+
         public Func<Type, object> TypeFactory { get; }
         private readonly Func<Type, object, IView> _viewMapper;
         public Func<INavigation> NavigationGetter { get; }
@@ -64,6 +68,8 @@ namespace FunctionZero.Maui.MvvmZero
 
         private INavigation CurrentNavigationPage => NavigationGetter();
 
+        public IFlyoutController FlyoutController => _flyoutController;
+
         private readonly List<Page> _pagesOnAnyNavigationStack;
         private readonly List<Page> _currentVisiblePageList;
 
@@ -84,6 +90,8 @@ namespace FunctionZero.Maui.MvvmZero
             _currentVisiblePageList = new();
 
             _multiPageItemTemplate = new ViewDataTemplateSelector((viewModelType) => GetViewForViewModel(viewModelType, null));
+
+            _flyoutController = new FlyoutController();
         }
 
         public void Init(Application currentApplication)
@@ -118,6 +126,9 @@ namespace FunctionZero.Maui.MvvmZero
             {
                 if (_report) Debug.WriteLine($"Descendant Added: {cp}");
 
+                if (e.Element is FlyoutPage fp)
+                    _flyoutController.SetFlyoutPage(fp);
+
                 cp.Disappearing += PageDisappearing;
                 cp.Appearing += PageAppearing;
 
@@ -142,11 +153,16 @@ namespace FunctionZero.Maui.MvvmZero
             }
         }
 
+
+
         private async void CurrentApplication_DescendantRemoved(object sender, ElementEventArgs e)
         {
             if (e.Element is Page cp)
             {
                 if (_report) Debug.WriteLine($"Descendant Removed: {cp}");
+
+                if (e.Element is FlyoutPage fp)
+                    _flyoutController.SetFlyoutPage(null);
 
                 var hop = cp.BindingContext as IHasOwnerPage;
 
@@ -171,6 +187,14 @@ namespace FunctionZero.Maui.MvvmZero
 
                 cp.Disappearing -= PageDisappearing;
             }
+        }
+
+        private void WalkTree(IVisualTreeElement visualElement, Action<object> doTheThing)
+        {
+            doTheThing(visualElement);
+
+            foreach (var item in visualElement.GetVisualChildren())
+                WalkTree(item, doTheThing);
         }
 
         private void PageAppearing(object sender, EventArgs e)
@@ -215,7 +239,7 @@ namespace FunctionZero.Maui.MvvmZero
                 if (page.BindingContext is IHasOwnerPage hop)
                     hop.OnOwnerPagePushed(true);
         }
-        
+
         public int GetVisiblePageCountForVm(object vm)
         {
             return _currentVisiblePageList.Where(page => page.BindingContext == vm).Count();
@@ -395,33 +419,39 @@ namespace FunctionZero.Maui.MvvmZero
             return page;
         }
 
+        private FlyoutPage GetPartialFlyoutPage<TFlyoutPage, TFlyoutFlyoutVm>()
+            where TFlyoutPage : FlyoutPage
+            where TFlyoutFlyoutVm : class
+        {
+            var flyoutPage = GetPage<TFlyoutPage>();
+            var flyoutFlyoutPage = (Page)GetViewForViewModel<TFlyoutFlyoutVm>(null);
+            flyoutFlyoutPage.BindingContext = GetViewModel<TFlyoutFlyoutVm>();
+            flyoutPage.Title = flyoutPage.Title ?? string.Empty;
+            flyoutFlyoutPage.Title = flyoutFlyoutPage.Title ?? string.Empty;
+            flyoutPage.Flyout = flyoutFlyoutPage;
+            return flyoutPage;
+        }
         public FlyoutPage GetFlyoutPage<TFlyoutPage, TFlyoutFlyoutVm, TFlyoutDetailVm>()
             where TFlyoutPage : FlyoutPage
             where TFlyoutFlyoutVm : class
             where TFlyoutDetailVm : class
         {
-            var page = GetPage<TFlyoutPage>();
-            var flyoutFlyoutPage = (Page)GetViewForViewModel<TFlyoutFlyoutVm>(null);
+            var flyoutPage = GetPartialFlyoutPage<TFlyoutPage, TFlyoutFlyoutVm>();
             var flyoutDetailPage = (Page)GetViewForViewModel<TFlyoutDetailVm>(null);
-
-            flyoutFlyoutPage.BindingContext = GetViewModel<TFlyoutFlyoutVm>();
             flyoutDetailPage.BindingContext = GetViewModel<TFlyoutDetailVm>();
-
-            page.Title = page.Title ?? string.Empty;
-            flyoutFlyoutPage.Title = flyoutFlyoutPage.Title ?? string.Empty;
             flyoutDetailPage.Title = flyoutDetailPage.Title ?? string.Empty;
-
-            page.Flyout = flyoutFlyoutPage;
-            page.Detail = flyoutDetailPage;
-
-            return page;
+            flyoutPage.Detail = flyoutDetailPage;
+            return flyoutPage;
         }
 
         public FlyoutPage GetFlyoutPage<TFlyoutPage, TFlyoutFlyoutVm>()
             where TFlyoutPage : FlyoutPage
             where TFlyoutFlyoutVm : class
         {
-            return GetFlyoutPage<TFlyoutPage, TFlyoutFlyoutVm, ContentPage>();
+            var retval = GetPartialFlyoutPage<TFlyoutPage, TFlyoutFlyoutVm>();
+            retval.Detail = new ContentPage();
+
+            return retval;
         }
 
         //private INavigation GetNavigationForPage(Page thePage)
@@ -437,5 +467,9 @@ namespace FunctionZero.Maui.MvvmZero
         //    }
         //    return null;
         //} 
+
+
+
+
     }
 }

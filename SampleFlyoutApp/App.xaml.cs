@@ -1,4 +1,5 @@
 ﻿using FunctionZero.Maui.MvvmZero;
+using FunctionZero.Maui.MvvmZero.Workaround;
 using SampleFlyoutApp.Mvvm.Pages.Root;
 using SampleFlyoutApp.Mvvm.PageViewModels.Root;
 
@@ -12,7 +13,8 @@ namespace SampleFlyoutApp
 
             pageService.Init(this);
 
-            var flyoutPage = pageService.GetFlyoutPage<FlyoutPage, FlyoutFlyoutPageVm>();
+            //var flyoutPage = pageService.GetFlyoutPage<FlyoutPage, FlyoutFlyoutPageVm>();
+            var flyoutPage = pageService.GetFlyoutPage<AdaptedFlyoutPage, FlyoutFlyoutPageVm>();
             MainPage = flyoutPage;
         }
     }

@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using FunctionZero.Maui.MvvmZero.PageControllers;
 using System.Collections;
 
 namespace FunctionZero.Maui.MvvmZero
@@ -35,7 +36,7 @@ namespace FunctionZero.Maui.MvvmZero
         /// <param name="currentApplication"></param>
         void Init(Application currentApplication);
 
-
+        IFlyoutController FlyoutController { get; }
         Func<INavigation> NavigationGetter { get; }
         Func<Type, object> TypeFactory { get; }
 

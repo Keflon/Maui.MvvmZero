@@ -13,6 +13,9 @@
         <Button Text="{Binding PopPageCommand.Text}" Command="{Binding PopPageCommand}" Margin="0,0,0,50"/>
         <Button Text="{Binding PushModalPageCommand.Text}" Command="{Binding PushModalPageCommand}"/>
         <Button Text="{Binding PopModalPageCommand.Text}" Command="{Binding PopModalPageCommand}"/>
+        <Button Text="{Binding ToggleFlyoutCommand.Text}" Command="{Binding ToggleFlyoutCommand}"/>
 
+
+        
     </VerticalStackLayout>
 </ContentPage>

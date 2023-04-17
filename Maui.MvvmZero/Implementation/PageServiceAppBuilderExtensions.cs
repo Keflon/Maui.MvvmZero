@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FunctionZero.Maui.MvvmZero.PageControllers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,6 +25,9 @@ namespace FunctionZero.Maui.MvvmZero
 
             // Add it to the Container as a Singleton.
             appBuilder.Services.AddSingleton<IPageServiceZero>(pageService);
+
+            // Add a FlyoutController to the Container.
+            appBuilder.Services.AddSingleton<IFlyoutController, FlyoutController>();
             return appBuilder;
         }
 
