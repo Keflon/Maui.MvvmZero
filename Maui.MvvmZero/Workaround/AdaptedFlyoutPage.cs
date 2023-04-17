@@ -13,11 +13,6 @@ namespace FunctionZero.Maui.MvvmZero.Workaround
             _oldFlyout = null;
         }
 
-        private void Flyout_Disappearing(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         private void AdaptedFlyoutPage_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(FlyoutPage.Flyout))
@@ -26,27 +21,11 @@ namespace FunctionZero.Maui.MvvmZero.Workaround
                     _oldFlyout.PropertyChanged -= FlyoutFlyout_PropertyChanged;
 
                 if (Flyout != null)
-                {
                     Flyout.PropertyChanged += FlyoutFlyout_PropertyChanged;
-                    Flyout.Disappearing += Flyout_Disappearing;
-                    Flyout.NavigatedFrom += Flyout_NavigatedFrom;
-                    Flyout.Unloaded += Flyout_Unloaded;
-                }
 
                 _oldFlyout = Flyout;
             }
         }
-
-        private void Flyout_Unloaded(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void Flyout_NavigatedFrom(object sender, NavigatedFromEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         private async void FlyoutFlyout_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(Page.IsFocused))

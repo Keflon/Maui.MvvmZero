@@ -17,7 +17,6 @@ namespace SampleFlyoutApp.Mvvm.PageViewModels.Root
     public class FlyoutFlyoutPageVm : MvvmZeroBasePageVm
     {
         private DetailPageItemVm _selectedItem;
-        private FlyoutController _flyoutController;
         private readonly IPageServiceZero _pageService;
 
         public ICommand ItemTappedCommand { get; }

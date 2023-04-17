@@ -43,8 +43,6 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
 
             _flyoutPage = flyoutPage;
 
-
-
             if (_flyoutPage != null)
             {
                 HasFlyout = flyoutPage != null;
@@ -80,7 +78,6 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
 
             _flyoutPage = null;
         }
-
 
         private void _flyout_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
