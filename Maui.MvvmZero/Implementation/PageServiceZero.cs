@@ -421,21 +421,7 @@ namespace FunctionZero.Maui.MvvmZero
             where TFlyoutPage : FlyoutPage
             where TFlyoutFlyoutVm : class
         {
-            var page = GetPage<TFlyoutPage>();
-            var flyoutFlyoutPage = (Page)GetViewForViewModel<TFlyoutFlyoutVm>(null);
-            var flyoutDetailPage = new ContentPage();       // Flyout.Detail must be set to something before presentation.
-
-            flyoutFlyoutPage.BindingContext = GetViewModel<TFlyoutFlyoutVm>();
-
-            page.Title = page.Title ?? string.Empty;
-            flyoutFlyoutPage.Title = flyoutFlyoutPage.Title ?? string.Empty;
-            flyoutDetailPage.Title = flyoutDetailPage.Title ?? string.Empty;
-
-            page.Flyout = flyoutFlyoutPage;
-            page.Detail = flyoutDetailPage;
-
-
-            return page;
+            return GetFlyoutPage<TFlyoutPage, TFlyoutFlyoutVm, ContentPage>();
         }
 
         //private INavigation GetNavigationForPage(Page thePage)
