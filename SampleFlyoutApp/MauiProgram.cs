@@ -18,7 +18,7 @@ namespace SampleFlyoutApp
                 .UseMvvmZero(config =>
                 {
                     config.MapVmToPage<FlyoutFlyoutPageVm, FlyoutFlyoutPage>();
-                    config.MapVmToPage<TestPageVm, GetPageForTestPage>();
+                    config.MapVmToPage<TestPageVm>(GetPageForTestPage);
                 })
 
                 .ConfigureFonts(fonts =>
@@ -53,6 +53,12 @@ namespace SampleFlyoutApp
 
 
             return builder.Build();
+        }
+
+        private static IView GetPageForTestPage(ViewMapperParameters arg)
+        {
+            // Use arg to decide what type of page instance to return.
+            return (IView)arg.PageService.GetPage<TestPage>();
         }
     }
 }

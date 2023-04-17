@@ -34,7 +34,7 @@ namespace FunctionZero.Maui.MvvmZero
     {
         bool _report = false;
         private DataTemplate _multiPageItemTemplate;
-        private Func<Type, object> _typeFactory;
+        public Func<Type, object> TypeFactory { get; }
         private readonly Func<Type, object, IView> _viewMapper;
         public Func<INavigation> NavigationGetter { get; }
 
@@ -54,7 +54,7 @@ namespace FunctionZero.Maui.MvvmZero
         }
         internal object GetInstance(Type instanceType)
         {
-            var retval = _typeFactory(instanceType);
+            var retval = TypeFactory(instanceType);
 
             if (retval == null)
                 throw new TypeFactoryException($"ERROR: Cannot get an instance of {instanceType}. Make sure you have registered it in your Container!", instanceType);
@@ -77,7 +77,7 @@ namespace FunctionZero.Maui.MvvmZero
         internal PageServiceZero(Func<INavigation> navigationGetter, Func<Type, object> typeFactory, Func<Type, object, IView> viewMapper)
         {
             NavigationGetter = navigationGetter;
-            _typeFactory = typeFactory;
+            TypeFactory = typeFactory;
             _viewMapper = viewMapper;
 
             _pagesOnAnyNavigationStack = new();
@@ -244,6 +244,7 @@ namespace FunctionZero.Maui.MvvmZero
             TPage page = GetInstance<TPage>();
             return page;
         }
+
         public TView GetView<TView>() where TView : IView // IView allows Page. View doesn't. => IView can do everything. Is that a good thing?
         {
             TView view = GetInstance<TView>();
