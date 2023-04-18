@@ -37,33 +37,13 @@ namespace SampleFlyoutApp.Mvvm.PageViewModels.Root
                 new DetailPageItemVm("Three", ()=> _pageService.FlyoutController.SetContentVm(typeof(TreePageVm), true)),
                 new DetailPageItemVm("Test",  ()=> _pageService.FlyoutController.SetContentVm(typeof(TestPageVm), true)),
                 new DetailPageItemVm("Tabbed Test", ()=>_pageService.FlyoutController.Detail = GetTabbedTestPage(pageService))
-
-                //_pageService.FlyoutController.SetContentVm(SelectedItem.VmType, SelectedItem.WrapInNavigation);
-
-
-            //new DetailPageItemVm("Tabbed Test", GetTabbedTestPage(pageService), true)
-
-        };
+            };
             Items = items;
         }
 
         private Page GetTabbedTestPage(IPageServiceZero pageService)
         {
-            // Use ItemsSource and an ItemTemplate.
-
-
-
-
             var retval = pageService.GetMultiPage<AdaptedTabbedPage>(VmInitializer, typeof(TestPageVm), typeof(TestPageVm), typeof(TestPageVm));
-
-
-
-
-
-            //TODO: pageService.GetMultiPage<AdaptedTabbedPage>()
-            //                                                  .AddVm<TViewModel>(vm=>Init(..))
-            //                                                  .AddVm(typeof(SomeVm), vm=>Init(..)) ...
-            //                                                  .AddMultiPage
 
             return retval;
         }
