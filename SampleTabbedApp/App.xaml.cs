@@ -15,11 +15,15 @@ namespace SampleTabbedApp
 
             pageService.Init(this);
 
-            var rootPage = pageService.GetMultiPage<AdaptedTabbedPage>(typeof(ReadyPageVm), typeof(SteadyPageVm), typeof(GoPageVm));
+            var rootPage = pageService.GetMultiPage<AdaptedTabbedPage>(VmInitializer, typeof(ReadyPageVm), typeof(SteadyPageVm), typeof(GoPageVm));
 
             // To modify, e.g. ... ((IList)rootPage.ItemsSource).Add(pageService.TypeFactory(typeof(ReadyPageVm)));
 
             MainPage = rootPage;
+        }
+
+        private void VmInitializer(object obj)
+        {
         }
     }
 }

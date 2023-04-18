@@ -50,7 +50,15 @@ namespace SampleFlyoutApp.Mvvm.PageViewModels.Root
         private Page GetTabbedTestPage(IPageServiceZero pageService)
         {
             // Use ItemsSource and an ItemTemplate.
-            var retval = pageService.GetMultiPage<AdaptedTabbedPage>(typeof(TestPageVm), typeof(TestPageVm), typeof(TestPageVm));
+
+
+
+
+            var retval = pageService.GetMultiPage<AdaptedTabbedPage>(VmInitializer, typeof(TestPageVm), typeof(TestPageVm), typeof(TestPageVm));
+
+
+
+
 
             //TODO: pageService.GetMultiPage<AdaptedTabbedPage>()
             //                                                  .AddVm<TViewModel>(vm=>Init(..))
@@ -58,6 +66,11 @@ namespace SampleFlyoutApp.Mvvm.PageViewModels.Root
             //                                                  .AddMultiPage
 
             return retval;
+        }
+
+        private void VmInitializer(object obj)
+        {
+            //throw new NotImplementedException();
         }
 
         private void ItemTappedCommandExecute(object arg)

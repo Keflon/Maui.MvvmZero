@@ -100,7 +100,6 @@ namespace FunctionZero.Maui.MvvmZero
         {
             _typeFactory = _typeFactory ?? _defaultTypeFactory;
             _navigationGetter = _navigationGetter ?? _defaultNavigationGetter;
-            //_flyoutFactory = _flyoutFactory ?? (() => (FlyoutPage)_typeFactory(typeof(FlyoutPage)));
             _flyoutFactory = _flyoutFactory ?? GetDefaultFlyout;
             _pageService = new PageServiceZero(_typeFactory, _flyoutFactory, _navigationGetter,  ViewMapper);
 

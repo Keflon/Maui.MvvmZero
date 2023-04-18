@@ -386,7 +386,7 @@ namespace FunctionZero.Maui.MvvmZero
             return null;
         }
 
-        public MultiPage<Page> GetMultiPage<TPage>(IEnumerable viewModelCollection) where TPage : MultiPage<Page>
+        public MultiPage<Page> GetMultiPage<TPage>(Action<object> initializer, IEnumerable viewModelCollection) where TPage : MultiPage<Page>
         {
             var page = GetInstance<TPage>();
 
@@ -396,7 +396,7 @@ namespace FunctionZero.Maui.MvvmZero
             return page;
         }
 
-        public MultiPage<Page> GetMultiPage<TPage>(params Type[] vmTypes) where TPage : MultiPage<Page>
+        public MultiPage<Page> GetMultiPage<TPage>(Action<object> initializer, params Type[] vmTypes) where TPage : MultiPage<Page>
         {
             var page = GetInstance<TPage>();
 
@@ -413,8 +413,8 @@ namespace FunctionZero.Maui.MvvmZero
             }
             else
             {
-                page.ItemsSource = vmCollection;
                 page.ItemTemplate = _multiPageItemTemplate;
+                page.ItemsSource = vmCollection;
             }
             return page;
         }
