@@ -148,8 +148,8 @@ namespace FunctionZero.Maui.MvvmZero
         //void RemovePageAtIndex(int index);
         //void GetNavigationStackCount(bool isModal = false);
 
-        MultiPage<Page> GetMultiPage<TPage>(Action<object> vmInitializer, IEnumerable itemsSource) where TPage : MultiPage<Page>;
-        MultiPage<Page> GetMultiPage<TPage>(Action<object> vmInitializer, params Type[] types) where TPage : MultiPage<Page>;
+        MultiPage<Page> GetMultiPage<TPage>(Func<object, bool> vmInitializer, IEnumerable itemsSource) where TPage : MultiPage<Page>;
+        MultiPage<Page> GetMultiPage<TPage>(Func<object, bool> vmInitializer, params Type[] types) where TPage : MultiPage<Page>;
         FlyoutPage GetFlyoutPage<TFlyoutFlyoutVm, TFlyoutDetailVm>()
             where TFlyoutFlyoutVm : class
             where TFlyoutDetailVm : class;

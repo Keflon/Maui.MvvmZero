@@ -40,7 +40,7 @@ namespace FunctionZero.Maui.MvvmZero
         public Func<Type, object> TypeFactory { get; }
         private readonly Func<Type, object, IView> _viewMapper;
         public Func<INavigation> NavigationGetter { get; }
-        
+
         private Func<FlyoutPage> _flyoutFactory;
 
 
@@ -81,7 +81,7 @@ namespace FunctionZero.Maui.MvvmZero
         /// </summary>
         /// <param name="navigationGetter">A Func that returns the navigationPage to push to and pop from.</param>
         /// <param name="typeFactory">A Func that returns a requested type. Wire it directly to your IoC container if you have one.</param>
-        internal PageServiceZero(Func<Type, object> typeFactory, Func<FlyoutPage> flyoutFactory, Func<INavigation> navigationGetter,  Func<Type, object, IView> viewMapper)
+        internal PageServiceZero(Func<Type, object> typeFactory, Func<FlyoutPage> flyoutFactory, Func<INavigation> navigationGetter, Func<Type, object, IView> viewMapper)
         {
             TypeFactory = typeFactory;
             _flyoutFactory = flyoutFactory;
@@ -383,26 +383,11 @@ namespace FunctionZero.Maui.MvvmZero
             return null;
         }
 
-        public MultiPage<Page> GetMultiPage<TPage>(Action<object> initializer, IEnumerable viewModelCollection) where TPage : MultiPage<Page>
+        public MultiPage<Page> GetMultiPage<TPage>(Func<object, bool> initializer, IEnumerable vmCollection) where TPage : MultiPage<Page>
         {
             var page = GetInstance<TPage>();
 
-            var multiPageItemTemplate = new ViewDataTemplateSelector(initializer, (viewModelType) => GetViewForViewModel(viewModelType, null));
-
-            page.ItemsSource = viewModelCollection;
-            page.ItemTemplate = multiPageItemTemplate;
-
-            return page;
-        }
-
-        public MultiPage<Page> GetMultiPage<TPage>(Action<object> initializer, params Type[] vmTypes) where TPage : MultiPage<Page>
-        {
-            var page = GetInstance<TPage>();
-            var vmCollection = new ObservableCollection<object>();
-            var multiPageItemTemplate = new ViewDataTemplateSelector(initializer, (viewModelType) => GetViewForViewModel(viewModelType, null));
-
-            foreach (var vmType in vmTypes)
-                vmCollection.Add(GetInstance(vmType));
+            var multiPageItemTemplate = new ViewDataTemplateSelector(initializer, () => GetPage<NavigationPage>(), (viewModelType) => GetViewForViewModel(viewModelType, null));
 
             // AdaptedTabbedPage Because https://github.com/dotnet/maui/issues/14572
             if (page is AdaptedTabbedPage adaptedPage)
@@ -416,6 +401,16 @@ namespace FunctionZero.Maui.MvvmZero
                 page.ItemsSource = vmCollection;
             }
             return page;
+        }
+
+        public MultiPage<Page> GetMultiPage<TPage>(Func<object, bool> initializer, params Type[] vmTypes) where TPage : MultiPage<Page>
+        {
+            var vmCollection = new ObservableCollection<object>();
+
+            foreach (var vmType in vmTypes)
+                vmCollection.Add(GetInstance(vmType));
+
+            return GetMultiPage<TPage>(initializer, vmCollection);
         }
 
         private FlyoutPage GetPartialFlyoutPage<TFlyoutFlyoutVm>()

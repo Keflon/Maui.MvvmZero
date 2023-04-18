@@ -37,13 +37,18 @@ namespace FunctionZero.Maui.MvvmZero
         /// </summary>
         private static INavigation DefaultNavigationGetter()
         {
-            if (Application.Current.MainPage is FlyoutPage flyoutPage)
-                return flyoutPage.Detail.Navigation; 
+            return DefaultNavigationGetter(Application.Current.MainPage);
+        }
 
-            if (Application.Current.MainPage is MultiPage<Page> multiPage)
-                return multiPage.CurrentPage.Navigation; 
+        private static INavigation DefaultNavigationGetter(Page current)
+        {
+            if (current is FlyoutPage flyoutPage)
+                return DefaultNavigationGetter(flyoutPage.Detail);
 
-            if (Application.Current.MainPage is Page page)
+            if (current is MultiPage<Page> multiPage)
+                return DefaultNavigationGetter(multiPage.CurrentPage);
+
+            if (current is Page page)
                 return page.Navigation;
 
             return null;

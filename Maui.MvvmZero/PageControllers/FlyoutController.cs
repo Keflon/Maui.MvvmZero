@@ -149,7 +149,12 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
             page.BindingContext = vm;
 
             if (wrapInNavigation)
-                page = new NavigationPage(page);
+            {
+                var root = _pageService.GetPage<NavigationPage>();
+                root.PushAsync(page, false);
+                page = root;
+            }
+            //page = new NavigationPage(page);
 
             this.Detail = page;
 

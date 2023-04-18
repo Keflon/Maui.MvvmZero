@@ -48,9 +48,9 @@ namespace SampleFlyoutApp.Mvvm.PageViewModels.Root
             return retval;
         }
 
-        private void VmInitializer(object obj)
+        private bool VmInitializer(object obj)
         {
-            //throw new NotImplementedException();
+            return true;
         }
 
         private void ItemTappedCommandExecute(object arg)

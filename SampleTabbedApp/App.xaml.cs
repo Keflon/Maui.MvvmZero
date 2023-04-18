@@ -22,8 +22,9 @@ namespace SampleTabbedApp
             MainPage = rootPage;
         }
 
-        private void VmInitializer(object obj)
+        private bool VmInitializer(object obj)
         {
+            return true;
         }
     }
 }
