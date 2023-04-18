@@ -32,11 +32,16 @@ namespace SampleFlyoutApp.Mvvm.PageViewModels.Root
             ItemTappedCommand = new CommandBuilder().AddGuard(this).SetExecute(ItemTappedCommandExecute).Build();
             var items = new List<DetailPageItemVm>
             {
-                new DetailPageItemVm("One", typeof(HomePageVm), true),
-                new DetailPageItemVm("Two", typeof(ListPageVm), true),
-                new DetailPageItemVm("Three", typeof(TreePageVm), false),
-                new DetailPageItemVm("Test", typeof(TestPageVm), true),
-                //new DetailPageItemVm("Tabbed Test", GetTabbedTestPage(pageService), true)
+                new DetailPageItemVm("One", ()=> _pageService.FlyoutController.SetContentVm(typeof(HomePageVm), true)),
+                new DetailPageItemVm("Two", ()=> _pageService.FlyoutController.SetContentVm(typeof(ListPageVm), true)),
+                new DetailPageItemVm("Three", ()=> _pageService.FlyoutController.SetContentVm(typeof(TreePageVm), true)),
+                new DetailPageItemVm("Test",  ()=> _pageService.FlyoutController.SetContentVm(typeof(TestPageVm), true)),
+                new DetailPageItemVm("Tabbed Test", ()=>_pageService.FlyoutController.Detail = GetTabbedTestPage(pageService))
+
+                //_pageService.FlyoutController.SetContentVm(SelectedItem.VmType, SelectedItem.WrapInNavigation);
+
+
+            //new DetailPageItemVm("Tabbed Test", GetTabbedTestPage(pageService), true)
 
         };
             Items = items;
@@ -70,7 +75,7 @@ namespace SampleFlyoutApp.Mvvm.PageViewModels.Root
                 if (SelectedItem == null)
                     throw new InvalidOperationException("Null SelectedItem");
 
-                _pageService.FlyoutController.SetContentVm(SelectedItem.VmType, SelectedItem.WrapInNavigation);
+                SelectedItem.SelectedAction();
                 //_pageService.FlyoutController.Detail = SelectedItem.ThePage;
 
                 // TODO: _pageService.FlyoutController.SetDetail(typeof(ViewModel), vm => vm.Init(...));
@@ -90,15 +95,13 @@ namespace SampleFlyoutApp.Mvvm.PageViewModels.Root
 
     public class DetailPageItemVm
     {
-        public DetailPageItemVm(string name, Type vmType, bool wrapInNavigation = true)
+        public DetailPageItemVm(string name, Action selectedAction)
         {
             Name = name;
-            VmType = vmType;
-            WrapInNavigation = wrapInNavigation;
+            SelectedAction = selectedAction;
         }
 
         public string Name { get; }
-        public Type VmType { get; }
-        public bool WrapInNavigation { get; }
+        public Action SelectedAction { get; }
     }
 }
