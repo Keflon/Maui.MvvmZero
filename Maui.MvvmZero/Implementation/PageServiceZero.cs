@@ -35,7 +35,6 @@ namespace FunctionZero.Maui.MvvmZero
     public class PageServiceZero : IPageServiceZero
     {
         bool _report = false;
-        private DataTemplate _multiPageItemTemplate;
         private readonly FlyoutController _flyoutController;
 
         public Func<Type, object> TypeFactory { get; }
@@ -91,8 +90,6 @@ namespace FunctionZero.Maui.MvvmZero
 
             _pagesOnAnyNavigationStack = new();
             _currentVisiblePageList = new();
-
-            _multiPageItemTemplate = new ViewDataTemplateSelector((viewModelType) => GetViewForViewModel(viewModelType, null));
 
             _flyoutController = new FlyoutController(this);
         }
@@ -390,8 +387,10 @@ namespace FunctionZero.Maui.MvvmZero
         {
             var page = GetInstance<TPage>();
 
+            var multiPageItemTemplate = new ViewDataTemplateSelector(initializer, (viewModelType) => GetViewForViewModel(viewModelType, null));
+
             page.ItemsSource = viewModelCollection;
-            page.ItemTemplate = _multiPageItemTemplate;
+            page.ItemTemplate = multiPageItemTemplate;
 
             return page;
         }
@@ -399,21 +398,21 @@ namespace FunctionZero.Maui.MvvmZero
         public MultiPage<Page> GetMultiPage<TPage>(Action<object> initializer, params Type[] vmTypes) where TPage : MultiPage<Page>
         {
             var page = GetInstance<TPage>();
-
             var vmCollection = new ObservableCollection<object>();
+            var multiPageItemTemplate = new ViewDataTemplateSelector(initializer, (viewModelType) => GetViewForViewModel(viewModelType, null));
 
             foreach (var vmType in vmTypes)
                 vmCollection.Add(GetInstance(vmType));
 
-            // Because https://github.com/dotnet/maui/issues/14572
+            // AdaptedTabbedPage Because https://github.com/dotnet/maui/issues/14572
             if (page is AdaptedTabbedPage adaptedPage)
             {
-                adaptedPage.ItemTemplate = _multiPageItemTemplate;
+                adaptedPage.ItemTemplate = multiPageItemTemplate;
                 adaptedPage.ItemsSource = vmCollection;
             }
             else
             {
-                page.ItemTemplate = _multiPageItemTemplate;
+                page.ItemTemplate = multiPageItemTemplate;
                 page.ItemsSource = vmCollection;
             }
             return page;

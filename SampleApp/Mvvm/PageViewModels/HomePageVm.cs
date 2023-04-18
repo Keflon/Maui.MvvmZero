@@ -31,8 +31,8 @@ namespace SampleApp.Mvvm.PageViewModels
             base.AddPageTimer(16, pageTimerCallback, null, "hello");
 
             // Set up our commands for the UI to bind to ...
-            CabbagesPageCommand = new CommandBuilder().SetExecuteAsync(CabbagesPageCommandExecuteAsync).SetName("Cabbages").Build();
-            OnionsPageCommand = new CommandBuilder().SetExecuteAsync(OnionsPageCommandExecuteAsync).SetName("Onions").Build();
+            CabbagesPageCommand = new CommandBuilder().AddGuard(this).SetExecuteAsync(CabbagesPageCommandExecuteAsync).SetName("Cabbages").Build();
+            OnionsPageCommand = new CommandBuilder().AddGuard(this).SetExecuteAsync(OnionsPageCommandExecuteAsync).SetName("Onions").Build();
         }
 
         private void pageTimerCallback(object state)
@@ -51,6 +51,7 @@ namespace SampleApp.Mvvm.PageViewModels
 
         private async Task OnionsPageCommandExecuteAsync(/* Optional : object arg */)
         {
+            await Task.Delay(3000);
             // Take us to the OnionsPage page ...
             await _pageService.PushPageAsync<OnionsPage, OnionsPageVm>((vm) => { /* Initialize the vm in here if necessary */ });
         }

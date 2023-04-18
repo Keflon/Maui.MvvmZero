@@ -49,7 +49,6 @@ namespace SampleFlyoutApp.Mvvm.PageViewModels
         private async Task PopPageCommandExecuteAsync(object arg)
         {
             await _pageService.PopAsync(false);
-
         }
 
         private async Task PushModalPageCommandExecuteAsync(object arg)
