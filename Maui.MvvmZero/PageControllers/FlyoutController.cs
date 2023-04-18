@@ -65,10 +65,7 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
 
         internal void Detach()
         {
-
             _flyoutPage.PropertyChanged -= _flyout_PropertyChanged;
-            _flyoutPage.IsPresentedChanged -= _flyout_IsPresentedChanged;
-
             _flyoutPage = null;
         }
 
