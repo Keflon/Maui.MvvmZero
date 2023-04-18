@@ -61,13 +61,6 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
         {
             _flyoutPage = flyoutPage;
             _flyoutPage.PropertyChanged += _flyout_PropertyChanged;
-
-            _flyoutPage.IsPresentedChanged += _flyout_IsPresentedChanged;
-        }
-
-        private void _flyout_IsPresentedChanged(object sender, EventArgs e)
-        {
-            //Debug.WriteLine(_flyoutPage.IsPresented);
         }
 
         internal void Detach()
@@ -114,7 +107,6 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
 
             if (_flyoutPage != null)
             {
