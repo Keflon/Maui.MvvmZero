@@ -48,6 +48,7 @@ namespace SampleFlyoutApp.Mvvm.PageViewModels.Root
             //TODO: pageService.GetMultiPage<AdaptedTabbedPage>()
             //                                                  .AddVm<TViewModel>(vm=>Init(..))
             //                                                  .AddVm(typeof(SomeVm), vm=>Init(..)) ...
+            //                                                  .AddMultiPage
 
             return retval;
         }

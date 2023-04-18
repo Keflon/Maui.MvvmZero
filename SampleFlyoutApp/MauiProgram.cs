@@ -19,7 +19,8 @@ namespace SampleFlyoutApp
                 {
                     config.MapVmToPage<FlyoutFlyoutPageVm, FlyoutFlyoutPage>();
                     config.MapVmToPage<TestPageVm>(GetPageForTestPage);
-                    
+                    //config.SetFlyoutFactory(() => new FlyoutPage());  // Test SetFlyoutFactory by swapping AdaptedFlyoutPage for FlyoutPage.
+
                 })
 
                 .ConfigureFonts(fonts =>
