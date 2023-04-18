@@ -38,6 +38,8 @@ namespace SampleTabbedApp
                .AddSingleton<AdaptedTabbedPage>()
                .AddSingleton<TabbedPage>()
 
+               .AddTransient<NavigationPage>()
+
                .AddTransient<ReadyPage>()
                .AddTransient<SteadyPage>()
                .AddTransient<GoPage>()
