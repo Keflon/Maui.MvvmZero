@@ -150,13 +150,11 @@ namespace FunctionZero.Maui.MvvmZero
 
         MultiPage<Page> GetMultiPage<TPage>(IEnumerable itemsSource) where TPage : MultiPage<Page>;
         MultiPage<Page> GetMultiPage<TPage>(params Type[] types) where TPage : MultiPage<Page>;
-        FlyoutPage GetFlyoutPage<TFlyoutPage, TFlyoutFlyoutVm, TFlyoutDetailVm>()
-            where TFlyoutPage : FlyoutPage
+        FlyoutPage GetFlyoutPage<TFlyoutFlyoutVm, TFlyoutDetailVm>()
             where TFlyoutFlyoutVm : class
             where TFlyoutDetailVm : class;
 
-        FlyoutPage GetFlyoutPage<TFlyoutPage, TFlyoutFlyoutVm>()
-            where TFlyoutPage : FlyoutPage
+        FlyoutPage GetFlyoutPage<TFlyoutFlyoutVm>()
             where TFlyoutFlyoutVm : class;
         TView GetView<TView>() where TView : IView;
     }

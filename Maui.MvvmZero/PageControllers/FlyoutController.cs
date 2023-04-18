@@ -10,6 +10,11 @@ using System.Threading.Tasks;
 
 namespace FunctionZero.Maui.MvvmZero.PageControllers
 {
+    /// <summary>
+    /// This class is a proxy to FlyoutPage properties that are of interest to IPageService consumers.
+    /// There can be only one FlyoutPage active at a time, and that must be the root UI page. 
+    /// This is a requirement / limitation of MAUI.
+    /// </summary>
     public class FlyoutController : IFlyoutController
     {
         private FlyoutPage _flyoutPage;
@@ -22,13 +27,9 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
         private FlyoutLayoutBehavior _flyoutLayoutBehavior;
 
         public bool HasFlyout { get => _hasFlyout; set => SetProperty(ref _hasFlyout, value); }
-
         public Page Flyout { get => _flyout; set => SetProperty(ref _flyout, value); }
-
         public bool IsPresented { get => _isPresented; set => SetProperty(ref _isPresented, value); }
-
         public bool IsGestureEnabled { get => _isGestureEnabled; set => SetProperty(ref _isGestureEnabled, value); }
-
         public Page Detail { get => _detail; set => SetProperty(ref _detail, value); }
         public FlyoutLayoutBehavior FlyoutLayoutBehavior { get => _flyoutLayoutBehavior; set => SetProperty(ref _flyoutLayoutBehavior, value); }
 
@@ -57,18 +58,20 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
             }
         }
 
-        internal void Attach(FlyoutPage flyoutPage)
+        private void Attach(FlyoutPage flyoutPage)
         {
             _flyoutPage = flyoutPage;
             _flyoutPage.PropertyChanged += _flyout_PropertyChanged;
         }
 
-        internal void Detach()
+        private void Detach()
         {
             _flyoutPage.PropertyChanged -= _flyout_PropertyChanged;
             _flyoutPage = null;
         }
-
+        /// <summary>
+        /// Something of interest on the FlyoutPage has changed. Copy it to here.
+        /// </summary>
         private void _flyout_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             // Copy FlyoutPage properties to this.
@@ -100,7 +103,9 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
             OnPropertyChanged(propertyName);
             return true;
         }
-
+        /// <summary>
+        /// Something of interest here  has changed. Copy it to the FlyoutPage.
+        /// </summary>
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -127,6 +132,5 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
             }
         }
         #endregion
-
     }
 }

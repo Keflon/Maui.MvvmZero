@@ -41,6 +41,8 @@ namespace FunctionZero.Maui.MvvmZero
         public Func<Type, object> TypeFactory { get; }
         private readonly Func<Type, object, IView> _viewMapper;
         public Func<INavigation> NavigationGetter { get; }
+        
+        private Func<FlyoutPage> _flyoutFactory;
 
 
         private IView GetViewForViewModel<TViewModel>(object hint) where TViewModel : class
@@ -80,10 +82,11 @@ namespace FunctionZero.Maui.MvvmZero
         /// </summary>
         /// <param name="navigationGetter">A Func that returns the navigationPage to push to and pop from.</param>
         /// <param name="typeFactory">A Func that returns a requested type. Wire it directly to your IoC container if you have one.</param>
-        internal PageServiceZero(Func<INavigation> navigationGetter, Func<Type, object> typeFactory, Func<Type, object, IView> viewMapper)
+        internal PageServiceZero(Func<Type, object> typeFactory, Func<FlyoutPage> flyoutFactory, Func<INavigation> navigationGetter,  Func<Type, object, IView> viewMapper)
         {
-            NavigationGetter = navigationGetter;
             TypeFactory = typeFactory;
+            _flyoutFactory = flyoutFactory;
+            NavigationGetter = navigationGetter;
             _viewMapper = viewMapper;
 
             _pagesOnAnyNavigationStack = new();
@@ -152,9 +155,6 @@ namespace FunctionZero.Maui.MvvmZero
                 }
             }
         }
-
-
-
         private async void CurrentApplication_DescendantRemoved(object sender, ElementEventArgs e)
         {
             if (e.Element is Page cp)
@@ -419,11 +419,11 @@ namespace FunctionZero.Maui.MvvmZero
             return page;
         }
 
-        private FlyoutPage GetPartialFlyoutPage<TFlyoutPage, TFlyoutFlyoutVm>()
-            where TFlyoutPage : FlyoutPage
+        private FlyoutPage GetPartialFlyoutPage<TFlyoutFlyoutVm>()
             where TFlyoutFlyoutVm : class
         {
-            var flyoutPage = GetPage<TFlyoutPage>();
+            FlyoutPage flyoutPage = _flyoutFactory();
+
             var flyoutFlyoutPage = (Page)GetViewForViewModel<TFlyoutFlyoutVm>(null);
             flyoutFlyoutPage.BindingContext = GetViewModel<TFlyoutFlyoutVm>();
             flyoutPage.Title = flyoutPage.Title ?? string.Empty;
@@ -431,12 +431,11 @@ namespace FunctionZero.Maui.MvvmZero
             flyoutPage.Flyout = flyoutFlyoutPage;
             return flyoutPage;
         }
-        public FlyoutPage GetFlyoutPage<TFlyoutPage, TFlyoutFlyoutVm, TFlyoutDetailVm>()
-            where TFlyoutPage : FlyoutPage
+        public FlyoutPage GetFlyoutPage<TFlyoutFlyoutVm, TFlyoutDetailVm>()
             where TFlyoutFlyoutVm : class
             where TFlyoutDetailVm : class
         {
-            var flyoutPage = GetPartialFlyoutPage<TFlyoutPage, TFlyoutFlyoutVm>();
+            var flyoutPage = GetPartialFlyoutPage<TFlyoutFlyoutVm>();
             var flyoutDetailPage = (Page)GetViewForViewModel<TFlyoutDetailVm>(null);
             flyoutDetailPage.BindingContext = GetViewModel<TFlyoutDetailVm>();
             flyoutDetailPage.Title = flyoutDetailPage.Title ?? string.Empty;
@@ -444,11 +443,10 @@ namespace FunctionZero.Maui.MvvmZero
             return flyoutPage;
         }
 
-        public FlyoutPage GetFlyoutPage<TFlyoutPage, TFlyoutFlyoutVm>()
-            where TFlyoutPage : FlyoutPage
+        public FlyoutPage GetFlyoutPage<TFlyoutFlyoutVm>()
             where TFlyoutFlyoutVm : class
         {
-            var retval = GetPartialFlyoutPage<TFlyoutPage, TFlyoutFlyoutVm>();
+            var retval = GetPartialFlyoutPage<TFlyoutFlyoutVm>();
             retval.Detail = new ContentPage();
 
             return retval;

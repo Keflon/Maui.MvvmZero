@@ -42,21 +42,13 @@ namespace SampleFlyoutApp.Mvvm.PageViewModels.Root
 
         private Page GetTabbedTestPage(IPageServiceZero pageService)
         {
-#if true
             // Use ItemsSource and an ItemTemplate.
             var retval = pageService.GetMultiPage<AdaptedTabbedPage>(typeof(TestPageVm), typeof(TestPageVm), typeof(TestPageVm));
 
             //TODO: pageService.GetMultiPage<AdaptedTabbedPage>()
             //                                                  .AddVm<TViewModel>(vm=>Init(..))
             //                                                  .AddVm(typeof(SomeVm), vm=>Init(..)) ...
-#else
-            // Write to Children directly. Less cool!
-            var retval = pageService.GetView<AdaptedTabbedPage>();
 
-            retval.Children.Add(new NavigationPage(pageService.GetMvvmPage<TestPage, TestPageVm>().page) { Title = "Ready" });
-            retval.Children.Add(new NavigationPage(pageService.GetMvvmPage<TestPage, TestPageVm>().page) { Title = "Steady" });
-            retval.Children.Add(new NavigationPage(pageService.GetMvvmPage<TestPage, TestPageVm>().page) { Title = "Go" });
-#endif
             return retval;
         }
 

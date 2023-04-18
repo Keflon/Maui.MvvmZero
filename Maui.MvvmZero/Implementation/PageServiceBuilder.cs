@@ -14,6 +14,7 @@ namespace FunctionZero.Maui.MvvmZero
         private Dictionary<Type, Func<ViewMapperParameters, IView>> _viewMap;
         private readonly Func<INavigation> _defaultNavigationGetter;
         private readonly Func<Type, object> _defaultTypeFactory;
+        private Func<FlyoutPage> _flyoutFactory;
 
         internal PageServiceBuilder(Func<INavigation> defaultNavigationGetter, Func<Type, object> defaultTypeFactory) : this()
         {
@@ -39,6 +40,14 @@ namespace FunctionZero.Maui.MvvmZero
             if (_typeFactory != null)
                 throw new InvalidOperationException("SetNavigationGetter can be called once only!");
             _typeFactory = typeFactory;
+
+            return this;
+        }
+        public PageServiceBuilder SetFlyoutFactory(Func<FlyoutPage> flyoutFactory)
+        {
+            if (_flyoutFactory != null)
+                throw new InvalidOperationException("SetFlyoutFactory can be called once only!");
+            _flyoutFactory = flyoutFactory;
 
             return this;
         }
@@ -82,8 +91,16 @@ namespace FunctionZero.Maui.MvvmZero
         {
             _typeFactory = _typeFactory ?? _defaultTypeFactory;
             _navigationGetter = _navigationGetter ?? _defaultNavigationGetter;
-            _pageService = new PageServiceZero(_navigationGetter, _typeFactory, ViewMapper);
+            //_flyoutFactory = _flyoutFactory ?? (() => (FlyoutPage)_typeFactory(typeof(FlyoutPage)));
+            _flyoutFactory = _flyoutFactory ?? GetDefaultFlyout;
+            _pageService = new PageServiceZero(_typeFactory, _flyoutFactory, _navigationGetter,  ViewMapper);
+
             return _pageService;
+        }
+
+        private FlyoutPage GetDefaultFlyout()
+        {
+            return (FlyoutPage)_typeFactory(typeof(FlyoutPage));
         }
 
         private IView ViewMapper(Type vmType, object hint)

@@ -10,7 +10,7 @@ namespace MvvmZeroShowcase
         {
             InitializeComponent();
 
-            MainPage = pageService.GetFlyoutPage<FlyoutPage, FlyoutFlyoutPageVm, FlyoutPlaceholderContentPageVm>();
+            MainPage = pageService.GetFlyoutPage<FlyoutFlyoutPageVm, FlyoutPlaceholderContentPageVm>();
         }
     }
 }
