@@ -25,8 +25,6 @@ namespace SampleFlyoutApp.Mvvm.PageViewModels
         public TestPageVm(IPageServiceZero pageService)
         {
             _pageService = pageService;
-
-            _pageService.FlyoutController.FlyoutLayoutBehavior = FlyoutLayoutBehavior.Popover;
             
             PushPageCommand = new CommandBuilder().AddGuard(this).SetName(nameof(PushPageCommand)).SetExecuteAsync(PushPageCommandExecuteAsync).Build();
             PushModalPageCommand = new CommandBuilder().AddGuard(this).SetName(nameof(PushModalPageCommand)).SetExecuteAsync(PushModalPageCommandExecuteAsync).Build();

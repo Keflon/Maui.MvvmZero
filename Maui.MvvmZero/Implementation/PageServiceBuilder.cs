@@ -58,18 +58,27 @@ namespace FunctionZero.Maui.MvvmZero
             return this;
         }
 
-        public PageServiceBuilder MapVmToPage<TViewModel, TPage>(bool wrapInNavigationPage = false) where TPage : Page
-        {
-            Func<ViewMapperParameters, Page> getter;
+        //public PageServiceBuilder MapVmToPage<TViewModel, TPage>(bool wrapInNavigationPage = false) where TPage : Page
+        //{
+        //    Func<ViewMapperParameters, Page> getter;
 
-            if (wrapInNavigationPage)
-                getter = (ViewMapperParameters p) =>
-                {
-                    var page = (Page)p.PageService.GetPage<TPage>();
-                    return new NavigationPage(page) { Title = page.Title };
-                };
-            else
-                getter = (ViewMapperParameters p) => p.PageService.GetPage<TPage>();
+        //    if (wrapInNavigationPage)
+        //        getter = (ViewMapperParameters p) =>
+        //        {
+        //            var page = (Page)p.PageService.GetPage<TPage>();
+        //            return new NavigationPage(page) { Title = page.Title };
+        //        };
+        //    else
+        //        getter = (ViewMapperParameters p) => p.PageService.GetPage<TPage>();
+
+        //    _viewMap.Add(typeof(TViewModel), getter);
+
+        //    return this;
+        //}
+
+        public PageServiceBuilder MapVmToPage<TViewModel, TPage>() where TPage : Page
+        {
+            var getter = (ViewMapperParameters p) => p.PageService.GetPage<TPage>();
 
             _viewMap.Add(typeof(TViewModel), getter);
 

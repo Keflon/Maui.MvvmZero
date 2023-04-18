@@ -27,14 +27,16 @@ namespace SampleFlyoutApp.Mvvm.PageViewModels.Root
         {
             _pageService = pageService;
 
+            _pageService.FlyoutController.FlyoutLayoutBehavior = FlyoutLayoutBehavior.Popover;
+
             ItemTappedCommand = new CommandBuilder().AddGuard(this).SetExecute(ItemTappedCommandExecute).Build();
             var items = new List<DetailPageItemVm>
             {
-                new DetailPageItemVm("One", pageService.GetMvvmPage<HomePage, HomePageVm>().page, true),
-                new DetailPageItemVm("Two", pageService.GetMvvmPage<ListPage, ListPageVm>().page, true),
-                new DetailPageItemVm("Three", pageService.GetMvvmPage<TreePage, TreePageVm>().page, false),
-                new DetailPageItemVm("Test", pageService.GetMvvmPage<TestPage, TestPageVm>().page, true),
-                new DetailPageItemVm("Tabbed Test", GetTabbedTestPage(pageService), true)
+                new DetailPageItemVm("One", typeof(HomePageVm), true),
+                new DetailPageItemVm("Two", typeof(ListPageVm), true),
+                new DetailPageItemVm("Three", typeof(TreePageVm), false),
+                new DetailPageItemVm("Test", typeof(TestPageVm), true),
+                //new DetailPageItemVm("Tabbed Test", GetTabbedTestPage(pageService), true)
 
         };
             Items = items;
@@ -68,7 +70,8 @@ namespace SampleFlyoutApp.Mvvm.PageViewModels.Root
                 if (SelectedItem == null)
                     throw new InvalidOperationException("Null SelectedItem");
 
-                _pageService.FlyoutController.Detail = SelectedItem.ThePage;
+                _pageService.FlyoutController.SetContentVm(SelectedItem.VmType, SelectedItem.WrapInNavigation);
+                //_pageService.FlyoutController.Detail = SelectedItem.ThePage;
 
                 // TODO: _pageService.FlyoutController.SetDetail(typeof(ViewModel), vm => vm.Init(...));
 
@@ -87,16 +90,15 @@ namespace SampleFlyoutApp.Mvvm.PageViewModels.Root
 
     public class DetailPageItemVm
     {
-        public DetailPageItemVm(string name, Page page, bool wrapInNavigation = true)
+        public DetailPageItemVm(string name, Type vmType, bool wrapInNavigation = true)
         {
             Name = name;
-            if (wrapInNavigation)
-                ThePage = new NavigationPage(page);
-            else
-                ThePage = page;
+            VmType = vmType;
+            WrapInNavigation = wrapInNavigation;
         }
 
         public string Name { get; }
-        public Page ThePage { get; }
+        public Type VmType { get; }
+        public bool WrapInNavigation { get; }
     }
 }

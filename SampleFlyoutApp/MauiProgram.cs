@@ -19,6 +19,12 @@ namespace SampleFlyoutApp
                 {
                     config.MapVmToPage<FlyoutFlyoutPageVm, FlyoutFlyoutPage>();
                     config.MapVmToPage<TestPageVm>(GetPageForTestPage);
+
+                    config.MapVmToPage<HomePageVm, HomePage>();
+                    config.MapVmToPage<ListPageVm, ListPage>();
+                    config.MapVmToPage<TreePageVm, TreePage>();
+
+
                     //config.SetFlyoutFactory(() => new FlyoutPage());  // Test SetFlyoutFactory by swapping AdaptedFlyoutPage for FlyoutPage.
 
                 })

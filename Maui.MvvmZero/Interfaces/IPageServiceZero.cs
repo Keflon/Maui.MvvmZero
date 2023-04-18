@@ -157,5 +157,6 @@ namespace FunctionZero.Maui.MvvmZero
         FlyoutPage GetFlyoutPage<TFlyoutFlyoutVm>()
             where TFlyoutFlyoutVm : class;
         TView GetView<TView>() where TView : IView;
+        IView GetViewForViewModel(Type viewModel, object hint);
     }
 }

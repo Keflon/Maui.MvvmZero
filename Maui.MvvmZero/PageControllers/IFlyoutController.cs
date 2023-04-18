@@ -12,5 +12,7 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
         FlyoutLayoutBehavior FlyoutLayoutBehavior { get; set; }
 
         event PropertyChangedEventHandler PropertyChanged;
+
+        void SetContentVm(Type vmType, bool wrapInNavigation);
     }
 }

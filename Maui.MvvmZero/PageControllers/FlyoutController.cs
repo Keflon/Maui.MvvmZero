@@ -25,6 +25,7 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
         private bool _isGestureEnabled;
         private Page _detail;
         private FlyoutLayoutBehavior _flyoutLayoutBehavior;
+        private readonly IPageServiceZero _pageService;
 
         public bool HasFlyout { get => _hasFlyout; set => SetProperty(ref _hasFlyout, value); }
         public Page Flyout { get => _flyout; set => SetProperty(ref _flyout, value); }
@@ -33,9 +34,43 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
         public Page Detail { get => _detail; set => SetProperty(ref _detail, value); }
         public FlyoutLayoutBehavior FlyoutLayoutBehavior { get => _flyoutLayoutBehavior; set => SetProperty(ref _flyoutLayoutBehavior, value); }
 
-        public FlyoutController()
+        public FlyoutController(IPageServiceZero pageService)
         {
+            _pageService = pageService;
         }
+
+        //internal void SetFlyoutPage(FlyoutPage flyoutPage)
+        //{
+        //    if (_flyoutPage != null)
+        //        Detach();
+
+        //    _flyoutPage = flyoutPage;
+
+        //    if (_flyoutPage != null)
+        //    {
+        //        HasFlyout = flyoutPage != null;
+
+        //        // Flyout may have a default Flyout set.
+        //        if (Flyout != null)
+        //            _flyoutPage.Flyout = Flyout;
+        //        else
+        //            Flyout = _flyoutPage.Flyout;
+
+        //        _flyoutPage.IsPresented = IsPresented;
+        //        _flyoutPage.IsGestureEnabled = IsGestureEnabled;
+
+        //        // Detail cannot be null. FlyoutPage will already have a Detail.
+        //        if(Detail != null)
+        //            _flyoutPage.Detail = Detail;
+        //        else
+        //            Detail = _flyoutPage.Detail;
+
+
+        //        _flyoutPage.FlyoutLayoutBehavior = FlyoutLayoutBehavior;
+
+        //        Attach(_flyoutPage);
+        //    }
+        //}
 
         internal void SetFlyoutPage(FlyoutPage flyoutPage)
         {
@@ -43,20 +78,35 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
                 Detach();
 
             _flyoutPage = flyoutPage;
+            HasFlyout = flyoutPage != null;
 
             if (_flyoutPage != null)
             {
-                HasFlyout = flyoutPage != null;
 
-                _flyoutPage.Flyout = Flyout ?? _flyoutPage.Flyout;
+                // Flyout already has a Flyout set.
+                // SMELL: Think this through.
+                //if (Flyout != null)
+                //    _flyoutPage.Flyout = Flyout;
+                //else
+                    Flyout = _flyoutPage.Flyout;
+
                 _flyoutPage.IsPresented = IsPresented;
                 _flyoutPage.IsGestureEnabled = IsGestureEnabled;
-                _flyoutPage.Detail = Detail ?? _flyoutPage.Detail;
+
+                // Detail cannot be null. FlyoutPage will already have a Detail.
+                // SMELL: Think this through.
+                if (Detail != null)
+                    _flyoutPage.Detail = Detail;
+                else
+                    Detail = _flyoutPage.Detail;
+
+
                 _flyoutPage.FlyoutLayoutBehavior = FlyoutLayoutBehavior;
 
                 Attach(_flyoutPage);
             }
         }
+
 
         private void Attach(FlyoutPage flyoutPage)
         {
@@ -89,6 +139,20 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
 
             else if (e.PropertyName == nameof(FlyoutPage.FlyoutLayoutBehavior))
                 FlyoutLayoutBehavior = _flyoutPage.FlyoutLayoutBehavior;
+        }
+
+        public void SetContentVm(Type vmType, bool wrapInNavigation)
+        {
+            var page = (Page)_pageService.GetViewForViewModel(vmType, null);
+            var vm = _pageService.TypeFactory(vmType);
+
+            page.BindingContext = vm;
+
+            if (wrapInNavigation)
+                page = new NavigationPage(page);
+
+            this.Detail = page;
+
         }
 
         #region INotifyPropertyChanged

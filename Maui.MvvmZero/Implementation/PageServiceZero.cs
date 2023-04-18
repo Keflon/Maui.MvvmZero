@@ -49,7 +49,7 @@ namespace FunctionZero.Maui.MvvmZero
         {
             return _viewMapper(typeof(TViewModel), hint);
         }
-        private IView GetViewForViewModel(Type viewModel, object hint)
+        public IView GetViewForViewModel(Type viewModel, object hint)
         {
             return _viewMapper(viewModel, hint);
         }
@@ -94,7 +94,7 @@ namespace FunctionZero.Maui.MvvmZero
 
             _multiPageItemTemplate = new ViewDataTemplateSelector((viewModelType) => GetViewForViewModel(viewModelType, null));
 
-            _flyoutController = new FlyoutController();
+            _flyoutController = new FlyoutController(this);
         }
 
         public void Init(Application currentApplication)

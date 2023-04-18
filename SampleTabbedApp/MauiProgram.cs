@@ -17,9 +17,9 @@ namespace SampleTabbedApp
                 serviceBuilder =>
                 {
                     serviceBuilder
-                        .MapVmToPage<ReadyPageVm, ReadyPage>(true)
-                        .MapVmToPage<SteadyPageVm, SteadyPage>(true)
-                        .MapVmToPage<GoPageVm, GoPage>(true)
+                        .MapVmToPage<ReadyPageVm, ReadyPage>()
+                        .MapVmToPage<SteadyPageVm, SteadyPage>()
+                        .MapVmToPage<GoPageVm, GoPage>()
                         ;
                 }
                 )
