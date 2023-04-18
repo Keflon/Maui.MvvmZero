@@ -45,6 +45,10 @@ namespace SampleFlyoutApp.Mvvm.PageViewModels.Root
 #if true
             // Use ItemsSource and an ItemTemplate.
             var retval = pageService.GetMultiPage<AdaptedTabbedPage>(typeof(TestPageVm), typeof(TestPageVm), typeof(TestPageVm));
+
+            //TODO: pageService.GetMultiPage<AdaptedTabbedPage>()
+            //                                                  .AddVm<TViewModel>(vm=>Init(..))
+            //                                                  .AddVm(typeof(SomeVm), vm=>Init(..)) ...
 #else
             // Write to Children directly. Less cool!
             var retval = pageService.GetView<AdaptedTabbedPage>();
@@ -72,6 +76,9 @@ namespace SampleFlyoutApp.Mvvm.PageViewModels.Root
                     throw new InvalidOperationException("Null SelectedItem");
 
                 _pageService.FlyoutController.Detail = SelectedItem.ThePage;
+
+                // TODO: _pageService.FlyoutController.SetDetail(typeof(ViewModel), vm => vm.Init(...));
+
                 //((FlyoutPage)Application.Current.MainPage).Detail = SelectedItem.ThePage;
             }
         }

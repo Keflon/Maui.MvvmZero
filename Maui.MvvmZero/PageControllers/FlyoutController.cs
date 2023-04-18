@@ -115,7 +115,6 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-
             if (_flyoutPage != null)
             {
                 // Copy this to FlyoutPage properties.
