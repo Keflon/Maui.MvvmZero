@@ -27,7 +27,7 @@ namespace FunctionZero.Maui.MvvmZero
             // 'item' is  our view-model. Get the corresponding Page.
             var page = (IView)_templateGetter(item.GetType());
             // initialize it. If the initializer returns true, wrap it in a NavigationPage.
-            if (_initializer(page) == true)
+            if (_initializer(item) == true)
             {
                 var root = _navPageGetter();
                 root.Title = ((Page)page).Title;

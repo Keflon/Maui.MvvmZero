@@ -24,6 +24,10 @@ namespace SampleTabbedApp
 
         private bool VmInitializer(object obj)
         {
+            if(obj is ReadyPageVm)
+            {
+                return false;
+            }
             return true;
         }
     }
