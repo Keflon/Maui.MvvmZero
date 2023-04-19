@@ -1,7 +1,7 @@
 ﻿using FunctionZero.CommandZero;
+using FunctionZero.Maui.Controls;
 using FunctionZero.Maui.MvvmZero;
 using FunctionZero.Maui.MvvmZero.PageControllers;
-using FunctionZero.Maui.MvvmZero.Workaround;
 using Microsoft.Maui;
 using SampleFlyoutApp.Mvvm.Pages;
 using System;

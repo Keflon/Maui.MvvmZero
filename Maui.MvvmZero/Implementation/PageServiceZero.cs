@@ -21,10 +21,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
+using FunctionZero.Maui.Controls;
 using FunctionZero.Maui.MvvmZero;
 using FunctionZero.Maui.MvvmZero.PageControllers;
-using FunctionZero.Maui.MvvmZero.Workaround;
-using Microsoft.Maui.Controls.Internals;
 using System;
 using System.Collections;
 using System.Collections.ObjectModel;

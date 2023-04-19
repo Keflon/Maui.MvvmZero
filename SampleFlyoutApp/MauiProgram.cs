@@ -1,5 +1,5 @@
-﻿using FunctionZero.Maui.MvvmZero;
-using FunctionZero.Maui.MvvmZero.Workaround;
+﻿using FunctionZero.Maui.Controls;
+using FunctionZero.Maui.MvvmZero;
 using Microsoft.Extensions.Logging;
 using SampleFlyoutApp.Mvvm.Pages;
 using SampleFlyoutApp.Mvvm.Pages.Root;

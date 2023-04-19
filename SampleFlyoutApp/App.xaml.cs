@@ -1,5 +1,4 @@
 ﻿using FunctionZero.Maui.MvvmZero;
-using FunctionZero.Maui.MvvmZero.Workaround;
 using SampleFlyoutApp.Mvvm.Pages.Root;
 using SampleFlyoutApp.Mvvm.PageViewModels.Root;
 
