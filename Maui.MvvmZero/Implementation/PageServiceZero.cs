@@ -462,23 +462,5 @@ namespace FunctionZero.Maui.MvvmZero
 
             return retval;
         }
-
-        //private INavigation GetNavigationForPage(Page thePage)
-        //{
-        //    Element current = thePage;
-
-        //    while (current != null)
-        //    {
-        //        if (current is INavigation nav)
-        //            return nav;
-
-        //        current = current.Parent;
-        //    }
-        //    return null;
-        //} 
-
-
-
-
     }
 }

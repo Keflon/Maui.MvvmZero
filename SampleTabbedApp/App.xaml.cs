@@ -17,7 +17,7 @@ namespace SampleTabbedApp
 
             var rootPage = pageService.GetMultiPage<AdaptedTabbedPage>(VmInitializer, typeof(ReadyPageVm), typeof(SteadyPageVm), typeof(GoPageVm));
 
-            // To modify, e.g. ... ((IList)rootPage.ItemsSource).Add(pageService.TypeFactory(typeof(ReadyPageVm)));
+            // To modify, e.g. ... ((ObsColl)rootPage.ItemsSource).Add(pageService.TypeFactory(typeof(ReadyPageVm)));
 
             MainPage = rootPage;
         }
