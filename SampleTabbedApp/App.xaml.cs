@@ -24,10 +24,9 @@ namespace SampleTabbedApp
 
         private bool VmInitializer(object obj)
         {
-            if(obj is ReadyPageVm)
-            {
-                return false;
-            }
+            //if(obj is ReadyPageVm)
+            //    return false; // Test not wrapping the ReadyPage in a NavigationPage.
+            
             return true;
         }
     }
