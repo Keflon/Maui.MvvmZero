@@ -49,8 +49,32 @@ namespace FunctionZero.Maui.MvvmZero
                 return DefaultNavigationGetter(multiPage.CurrentPage);
 
             if (current is Page page)
-                return page.Navigation;
+                return GetNavigationPageForPage(page);
 
+            return null;
+        }
+
+        // TODO: What do we want to do here?
+        // TODO: If we return page.Navigation when there is no NavigationPage set, we get an INavigation but I don't know from where.
+        // TODO: This INavigation accepts pages pushed onto it, but we don't see them anywhere.
+        // TODO: Scanning up for a NavigationPage *seems* better.
+        // TODO: Problems:
+        // TODO: If the stack is FlyoutPage->TabbedPage1[selectedTab]->NavigationPage->TabbedPage2[selectedTab]->ContentPage1
+        // TODO: then pushing a page from ContentPage1 will push it onto the TabbedPage1[selectedTab] stack, and won't be seen until 
+        // TODO: we pop back to it.
+        // TODO: I think it better to return null in this case. 
+        // TODO: 
+        private static INavigation GetNavigationPageForPage(Page page)
+        {
+            while (page != null)
+            {
+                if (page is NavigationPage navigationPage)
+                    return navigationPage.Navigation;
+                else if (page is MultiPage<Page> multiPage)
+                    return null;
+
+                    page = page.Parent as Page;
+            }
             return null;
         }
     }
