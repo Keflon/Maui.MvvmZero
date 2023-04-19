@@ -128,7 +128,7 @@ namespace FunctionZero.Maui.MvvmZero
         /// Removes the page below the top page on the non-modal stack.
         /// </summary>
         void RemovePageBelowTop();
-        Task PushPageAsync(Page page, bool isModal, bool animated = true);
+        Task<bool> PushPageAsync(Page page, bool isModal, bool animated = true);
         /// <summary>
         /// Walks up the non-modal navigation stack looking for a Page with a BindingContext matching the provided ViewModel type.
         /// </summary>

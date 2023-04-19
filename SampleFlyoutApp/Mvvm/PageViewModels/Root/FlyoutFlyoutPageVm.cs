@@ -6,6 +6,7 @@ using Microsoft.Maui;
 using SampleFlyoutApp.Mvvm.Pages;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -20,7 +21,7 @@ namespace SampleFlyoutApp.Mvvm.PageViewModels.Root
         private readonly IPageServiceZero _pageService;
 
         public ICommand ItemTappedCommand { get; }
-        public IList<DetailPageItemVm> Items { get; }
+        public ObservableCollection<DetailPageItemVm> Items { get; }
         public DetailPageItemVm SelectedItem { get => _selectedItem; set => SetProperty(ref _selectedItem, value); }
 
         public FlyoutFlyoutPageVm(IPageServiceZero pageService)
@@ -30,21 +31,19 @@ namespace SampleFlyoutApp.Mvvm.PageViewModels.Root
             _pageService.FlyoutController.FlyoutLayoutBehavior = FlyoutLayoutBehavior.Popover;
 
             ItemTappedCommand = new CommandBuilder().AddGuard(this).SetExecute(ItemTappedCommandExecute).Build();
-            var items = new List<DetailPageItemVm>
+            Items = new ()
             {
-                new DetailPageItemVm("One", ()=> _pageService.FlyoutController.SetContentVm(typeof(HomePageVm), true)),
-                new DetailPageItemVm("Two", ()=> _pageService.FlyoutController.SetContentVm(typeof(ListPageVm), true)),
-                new DetailPageItemVm("Three", ()=> _pageService.FlyoutController.SetContentVm(typeof(TreePageVm), true)),
-                new DetailPageItemVm("Test",  ()=> _pageService.FlyoutController.SetContentVm(typeof(TestPageVm), true)),
-                new DetailPageItemVm("Tabbed Test", ()=>_pageService.FlyoutController.Detail = GetTabbedTestPage(pageService))
+                new DetailPageItemVm("One", () => _pageService.FlyoutController.SetDetailVm(typeof(HomePageVm), true)),
+                new DetailPageItemVm("Two", () => _pageService.FlyoutController.SetDetailVm(typeof(ListPageVm), true)),
+                new DetailPageItemVm("Three", () => _pageService.FlyoutController.SetDetailVm(typeof(TreePageVm), true)),
+                new DetailPageItemVm("Test",  () => _pageService.FlyoutController.SetDetailVm(typeof(TestPageVm), true)),
+                new DetailPageItemVm("Tabbed Test", () =>_pageService.FlyoutController.Detail = GetTabbedTestPage(pageService))
             };
-            Items = items;
         }
 
         private Page GetTabbedTestPage(IPageServiceZero pageService)
         {
             var retval = pageService.GetMultiPage<AdaptedTabbedPage>(VmInitializer, typeof(TestPageVm), typeof(TestPageVm), typeof(TestPageVm));
-
             return retval;
         }
 
@@ -64,17 +63,7 @@ namespace SampleFlyoutApp.Mvvm.PageViewModels.Root
             base.OnPropertyChanged(propertyName);
 
             if (propertyName == nameof(SelectedItem))
-            {
-                if (SelectedItem == null)
-                    throw new InvalidOperationException("Null SelectedItem");
-
                 SelectedItem.SelectedAction();
-                //_pageService.FlyoutController.Detail = SelectedItem.ThePage;
-
-                // TODO: _pageService.FlyoutController.SetDetail(typeof(ViewModel), vm => vm.Init(...));
-
-                //((FlyoutPage)Application.Current.MainPage).Detail = SelectedItem.ThePage;
-            }
         }
 
         public override void OnOwnerPageAppearing()

@@ -13,6 +13,6 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
 
         event PropertyChangedEventHandler PropertyChanged;
 
-        void SetContentVm(Type vmType, bool wrapInNavigation);
+        void SetDetailVm(Type vmType, bool wrapInNavigation);
     }
 }

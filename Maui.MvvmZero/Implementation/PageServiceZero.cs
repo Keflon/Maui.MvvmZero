@@ -280,6 +280,9 @@ namespace FunctionZero.Maui.MvvmZero
             where TPage : Page
             where TViewModel : class
         {
+            if (CurrentNavigationPage == null)
+                return null;
+
             var mvvmPage = GetMvvmPage<TPage, TViewModel>();
 
             if (initViewModelActionAsync != null)
@@ -291,23 +294,35 @@ namespace FunctionZero.Maui.MvvmZero
         }
 
         public async Task<TViewModel> PushPageAsync<TPage, TViewModel>(Action<TViewModel> initViewModelAction, bool isModal, bool animated)
-    where TPage : Page
-    where TViewModel : class
+            where TPage : Page
+            where TViewModel : class
         {
+            if (CurrentNavigationPage == null)
+                return null;
+
             // Call the async overload with a synchronous action.
             return await PushPageAsync<TPage, TViewModel>(async (vm) => initViewModelAction(vm), isModal, animated);
         }
 
-        public async Task PushPageAsync(Page page, bool isModal, bool animated)
+        public async Task<bool> PushPageAsync(Page page, bool isModal, bool animated)
         {
+            var navigation = CurrentNavigationPage;
+            if (navigation == null)
+                return false;
+
             if (isModal == false)
                 await CurrentNavigationPage.PushAsync(page, animated);
             else
                 await CurrentNavigationPage.PushModalAsync(page, animated);
+
+            return true;
         }
 
         public async Task<Page> PushPageAsync<TPage>(Func<TPage, Task> setStateAction, bool isModal = false, bool isAnimated = true) where TPage : Page
         {
+            if (CurrentNavigationPage == null)
+                return null;
+
             TPage page = GetPage<TPage>();
 
             await setStateAction(page);
@@ -317,6 +332,9 @@ namespace FunctionZero.Maui.MvvmZero
 
         public async Task<TViewModel> PushVmAsync<TViewModel>(Action<TViewModel> initViewModelAction, object hint = null, bool isModal = false, bool isAnimated = true) where TViewModel : class
         {
+            if (CurrentNavigationPage == null)
+                return null;
+
             var page = (Page)GetViewForViewModel<TViewModel>(hint);
             var vm = GetViewModel<TViewModel>();
 
