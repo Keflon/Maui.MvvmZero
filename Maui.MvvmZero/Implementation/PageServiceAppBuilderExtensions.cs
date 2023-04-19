@@ -28,6 +28,12 @@ namespace FunctionZero.Maui.MvvmZero
 
             // Add a FlyoutController to the Container.
             appBuilder.Services.AddSingleton<IFlyoutController, FlyoutController>();
+
+            // NavigationPage is required to wrap NavigationPage and MultiPage items.
+            // It must be transient because there may be multiple navigation stacks,
+            // e.g. on Flyout.Detail and each Tab of a TabbedPage.
+            appBuilder.Services.AddTransient<NavigationPage>();
+
             return appBuilder;
         }
 
@@ -63,7 +69,6 @@ namespace FunctionZero.Maui.MvvmZero
         // TODO: then pushing a page from ContentPage1 will push it onto the TabbedPage1[selectedTab] stack, and won't be seen until 
         // TODO: we pop back to it.
         // TODO: I think it better to return null in this case. 
-        // TODO: 
         private static INavigation GetNavigationPageForPage(Page page)
         {
             while (page != null)

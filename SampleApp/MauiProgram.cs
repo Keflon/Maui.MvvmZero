@@ -28,7 +28,6 @@ namespace SampleApp
 #endif
 
             builder.Services
-                .AddSingleton<NavigationPage>()
                 .AddSingleton<HomePageVm>()
                 .AddSingleton<HomePage>()
                 .AddSingleton<CabbagesPageVm>()
