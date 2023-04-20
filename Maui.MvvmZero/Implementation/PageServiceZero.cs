@@ -43,7 +43,6 @@ namespace FunctionZero.Maui.MvvmZero
 
         public Func<Type, object> TypeFactory { get; }
 
-
         private IView GetViewForViewModel<TViewModel>(object hint) where TViewModel : class
         {
             return _viewMapper(typeof(TViewModel), hint);
