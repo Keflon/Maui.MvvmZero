@@ -35,13 +35,13 @@ namespace FunctionZero.Maui.MvvmZero
     {
         bool _report = false;
         private readonly FlyoutController _flyoutController;
+        private readonly MultiPageController _multiPageController;
+        private readonly Func<Type, object, IView> _viewMapper;
+        private readonly Func<INavigation> _navigationFinder;
+        private readonly Func<MultiPage<Page>> _multiPageFinder;
+        private readonly Func<FlyoutPage> _flyoutFactory;
 
         public Func<Type, object> TypeFactory { get; }
-        private readonly Func<Type, object, IView> _viewMapper;
-        public Func<INavigation> NavigationFinder { get; }
-        public Func<MultiPage<Page>> MultiPageFinder { get; }
-
-        private Func<FlyoutPage> _flyoutFactory;
 
 
         private IView GetViewForViewModel<TViewModel>(object hint) where TViewModel : class
@@ -67,8 +67,9 @@ namespace FunctionZero.Maui.MvvmZero
             return retval;
         }
 
-        private INavigation CurrentNavigationPage => NavigationFinder();
+        private INavigation CurrentNavigationPage => _navigationFinder();
         public IFlyoutController FlyoutController => _flyoutController;
+        public IMultiPageController MultiPageController => _multiPageController;
 
         private readonly List<Page> _pagesOnAnyNavigationStack;
         private readonly List<Page> _currentVisiblePageList;
@@ -84,14 +85,15 @@ namespace FunctionZero.Maui.MvvmZero
         {
             TypeFactory = typeFactory;
             _flyoutFactory = flyoutFactory;
-            NavigationFinder = navigationFinder;
-            MultiPageFinder = multiPageFinder;
+            _navigationFinder = navigationFinder;
+            _multiPageFinder = multiPageFinder;
             _viewMapper = viewMapper;
 
             _pagesOnAnyNavigationStack = new();
             _currentVisiblePageList = new();
 
             _flyoutController = new FlyoutController(this);
+            _multiPageController = new MultiPageController(_multiPageFinder);
         }
 
         public void Init(Application currentApplication)

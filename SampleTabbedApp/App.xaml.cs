@@ -2,6 +2,7 @@
 using FunctionZero.Maui.MvvmZero;
 using SampleTabbedApp.Mvvm.PageViewModels;
 using System.Collections;
+using System.Diagnostics;
 
 namespace SampleTabbedApp
 {
@@ -16,8 +17,6 @@ namespace SampleTabbedApp
             pageService.Init(this);
 
             var rootPage = pageService.GetMultiPage<AdaptedTabbedPage>(VmInitializer, typeof(ReadyPageVm), typeof(SteadyPageVm), typeof(GoPageVm));
-
-            // To modify, e.g. ... ((ObsColl)rootPage.ItemsSource).Add(pageService.TypeFactory(typeof(ReadyPageVm)));
 
             MainPage = rootPage;
         }

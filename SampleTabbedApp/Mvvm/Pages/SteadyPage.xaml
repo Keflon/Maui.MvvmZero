@@ -10,6 +10,8 @@
             HorizontalOptions="Center" />
 
         <Button Text="{Binding PushTestPageCommand.Text}" Command="{Binding PushTestPageCommand}"/>
+        <Button Text="{Binding SwapToReadyPageCommand.Text}" Command="{Binding SwapToReadyPageCommand}"/>
+        <Button Text="{Binding SwapToGoPageCommand.Text}" Command="{Binding SwapToGoPageCommand}"/>
 
     </VerticalStackLayout>
 </ContentPage>

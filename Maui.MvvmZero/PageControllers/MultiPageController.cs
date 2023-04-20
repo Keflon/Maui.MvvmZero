@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FunctionZero.Maui.Controls;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -10,22 +11,29 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
     internal class MultiPageController : IMultiPageController
     {
         private readonly IPageServiceZero _pageService;
+        private readonly Func<MultiPage<Page>> _multiPageFinder;
 
-        public MultiPageController(IPageServiceZero pageService)
+        public MultiPageController(Func<MultiPage<Page>> multiPageFinder)
         {
-            _pageService = pageService;
+            _multiPageFinder = multiPageFinder;
         }
-        public bool HasMultiPage => throw new NotImplementedException();
+        public bool HasMultiPage => _multiPageFinder() != null;
 
-        public ObservableCollection<object> ItemsSource => throw new NotImplementedException();
+        //public ObservableCollection<object> ItemsSource => _pageService.MultiPageFinder()?.ItemsSource as ObservableCollection<object>;
 
-        public object SelectedItem { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-
-        internal MultiPage<Page> FindMultiPage()
+        public ObservableCollection<object> ItemsSource
         {
-            var mp = _pageService.MultiPageFinder();
-            return mp;
+            get
+            {
+                var multiPage = _multiPageFinder();
+                if (multiPage is AdaptedTabbedPage adaptedMultiPage)
+                    return adaptedMultiPage.ItemsSource as ObservableCollection<object>;
+                else
+                    return multiPage.ItemsSource as ObservableCollection<object>;
+            }
         }
+
+
+        public object SelectedItem { get => _multiPageFinder()?.SelectedItem; set => _multiPageFinder().SelectedItem = value; }
     }
 }

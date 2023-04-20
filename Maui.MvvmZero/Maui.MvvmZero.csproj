@@ -33,7 +33,7 @@ If that is limiting for you, raise an issue and I'll see what I can do.</Package
 
 	<ItemGroup>
 	  <PackageReference Include="FunctionZero.CommandZero" Version="1.1.0" />
-	  <PackageReference Include="FunctionZero.Maui.Controls" Version="2.3.1" />
+	  <PackageReference Include="FunctionZero.Maui.Controls" Version="2.3.1.4" />
 	  <PackageReference Include="FunctionZero.Maui.zBind" Version="1.1.0" />
 	</ItemGroup>
 
