@@ -17,6 +17,7 @@ namespace SampleTabbedApp
             pageService.Init(this);
 
             var rootPage = pageService.GetMultiPage<AdaptedTabbedPage>(VmInitializer, typeof(ReadyPageVm), typeof(SteadyPageVm), typeof(GoPageVm));
+            //var rootPage = pageService.GetMultiPage<TabbedPage>(VmInitializer, typeof(ReadyPageVm), typeof(SteadyPageVm), typeof(GoPageVm));
 
             MainPage = rootPage;
         }

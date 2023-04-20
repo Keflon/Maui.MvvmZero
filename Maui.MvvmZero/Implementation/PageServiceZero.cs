@@ -116,6 +116,10 @@ namespace FunctionZero.Maui.MvvmZero
         {
             if (e.Element is Page cp)
             {
+                if (cp is NavigationPage)
+                    // Prevent hop notifications for NavigationPage
+                    return;
+
                 if (_report) Debug.WriteLine($"Descendant Added: {cp}");
 
                 if (e.Element is FlyoutPage fp)
@@ -148,6 +152,10 @@ namespace FunctionZero.Maui.MvvmZero
         {
             if (e.Element is Page cp)
             {
+                if (cp is NavigationPage)
+                    // Prevent hop notifications for NavigationPage
+                    return;
+
                 if (_report) Debug.WriteLine($"Descendant Removed: {cp}");
 
                 if (e.Element is FlyoutPage fp)
@@ -177,17 +185,12 @@ namespace FunctionZero.Maui.MvvmZero
                 cp.Disappearing -= PageDisappearing;
             }
         }
-
-        private void WalkTree(IVisualTreeElement visualElement, Action<object> doTheThing)
-        {
-            doTheThing(visualElement);
-
-            foreach (var item in visualElement.GetVisualChildren())
-                WalkTree(item, doTheThing);
-        }
-
         private void PageAppearing(object sender, EventArgs e)
         {
+            if (sender is NavigationPage)
+                // Prevent hop notifications for NavigationPage
+                return;
+
             var page = (Page)sender;
 
             if (_report) Debug.WriteLine($"Page Appearing: {sender}");
@@ -201,6 +204,10 @@ namespace FunctionZero.Maui.MvvmZero
 
         private void PageDisappearing(object sender, EventArgs e)
         {
+            if (sender is NavigationPage)
+                // Prevent hop notifications for NavigationPage
+                return;
+
             var page = (Page)sender;
             if (!_currentVisiblePageList.Contains(page))
                 throw new InvalidOperationException("Page not in _currentVisiblePageList");
@@ -454,6 +461,14 @@ namespace FunctionZero.Maui.MvvmZero
             retval.Detail = new ContentPage();
 
             return retval;
+        }
+
+        private void WalkTree(IVisualTreeElement visualElement, Action<object> doTheThing)
+        {
+            doTheThing(visualElement);
+
+            foreach (var item in visualElement.GetVisualChildren())
+                WalkTree(item, doTheThing);
         }
     }
 }

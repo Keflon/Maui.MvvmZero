@@ -33,6 +33,6 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
             }
         }
 
-        public object SelectedItem { get => _multiPageFinder()?.SelectedItem; set => _multiPageFinder().SelectedItem = value; }
+        public object SelectedItem { get => _multiPageFinder()?.SelectedItem; set {  _multiPageFinder().SelectedItem = value; } }
     }
 }
