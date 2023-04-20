@@ -24,8 +24,8 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
 
         internal MultiPage<Page> FindMultiPage()
         {
-            //_pageService._
-            throw new NotImplementedException();
+            var mp = _pageService.MultiPageFinder();
+            return mp;
         }
     }
 }

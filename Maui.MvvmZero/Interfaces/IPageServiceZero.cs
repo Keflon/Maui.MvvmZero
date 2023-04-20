@@ -37,7 +37,10 @@ namespace FunctionZero.Maui.MvvmZero
         void Init(Application currentApplication);
 
         IFlyoutController FlyoutController { get; }
-        Func<INavigation> NavigationGetter { get; }
+        Func<INavigation> NavigationFinder { get; }
+        Func<MultiPage<Page>> MultiPageFinder { get; }
+
+        
         Func<Type, object> TypeFactory { get; }
 
         /// <summary>

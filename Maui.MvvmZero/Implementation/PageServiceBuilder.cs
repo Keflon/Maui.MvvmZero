@@ -98,7 +98,7 @@ namespace FunctionZero.Maui.MvvmZero
             _navigationFinder = _navigationFinder ?? _defaultNavigationFinder;
             _multiPageFinder = _multiPageFinder ?? _defaultMultiPageFinder;
             _flyoutFactory = _flyoutFactory ?? GetDefaultFlyout;
-            _pageService = new PageServiceZero(_typeFactory, _flyoutFactory, _navigationFinder,  ViewMapper);
+            _pageService = new PageServiceZero(_typeFactory, _flyoutFactory, _navigationFinder, _multiPageFinder,  ViewMapper);
 
             return _pageService;
         }

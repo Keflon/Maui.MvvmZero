@@ -38,7 +38,8 @@ namespace FunctionZero.Maui.MvvmZero
 
         public Func<Type, object> TypeFactory { get; }
         private readonly Func<Type, object, IView> _viewMapper;
-        public Func<INavigation> NavigationGetter { get; }
+        public Func<INavigation> NavigationFinder { get; }
+        public Func<MultiPage<Page>> MultiPageFinder { get; }
 
         private Func<FlyoutPage> _flyoutFactory;
 
@@ -66,8 +67,7 @@ namespace FunctionZero.Maui.MvvmZero
             return retval;
         }
 
-        private INavigation CurrentNavigationPage => NavigationGetter();
-
+        private INavigation CurrentNavigationPage => NavigationFinder();
         public IFlyoutController FlyoutController => _flyoutController;
 
         private readonly List<Page> _pagesOnAnyNavigationStack;
@@ -78,13 +78,14 @@ namespace FunctionZero.Maui.MvvmZero
         /// Uses a Func to get the INavigation for Push operations to allow
         /// multiple nav stacks when using a Flyout page or similar architecture.
         /// </summary>
-        /// <param name="navigationGetter">A Func that returns the navigationPage to push to and pop from.</param>
+        /// <param name="navigationFinder">A Func that returns the navigationPage to push to and pop from.</param>
         /// <param name="typeFactory">A Func that returns a requested type. Wire it directly to your IoC container if you have one.</param>
-        internal PageServiceZero(Func<Type, object> typeFactory, Func<FlyoutPage> flyoutFactory, Func<INavigation> navigationGetter, Func<Type, object, IView> viewMapper)
+        internal PageServiceZero(Func<Type, object> typeFactory, Func<FlyoutPage> flyoutFactory, Func<INavigation> navigationFinder, Func<MultiPage<Page>> multiPageFinder, Func<Type, object, IView> viewMapper)
         {
             TypeFactory = typeFactory;
             _flyoutFactory = flyoutFactory;
-            NavigationGetter = navigationGetter;
+            NavigationFinder = navigationFinder;
+            MultiPageFinder = multiPageFinder;
             _viewMapper = viewMapper;
 
             _pagesOnAnyNavigationStack = new();
