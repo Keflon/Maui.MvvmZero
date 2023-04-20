@@ -33,45 +33,19 @@ namespace FunctionZero.Maui.MvvmZero
 {
     public class PageServiceZero : IPageServiceZero
     {
-        bool _report = false;
+        private const bool _report = false;
         private readonly FlyoutController _flyoutController;
         private readonly MultiPageController _multiPageController;
         private readonly Func<Type, object, IView> _viewMapper;
         private readonly Func<INavigation> _navigationFinder;
         private readonly Func<MultiPage<Page>> _multiPageFinder;
         private readonly Func<FlyoutPage> _flyoutFactory;
-
-        public Func<Type, object> TypeFactory { get; }
-
-        private IView GetViewForViewModel<TViewModel>(object hint) where TViewModel : class
-        {
-            return _viewMapper(typeof(TViewModel), hint);
-        }
-        public IView GetViewForViewModel(Type viewModel, object hint)
-        {
-            return _viewMapper(viewModel, hint);
-        }
-
-        private TInstanceType GetInstance<TInstanceType>()
-        {
-            return (TInstanceType)GetInstance(typeof(TInstanceType));
-        }
-        internal object GetInstance(Type instanceType)
-        {
-            var retval = TypeFactory(instanceType);
-
-            if (retval == null)
-                throw new TypeFactoryException($"ERROR: Cannot get an instance of {instanceType}. Make sure you have registered it in your Container!", instanceType);
-
-            return retval;
-        }
-
+        private readonly List<Page> _pagesOnAnyNavigationStack;
+        private readonly List<Page> _currentVisiblePageList;
         private INavigation CurrentNavigationPage => _navigationFinder();
         public IFlyoutController FlyoutController => _flyoutController;
         public IMultiPageController MultiPageController => _multiPageController;
-
-        private readonly List<Page> _pagesOnAnyNavigationStack;
-        private readonly List<Page> _currentVisiblePageList;
+        public Func<Type, object> TypeFactory { get; }
 
         /// <summary>
         /// Creates a PageServiceZero associated with the provided NavigationPage.
@@ -94,7 +68,27 @@ namespace FunctionZero.Maui.MvvmZero
             _flyoutController = new FlyoutController(this);
             _multiPageController = new MultiPageController(_multiPageFinder);
         }
+        private IView GetViewForViewModel<TViewModel>(object hint) where TViewModel : class
+        {
+            return _viewMapper(typeof(TViewModel), hint);
+        }
+        public IView GetViewForViewModel(Type viewModel, object hint)
+        {
+            return _viewMapper(viewModel, hint);
+        }
+        private TInstanceType GetInstance<TInstanceType>()
+        {
+            return (TInstanceType)GetInstance(typeof(TInstanceType));
+        }
+        internal object GetInstance(Type instanceType)
+        {
+            var retval = TypeFactory(instanceType);
 
+            if (retval == null)
+                throw new TypeFactoryException($"ERROR: Cannot get an instance of {instanceType}. Make sure you have registered it in your Container!", instanceType);
+
+            return retval;
+        }
         public void Init(Application currentApplication)
         {
             if (currentApplication == null)
@@ -109,18 +103,15 @@ namespace FunctionZero.Maui.MvvmZero
             currentApplication.PageAppearing += CurrentApplication_PageAppearing;
             currentApplication.PageDisappearing += CurrentApplication_PageDisappearing;
         }
-
         private void CurrentApplication_PageDisappearing(object sender, Page e)
         {
             Debug.WriteLine($"CurrentApplication_PageDisappearing: {e}");
         }
-
         private void CurrentApplication_PageAppearing(object sender, Page e)
         {
             // This is not called when a page is popped! https://github.com/dotnet/maui/issues/14092
             Debug.WriteLine($"CurrentApplication_PageAppearing: {e}");
         }
-
         private void CurrentApplication_DescendantAdded(object sender, ElementEventArgs e)
         {
             if (e.Element is Page cp)

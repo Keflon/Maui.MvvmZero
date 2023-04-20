@@ -13,14 +13,13 @@ namespace SampleTabbedApp
         public App(IPageServiceZero pageService)
         {
             InitializeComponent();
-
+            
             pageService.Init(this);
 
             var rootPage = pageService.GetMultiPage<AdaptedTabbedPage>(VmInitializer, typeof(ReadyPageVm), typeof(SteadyPageVm), typeof(GoPageVm));
 
             MainPage = rootPage;
         }
-
         private bool VmInitializer(object obj)
         {
             if (obj is ReadyPageVm)
