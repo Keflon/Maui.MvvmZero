@@ -15,7 +15,7 @@ namespace FunctionZero.Maui.MvvmZero
             appBuilder.Services.AddSingleton<IMauiInitializeService, PageServiceInitializationService>();
 
             // Create the pageServiceBuilder.
-            var pageServiceBuilder = new PageServiceBuilder(DefaultNavigationGetter, (type) => appBuilder.Services.BuildServiceProvider().GetService(type));
+            var pageServiceBuilder = new PageServiceBuilder(DefaultNavigationFinder, DefaultMultiPageFinder, (type) => appBuilder.Services.BuildServiceProvider().GetService(type));
 
             // If there is a configuration callback provided by the user, call it and pass in the pageServiceBuilder.
             configureDelegate?.Invoke(pageServiceBuilder);
@@ -37,22 +37,27 @@ namespace FunctionZero.Maui.MvvmZero
             return appBuilder;
         }
 
+        private static MultiPage<Page> DefaultMultiPageFinder()
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// This ought to find the correct INavigation for most people.
         /// It can be replaced in the UsePageService delegate if necessary.
         /// </summary>
-        private static INavigation DefaultNavigationGetter()
+        private static INavigation DefaultNavigationFinder()
         {
-            return DefaultNavigationGetter(Application.Current.MainPage);
+            return DefaultNavigationFinder(Application.Current.MainPage);
         }
 
-        private static INavigation DefaultNavigationGetter(Page current)
+        private static INavigation DefaultNavigationFinder(Page current)
         {
             if (current is FlyoutPage flyoutPage)
-                return DefaultNavigationGetter(flyoutPage.Detail);
+                return DefaultNavigationFinder(flyoutPage.Detail);
 
             if (current is MultiPage<Page> multiPage)
-                return DefaultNavigationGetter(multiPage.CurrentPage);
+                return DefaultNavigationFinder(multiPage.CurrentPage);
 
             if (current is Page page)
                 return GetNavigationPageForPage(page);
@@ -75,7 +80,7 @@ namespace FunctionZero.Maui.MvvmZero
             {
                 if (page is NavigationPage navigationPage)
                     return navigationPage.Navigation;
-                else if (page is MultiPage<Page> multiPage)
+                else if (page is MultiPage<Page>)
                     return null;
 
                     page = page.Parent as Page;

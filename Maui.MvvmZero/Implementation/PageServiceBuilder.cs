@@ -8,17 +8,20 @@ namespace FunctionZero.Maui.MvvmZero
 {
     public class PageServiceBuilder
     {
-        private Func<INavigation> _navigationGetter;
+        private Func<INavigation> _navigationFinder;
         private PageServiceZero _pageService;
         private Func<Type, object> _typeFactory;
         private Dictionary<Type, Func<ViewMapperParameters, IView>> _viewMap;
-        private readonly Func<INavigation> _defaultNavigationGetter;
+        private readonly Func<INavigation> _defaultNavigationFinder;
+        private readonly Func<MultiPage<Page>> _defaultMultiPageFinder;
         private readonly Func<Type, object> _defaultTypeFactory;
         private Func<FlyoutPage> _flyoutFactory;
+        private Func<MultiPage<Page>> _multiPageFinder;
 
-        internal PageServiceBuilder(Func<INavigation> defaultNavigationGetter, Func<Type, object> defaultTypeFactory) : this()
+        internal PageServiceBuilder(Func<INavigation> defaultNavigationFinder, Func<MultiPage<Page>> defaultMultiPageFinder, Func<Type, object> defaultTypeFactory) : this()
         {
-            _defaultNavigationGetter = defaultNavigationGetter;
+            _defaultNavigationFinder = defaultNavigationFinder;
+            _defaultMultiPageFinder = defaultMultiPageFinder;
             _defaultTypeFactory = defaultTypeFactory;
         }
 
@@ -27,18 +30,29 @@ namespace FunctionZero.Maui.MvvmZero
             _viewMap = new();
         }
 
-        public PageServiceBuilder SetNavigationGetter(Func<INavigation> navigationGetter)
+        public PageServiceBuilder SetNavigationFinder(Func<INavigation> navigationFinder)
         {
-            if (_navigationGetter != null)
-                throw new InvalidOperationException("SetNavigationGetter can be called once only!");
-            _navigationGetter = navigationGetter;
+            if (_navigationFinder != null)
+                throw new InvalidOperationException("SetNavigationFinder can be called once only!");
+            _navigationFinder = navigationFinder;
 
             return this;
         }
+
+        public PageServiceBuilder SetMultiPageFinder(Func<MultiPage<Page>> multiPageFinder)
+        {
+            if (_multiPageFinder != null)
+                throw new InvalidOperationException("SetMultiPageFinder can be called once only!");
+            _multiPageFinder = multiPageFinder;
+
+            return this;
+        }
+
+
         public PageServiceBuilder SetTypeFactory(Func<Type, object> typeFactory)
         {
             if (_typeFactory != null)
-                throw new InvalidOperationException("SetNavigationGetter can be called once only!");
+                throw new InvalidOperationException("SetTypeFactory can be called once only!");
             _typeFactory = typeFactory;
 
             return this;
@@ -81,9 +95,10 @@ namespace FunctionZero.Maui.MvvmZero
         public IPageServiceZero Build()
         {
             _typeFactory = _typeFactory ?? _defaultTypeFactory;
-            _navigationGetter = _navigationGetter ?? _defaultNavigationGetter;
+            _navigationFinder = _navigationFinder ?? _defaultNavigationFinder;
+            _multiPageFinder = _multiPageFinder ?? _defaultMultiPageFinder;
             _flyoutFactory = _flyoutFactory ?? GetDefaultFlyout;
-            _pageService = new PageServiceZero(_typeFactory, _flyoutFactory, _navigationGetter,  ViewMapper);
+            _pageService = new PageServiceZero(_typeFactory, _flyoutFactory, _navigationFinder,  ViewMapper);
 
             return _pageService;
         }
@@ -95,7 +110,6 @@ namespace FunctionZero.Maui.MvvmZero
 
         private IView ViewMapper(Type vmType, object hint)
         {
-
             try
             {
                 var parameters = new ViewMapperParameters(vmType, this._pageService, hint);

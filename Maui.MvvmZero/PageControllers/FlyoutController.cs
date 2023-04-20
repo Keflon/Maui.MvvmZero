@@ -15,7 +15,7 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
     /// There can be only one FlyoutPage active at a time, and that must be the root UI page. 
     /// This is a requirement / limitation of MAUI.
     /// </summary>
-    public class FlyoutController : IFlyoutController
+    internal class FlyoutController : IFlyoutController
     {
         private FlyoutPage _flyoutPage;
 
@@ -39,39 +39,6 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
             _pageService = pageService;
         }
 
-        //internal void SetFlyoutPage(FlyoutPage flyoutPage)
-        //{
-        //    if (_flyoutPage != null)
-        //        Detach();
-
-        //    _flyoutPage = flyoutPage;
-
-        //    if (_flyoutPage != null)
-        //    {
-        //        HasFlyout = flyoutPage != null;
-
-        //        // Flyout may have a default Flyout set.
-        //        if (Flyout != null)
-        //            _flyoutPage.Flyout = Flyout;
-        //        else
-        //            Flyout = _flyoutPage.Flyout;
-
-        //        _flyoutPage.IsPresented = IsPresented;
-        //        _flyoutPage.IsGestureEnabled = IsGestureEnabled;
-
-        //        // Detail cannot be null. FlyoutPage will already have a Detail.
-        //        if(Detail != null)
-        //            _flyoutPage.Detail = Detail;
-        //        else
-        //            Detail = _flyoutPage.Detail;
-
-
-        //        _flyoutPage.FlyoutLayoutBehavior = FlyoutLayoutBehavior;
-
-        //        Attach(_flyoutPage);
-        //    }
-        //}
-
         internal void SetFlyoutPage(FlyoutPage flyoutPage)
         {
             if (_flyoutPage != null)
@@ -82,18 +49,18 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
 
             if (_flyoutPage != null)
             {
-
-                // Flyout already has a Flyout set.
+                // Flyout already has a Flyout set if it was created by PageServiceZero.GetFlyoutPage.
                 // SMELL: Think this through.
                 //if (Flyout != null)
                 //    _flyoutPage.Flyout = Flyout;
                 //else
-                    Flyout = _flyoutPage.Flyout;
+                Flyout = _flyoutPage.Flyout;
 
                 _flyoutPage.IsPresented = IsPresented;
                 _flyoutPage.IsGestureEnabled = IsGestureEnabled;
 
-                // Detail cannot be null. FlyoutPage will already have a Detail.
+                // Detail cannot be null. FlyoutPage will already have a Detail if it was created by PageServiceZero.GetFlyoutPage.
+                // If 'this' also has one, use it.
                 // SMELL: Think this through.
                 if (Detail != null)
                     _flyoutPage.Detail = Detail;
@@ -154,10 +121,7 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
                 root.PushAsync(page, false);
                 page = root;
             }
-            //page = new NavigationPage(page);
-
             this.Detail = page;
-
         }
 
         #region INotifyPropertyChanged
