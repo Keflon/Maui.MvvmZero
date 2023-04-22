@@ -34,13 +34,13 @@ namespace SampleTabbedApp
 #endif
 
             builder.Services
-               // Get our root page from the container!
+                // Get our root page from the container!
+                // AdaptedTabbedPage Because https://github.com/dotnet/maui/issues/14572
                .AddSingleton<MultiPage<Page>, AdaptedTabbedPage>()
-               //.AddSingleton<TabbedPage>()
 
-               .AddTransient<ReadyPage>()
-               .AddTransient<SteadyPage>()
-               .AddTransient<GoPage>()
+               .AddSingleton<ReadyPage>()
+               .AddSingleton<SteadyPage>()
+               .AddSingleton<GoPage>()
 
                .AddSingleton<ReadyPageVm>()
                .AddSingleton<SteadyPageVm>()

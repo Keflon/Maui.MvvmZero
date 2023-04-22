@@ -21,7 +21,7 @@ namespace SampleTabbedApp.Mvvm.PageViewModels
         {
             _pageService = pageService;
 
-            PushTestPageCommand = new CommandBuilder().AddGuard(this).SetName("Push test page").SetExecuteAsync(PushTestPageExecuteAsync).Build();
+            PushTestPageCommand = new CommandBuilder().AddGuard(this).SetName("Cannot push test page").SetExecuteAsync(PushTestPageExecuteAsync).Build();
         }
 
         private async Task PushTestPageExecuteAsync(object arg)

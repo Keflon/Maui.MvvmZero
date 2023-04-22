@@ -20,15 +20,12 @@
 		<PackageProjectUrl>https://github.com/Keflon/Maui.MvvmZero</PackageProjectUrl>
 		<PackageReadmeFile>..\README.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/Keflon/Maui.MvvmZero</RepositoryUrl>
-		<PackageTags>MAUI Mvvm Navigation iOS WinUI Android Tizen FunctionZero</PackageTags>
-		<PackageReleaseNotes>Initial releases! Seems stable, but you have been warned! :)
-Small fix to stop silent consumption of an unlikely exception.
-Note: IHasOwnerPage support for modal pages is limited to OnOwnerPagePushed and OnOwnerPagePopped.
-If that is limiting for you, raise an issue and I'll see what I can do.</PackageReleaseNotes>
+		<PackageTags>MAUI; Mvvm; Navigation; iOS; WinUI; Android; FunctionZero; zBind; </PackageTags>
+		<PackageReleaseNotes>This is a preview. All functionality for building and navigating pages is present. Interfaces may not be final. (any changes will be a simple refactor)</PackageReleaseNotes>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 		<PackageId>FunctionZero.Maui.MvvmZero</PackageId>
 		<RootNamespace>FunctionZero.Maui.MvvmZero</RootNamespace>
-		<Version>1.2.0-pre1</Version>
+		<Version>2.0.0-pre1</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
