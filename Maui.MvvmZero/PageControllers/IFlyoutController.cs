@@ -14,5 +14,6 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
         event PropertyChangedEventHandler PropertyChanged;
 
         void SetDetailVm(Type vmType, bool wrapInNavigation);
+        void SetDetailMultiPage(Func<object, bool> initializer, params Type[] vmTypes);
     }
 }

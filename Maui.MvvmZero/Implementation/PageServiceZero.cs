@@ -400,11 +400,21 @@ namespace FunctionZero.Maui.MvvmZero
             return null;
         }
 
-        public MultiPage<Page> GetMultiPage<TPage>(Func<object, bool> initializer, IEnumerable vmCollection) where TPage : MultiPage<Page>
+        public MultiPage<Page> GetMultiPage(Func<object, bool> vmInitializer, IEnumerable vmCollection)
         {
-            var page = GetInstance<TPage>();
+            return GetMultiPage(vmInitializer, vmCollection);
+        }
 
-            var multiPageItemTemplate = new ViewDataTemplateSelector(initializer, () => GetPage<NavigationPage>(), (viewModelType) => GetViewForViewModel(viewModelType, null));
+        public MultiPage<Page> GetMultiPage(Func<object, bool> vmInitializer, params Type[] vmTypes)
+        {
+            return GetMultiPage<MultiPage<Page>>(vmInitializer, vmTypes);
+        }
+
+        public MultiPage<Page> GetMultiPage<TMultiPage>(Func<object, bool> vmInitializer, IEnumerable vmCollection) where TMultiPage : MultiPage<Page>
+        {
+            var page = GetInstance<TMultiPage>();
+
+            var multiPageItemTemplate = new ViewDataTemplateSelector(vmInitializer, () => GetPage<NavigationPage>(), (viewModelType) => GetViewForViewModel(viewModelType, null));
 
             // AdaptedTabbedPage Because https://github.com/dotnet/maui/issues/14572
             if (page is AdaptedTabbedPage adaptedPage)
@@ -420,14 +430,14 @@ namespace FunctionZero.Maui.MvvmZero
             return page;
         }
 
-        public MultiPage<Page> GetMultiPage<TPage>(Func<object, bool> initializer, params Type[] vmTypes) where TPage : MultiPage<Page>
+        public MultiPage<Page> GetMultiPage<TMultiPage>(Func<object, bool> vmInitializer, params Type[] vmTypes) where TMultiPage : MultiPage<Page>
         {
             var vmCollection = new ObservableCollection<object>();
 
             foreach (var vmType in vmTypes)
                 vmCollection.Add(GetInstance(vmType));
 
-            return GetMultiPage<TPage>(initializer, vmCollection);
+            return GetMultiPage<TMultiPage>(vmInitializer, vmCollection);
         }
 
         private FlyoutPage GetPartialFlyoutPage<TFlyoutFlyoutVm>()

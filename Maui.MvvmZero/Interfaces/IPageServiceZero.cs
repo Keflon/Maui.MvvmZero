@@ -176,8 +176,10 @@ namespace FunctionZero.Maui.MvvmZero
 
         #region Special page stuff
 
-        MultiPage<Page> GetMultiPage<TPage>(Func<object, bool> vmInitializer, IEnumerable itemsSource) where TPage : MultiPage<Page>;
-        MultiPage<Page> GetMultiPage<TPage>(Func<object, bool> vmInitializer, params Type[] types) where TPage : MultiPage<Page>;
+        MultiPage<Page> GetMultiPage(Func<object, bool> vmInitializer, IEnumerable itemsSource);
+        MultiPage<Page> GetMultiPage(Func<object, bool> vmInitializer, params Type[] types);
+        MultiPage<Page> GetMultiPage<TMultiPage>(Func<object, bool> vmInitializer, IEnumerable itemsSource) where TMultiPage : MultiPage<Page>;
+        MultiPage<Page> GetMultiPage<TMultiPage>(Func<object, bool> vmInitializer, params Type[] types) where TMultiPage : MultiPage<Page>;
         FlyoutPage GetFlyoutPage<TFlyoutFlyoutVm, TFlyoutDetailVm>()
             where TFlyoutFlyoutVm : class
             where TFlyoutDetailVm : class;

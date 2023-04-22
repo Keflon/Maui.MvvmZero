@@ -35,8 +35,8 @@ namespace SampleTabbedApp
 
             builder.Services
                // Get our root page from the container!
-               .AddSingleton<AdaptedTabbedPage>()
-               .AddSingleton<TabbedPage>()
+               .AddSingleton<MultiPage<Page>, AdaptedTabbedPage>()
+               //.AddSingleton<TabbedPage>()
 
                .AddTransient<ReadyPage>()
                .AddTransient<SteadyPage>()

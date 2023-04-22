@@ -56,10 +56,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Mvvm\ViewModels\" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <MauiSplashScreen Include="Resources\Splash\splash.png" />
 	</ItemGroup>
 

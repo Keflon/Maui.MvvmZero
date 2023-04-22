@@ -17,6 +17,7 @@ namespace FunctionZero.Maui.MvvmZero
         private readonly Func<Type, object> _defaultTypeFactory;
         private Func<FlyoutPage> _flyoutFactory;
         private Func<MultiPage<Page>> _multiPageFinder;
+        //private readonly Func<object, MultiPage<Page>> _multiPageFactory;
 
         internal PageServiceBuilder(Func<INavigation> defaultNavigationFinder, Func<MultiPage<Page>> defaultMultiPageFinder, Func<Type, object> defaultTypeFactory) : this()
         {

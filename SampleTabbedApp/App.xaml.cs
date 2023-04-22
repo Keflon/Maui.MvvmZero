@@ -16,8 +16,8 @@ namespace SampleTabbedApp
             
             pageService.Init(this);
 
-            var rootPage = pageService.GetMultiPage<AdaptedTabbedPage>(VmInitializer, typeof(ReadyPageVm), typeof(SteadyPageVm), typeof(GoPageVm));
-
+            var rootPage = pageService.GetMultiPage(VmInitializer, typeof(ReadyPageVm), typeof(SteadyPageVm), typeof(GoPageVm));
+            var a = new ContentPage();
             MainPage = rootPage;
         }
         private bool VmInitializer(object viewModel)
