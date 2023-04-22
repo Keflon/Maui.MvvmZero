@@ -400,9 +400,9 @@ namespace FunctionZero.Maui.MvvmZero
             return null;
         }
 
-        public MultiPage<Page> GetMultiPage<TPage>(Func<object, bool> initializer, IEnumerable vmCollection) where TPage : MultiPage<Page>
+        public MultiPage<Page> GetMultiPage(Func<object, bool> initializer, IEnumerable vmCollection)
         {
-            var page = GetInstance<TPage>();
+            var page = GetInstance<MultiPage<Page>>();
 
             var multiPageItemTemplate = new ViewDataTemplateSelector(initializer, () => GetPage<NavigationPage>(), (viewModelType) => GetViewForViewModel(viewModelType, null));
 
@@ -420,14 +420,14 @@ namespace FunctionZero.Maui.MvvmZero
             return page;
         }
 
-        public MultiPage<Page> GetMultiPage<TPage>(Func<object, bool> initializer, params Type[] vmTypes) where TPage : MultiPage<Page>
+        public MultiPage<Page> GetMultiPage(Func<object, bool> initializer, params Type[] vmTypes)
         {
             var vmCollection = new ObservableCollection<object>();
 
             foreach (var vmType in vmTypes)
                 vmCollection.Add(GetInstance(vmType));
 
-            return GetMultiPage<TPage>(initializer, vmCollection);
+            return GetMultiPage(initializer, vmCollection);
         }
 
         private FlyoutPage GetPartialFlyoutPage<TFlyoutFlyoutVm>()

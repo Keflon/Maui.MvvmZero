@@ -1,4 +1,5 @@
-﻿using Microsoft.Maui.Controls;
+﻿using FunctionZero.Maui.Controls;
+using Microsoft.Maui.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -163,6 +164,12 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
                 else if (propertyName == nameof(FlyoutLayoutBehavior))
                     _flyoutPage.FlyoutLayoutBehavior = FlyoutLayoutBehavior;
             }
+        }
+
+        public void SetDetailMultiPage(Func<object, bool> vmInitializer, params Type[] vmTypes)
+        {
+            var retval = _pageService.GetMultiPage(vmInitializer, vmTypes);
+
         }
         #endregion
     }
