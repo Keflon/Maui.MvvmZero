@@ -414,7 +414,7 @@ namespace FunctionZero.Maui.MvvmZero
         {
             var page = GetInstance<TMultiPage>();
 
-            var multiPageItemTemplate = new ViewDataTemplateSelector(vmInitializer, () => GetPage<NavigationPage>(), (viewModelType) => GetViewForViewModel(viewModelType, null));
+            var multiPageItemTemplate = new ViewDataTemplateSelector(vmInitializer, () => GetPage<NavigationPage>(), (viewModelType) => GetViewForViewModel(viewModelType, typeof(TMultiPage)));
 
             // AdaptedTabbedPage Because https://github.com/dotnet/maui/issues/14572
             if (page is AdaptedTabbedPage adaptedPage)
@@ -445,7 +445,7 @@ namespace FunctionZero.Maui.MvvmZero
         {
             FlyoutPage flyoutPage = _flyoutFactory();
 
-            var flyoutFlyoutPage = (Page)GetViewForViewModel<TFlyoutFlyoutVm>(null);
+            var flyoutFlyoutPage = (Page)GetViewForViewModel<TFlyoutFlyoutVm>("FlyoutFlyout");
             flyoutFlyoutPage.BindingContext = GetViewModel<TFlyoutFlyoutVm>();
             flyoutPage.Title = flyoutPage.Title ?? string.Empty;
             flyoutFlyoutPage.Title = flyoutFlyoutPage.Title ?? string.Empty;
@@ -457,7 +457,7 @@ namespace FunctionZero.Maui.MvvmZero
             where TFlyoutDetailVm : class
         {
             var flyoutPage = GetPartialFlyoutPage<TFlyoutFlyoutVm>();
-            var flyoutDetailPage = (Page)GetViewForViewModel<TFlyoutDetailVm>(null);
+            var flyoutDetailPage = (Page)GetViewForViewModel<TFlyoutDetailVm>("FlyoutDetail");
             flyoutDetailPage.BindingContext = GetViewModel<TFlyoutDetailVm>();
             flyoutDetailPage.Title = flyoutDetailPage.Title ?? string.Empty;
             flyoutPage.Detail = flyoutDetailPage;

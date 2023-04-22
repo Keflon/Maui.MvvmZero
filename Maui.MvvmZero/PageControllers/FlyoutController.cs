@@ -109,9 +109,9 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
                 FlyoutLayoutBehavior = _flyoutPage.FlyoutLayoutBehavior;
         }
 
-        public void SetDetailVm(Type vmType, bool wrapInNavigation)
+        public void SetDetailVm(Type vmType, bool wrapInNavigation, object hint = null)
         {
-            var page = (Page)_pageService.GetViewForViewModel(vmType, null);
+            var page = (Page)_pageService.GetViewForViewModel(vmType, hint);
             var vm = _pageService.TypeFactory(vmType);
 
             page.BindingContext = vm;
