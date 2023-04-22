@@ -29,6 +29,8 @@ namespace FunctionZero.Maui.MvvmZero
 {
     public interface IPageServiceZero
     {
+        #region View model stuff
+
         /// <summary>
         /// Call this after Application.Current is set, 
         /// e.g. from the App.xaml.cs constructor.
@@ -39,7 +41,60 @@ namespace FunctionZero.Maui.MvvmZero
         IFlyoutController FlyoutController { get; }
         IMultiPageController MultiPageController { get; }
 
+        /// <summary>
+        /// Gets a ViewModel of a given type.
+        /// Typically this is delegated to a factory that delegates to your IoC container.
+        /// It is then the container's responsibility to provide Singletons or Transient instances.
+        /// </summary>
+        /// <typeparam name="TViewModel">The type of the return value.</typeparam>
+        /// <returns>An instance of the specified type.</returns>
+        TViewModel GetViewModel<TViewModel>() where TViewModel : class;
+
         
+
+        /// <summary>
+        /// Pops a Page from the navigation stack.
+        /// </summary>
+        /// <param name="isModal">Whether to pop from the modal or non-modal stack.</param>
+        /// <param name="animated">Whether to animate the pop.</param>
+        /// <returns></returns>
+        Task PopAsync(bool isModal, bool animated = true);
+        /// <summary>
+        /// Pops all Pages from the navigation stack.
+        /// </summary>
+        /// <param name="isModal">Whether to pop-all from the modal or non-modal stack.</param>
+        /// <param name="animated">Whether to animate the pop.</param>
+        /// <returns></returns>
+        Task PopToRootAsync(bool animated = true);
+        /// <summary>
+        /// Removes the page below the top page on the non-modal stack.
+        /// </summary>
+        void RemovePageBelowTop();
+
+        /// <summary>
+        /// Walks up the non-modal navigation stack looking for a Page with a BindingContext matching the provided ViewModel type.
+        /// </summary>
+        /// <typeparam name="TViewModel">The type of ViewModel whose Page we're looking for.</typeparam>
+        /// <returns>The ViewModel, or null if no match is found.</returns>
+        TViewModel FindAncestorPageVm<TViewModel>() where TViewModel : class;
+
+        /// <summary>
+        /// Retrieves the number of Pages known about that have the specified ViewModel instance as their BindingContext.
+        /// Note that this counts ViewModels across all non-modal navigation stacks, 
+        /// e.g. in the case where the root page is a Flyout with multiple Navigation stacks.
+        /// Note Different Pages can legitimately share the same viewmodel instance.
+        /// </summary>
+        /// <param name="vm">The ViewModel instance to match.</param>
+        /// <returns>A count of all matches.</returns>
+        int GetVisiblePageCountForVm(object vm);
+        Task<TViewModel> PushVmAsync<TViewModel>(Action<TViewModel> initViewModelAction, object hint = null, bool isModal = false, bool isAnimated = true) where TViewModel : class;
+
+        IView GetViewForViewModel(Type viewModel, object hint);
+
+        #endregion
+
+        #region Page stuff
+
         Func<Type, object> TypeFactory { get; }
 
         /// <summary>
@@ -61,14 +116,7 @@ namespace FunctionZero.Maui.MvvmZero
         /// <returns>A page of the specified type.</returns>
         TPage GetPage<TPage>() where TPage : Page;
 
-        /// <summary>
-        /// Gets a ViewModel of a given type.
-        /// Typically this is delegated to a factory that delegates to your IoC container.
-        /// It is then the container's responsibility to provide Singletons or Transient instances.
-        /// </summary>
-        /// <typeparam name="TViewModel">The type of the return value.</typeparam>
-        /// <returns>An instance of the specified type.</returns>
-        TViewModel GetViewModel<TViewModel>() where TViewModel : class;
+
 
         /// <summary>
         /// Retrieves a Page instance and a ViewModel instance,
@@ -102,6 +150,7 @@ namespace FunctionZero.Maui.MvvmZero
             where TPage : Page
             where TViewModel : class;
 
+
         /// <summary>
         /// Retrieves a Page instance then pushes the Page onto an existing INavigation Page.
         /// </summary>
@@ -112,43 +161,20 @@ namespace FunctionZero.Maui.MvvmZero
         /// <param name="isAnimated">Whether to animate the push.</param>
         /// <returns>The Page that was pushed.</returns>
         Task<Page> PushPageAsync<TPage>(Func<TPage, Task> setStateAction, bool isModal = false, bool isAnimated = true) where TPage : Page;
-        /// <summary>
-        /// Pops a Page from the navigation stack.
-        /// </summary>
-        /// <param name="isModal">Whether to pop from the modal or non-modal stack.</param>
-        /// <param name="animated">Whether to animate the pop.</param>
-        /// <returns></returns>
-        Task PopAsync(bool isModal, bool animated = true);
-        /// <summary>
-        /// Pops all Pages from the navigation stack.
-        /// </summary>
-        /// <param name="isModal">Whether to pop-all from the modal or non-modal stack.</param>
-        /// <param name="animated">Whether to animate the pop.</param>
-        /// <returns></returns>
-        Task PopToRootAsync(bool animated = true);
-        /// <summary>
-        /// Removes the page below the top page on the non-modal stack.
-        /// </summary>
-        void RemovePageBelowTop();
+
         Task<bool> PushPageAsync(Page page, bool isModal, bool animated = true);
-        /// <summary>
-        /// Walks up the non-modal navigation stack looking for a Page with a BindingContext matching the provided ViewModel type.
-        /// </summary>
-        /// <typeparam name="TViewModel">The type of ViewModel whose Page we're looking for.</typeparam>
-        /// <returns>The ViewModel, or null if no match is found.</returns>
-        TViewModel FindAncestorPageVm<TViewModel>() where TViewModel : class;
-        /// <summary>
-        /// Retrieves the number of Pages known about that have the specified ViewModel instance as their BindingContext.
-        /// Note that this counts ViewModels across all non-modal navigation stacks, 
-        /// e.g. in the case where the root page is a Flyout with multiple Navigation stacks.
-        /// Note Different Pages can legitimately share the same viewmodel instance.
-        /// </summary>
-        /// <param name="vm">The ViewModel instance to match.</param>
-        /// <returns>A count of all matches.</returns>
-        int GetVisiblePageCountForVm(object vm);
-        Task<TViewModel> PushVmAsync<TViewModel>(Action<TViewModel> initViewModelAction, object hint = null, bool isModal = false, bool isAnimated = true) where TViewModel : class;
+
+        TView GetView<TView>() where TView : IView;
+
+        #endregion
+
+
+
+
         //void RemovePageAtIndex(int index);
         //void GetNavigationStackCount(bool isModal = false);
+
+        #region Special page stuff
 
         MultiPage<Page> GetMultiPage<TPage>(Func<object, bool> vmInitializer, IEnumerable itemsSource) where TPage : MultiPage<Page>;
         MultiPage<Page> GetMultiPage<TPage>(Func<object, bool> vmInitializer, params Type[] types) where TPage : MultiPage<Page>;
@@ -158,7 +184,8 @@ namespace FunctionZero.Maui.MvvmZero
 
         FlyoutPage GetFlyoutPage<TFlyoutFlyoutVm>()
             where TFlyoutFlyoutVm : class;
-        TView GetView<TView>() where TView : IView;
-        IView GetViewForViewModel(Type viewModel, object hint);
+
+        #endregion
+
     }
 }

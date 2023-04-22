@@ -17,14 +17,13 @@ namespace SampleTabbedApp
             pageService.Init(this);
 
             var rootPage = pageService.GetMultiPage<AdaptedTabbedPage>(VmInitializer, typeof(ReadyPageVm), typeof(SteadyPageVm), typeof(GoPageVm));
-            //var rootPage = pageService.GetMultiPage<TabbedPage>(VmInitializer, typeof(ReadyPageVm), typeof(SteadyPageVm), typeof(GoPageVm));
 
             MainPage = rootPage;
         }
-        private bool VmInitializer(object obj)
+        private bool VmInitializer(object viewModel)
         {
-            if (obj is ReadyPageVm)
-                return false; // Test not wrapping the ReadyPage in a NavigationPage.
+            if (viewModel is ReadyPageVm)
+                return false; // Do not wrap the ReadyPage in a NavigationPage.
 
             return true;
         }

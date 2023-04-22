@@ -128,7 +128,7 @@ namespace FunctionZero.Maui.MvvmZero
             }
             catch (NullReferenceException nrex)
             {
-                throw new ViewMapperException($"Cannot resolve the View for type {vmType}. If you see this can you raise a bug please? TODO: More details.", vmType, nrex);
+                throw new ViewMapperException($"Cannot resolve the View for type {vmType}. If you see this can you raise a bug please?", vmType, nrex);
             }
             catch (TypeFactoryException ex)
             {
