@@ -31,7 +31,7 @@ using System.Diagnostics;
 
 namespace FunctionZero.Maui.MvvmZero
 {
-    public class PageServiceZero : IPageServiceZero
+    public class PageServiceZero : IPageServiceZero, IPageServiceZero1
     {
         private const bool _report = false;
         private readonly FlyoutController _flyoutController;
