@@ -4,7 +4,7 @@
 This is a pre-release for package 2.0.0-pre1. All functionality for building and navigating pages is complete. 
 Some interfaces may not be final.  
 
-[Nuget](https://www.nuget.org/packages/FunctionZero.Maui.MvvmZero),  [Source](https://github.com/Keflon/FunctionZero.MvvmZero).  
+[Nuget](https://www.nuget.org/packages/FunctionZero.Maui.MvvmZero)  
 
 This is an evolution of [MvvmZero for Xamarin](https://github.com/Keflon/FunctionZero.MvvmZero)  
 
