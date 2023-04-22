@@ -18,20 +18,39 @@
 		<Description>An easy to use library for building cross-platform MAUI applications very quickly. Includes FunctionZero.zBind, allowing fully featured databinding to expressions.</Description>
 		<Copyright>FunctionZero Ltd. 2023</Copyright>
 		<PackageProjectUrl>https://github.com/Keflon/Maui.MvvmZero</PackageProjectUrl>
-		<PackageReadmeFile>..\README.md</PackageReadmeFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/Keflon/Maui.MvvmZero</RepositoryUrl>
 		<PackageTags>MAUI; Mvvm; Navigation; iOS; WinUI; Android; FunctionZero; zBind; </PackageTags>
 		<PackageReleaseNotes>This is a preview. All functionality for building and navigating pages is present. Interfaces may not be final. (any changes will be a simple refactor)</PackageReleaseNotes>
-		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 		<PackageId>FunctionZero.Maui.MvvmZero</PackageId>
 		<RootNamespace>FunctionZero.Maui.MvvmZero</RootNamespace>
 		<Version>2.0.0-pre1</Version>
+		<Title>Maui.MvvmZero</Title>
+		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Include="..\LICENSE.txt">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	  <None Include="..\README.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
 
 	<ItemGroup>
 	  <PackageReference Include="FunctionZero.CommandZero" Version="1.1.0" />
 	  <PackageReference Include="FunctionZero.Maui.Controls" Version="2.3.1.7" />
 	  <PackageReference Include="FunctionZero.Maui.zBind" Version="1.1.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="LICENSE.txt">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
 	</ItemGroup>
 
 </Project>

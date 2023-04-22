@@ -10,7 +10,6 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
 {
     internal class MultiPageController : IMultiPageController
     {
-        private readonly IPageServiceZero _pageService;
         private readonly Func<MultiPage<Page>> _multiPageFinder;
 
         public MultiPageController(Func<MultiPage<Page>> multiPageFinder)

@@ -85,7 +85,7 @@ Register all your Pages and ViewModels in the Container.
 `MvvmZero` registers `IPageService` and `NavigationPage` in the container for you.  
 Unless you override the `TypeFactory` everything else `MvvmZero` is asked to instantiate **must** 
 be registered in the container.  
-This includes `FlyoutPage` and `MultiPage` if you use them.  
+This includes `FlyoutPage` and `TabbedPage` if you use them.  
 
 ```csharp
 builder.Services
@@ -150,7 +150,8 @@ If you target WinUI, you'll want to make any _pushed_ pages _Transient_ until [t
 The rest is basically the same as found in the [Xamarin Turorial](https://github.com/Keflon/MvvmZeroTutorialApp)
 
 ### Is anybody out there?
-It's so boring writing documentation! Give me encouragement by starring the repo.  
+
+Full documentation and better samples are on the way! Give me encouragement by starring the repo!  
 Whilst you're here, take a look at [Maui.zBind](https://github.com/Keflon/FunctionZero.Maui.zBind) and tell all your friends. It's already included in `MvvmZero`.  
 
 
