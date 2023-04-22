@@ -29,8 +29,6 @@ namespace FunctionZero.Maui.MvvmZero
 {
     public interface IPageServiceZero
     {
-        #region View model stuff
-
         /// <summary>
         /// Call this after Application.Current is set, 
         /// e.g. from the App.xaml.cs constructor.
@@ -50,8 +48,6 @@ namespace FunctionZero.Maui.MvvmZero
         /// <returns>An instance of the specified type.</returns>
         TViewModel GetViewModel<TViewModel>() where TViewModel : class;
 
-        
-
         /// <summary>
         /// Pops a Page from the navigation stack.
         /// </summary>
@@ -65,7 +61,7 @@ namespace FunctionZero.Maui.MvvmZero
         /// <param name="isModal">Whether to pop-all from the modal or non-modal stack.</param>
         /// <param name="animated">Whether to animate the pop.</param>
         /// <returns></returns>
-        Task PopToRootAsync(bool animated = true);
+        Task PopToRootAsync(bool isModal = false, bool animated = true);
         /// <summary>
         /// Removes the page below the top page on the non-modal stack.
         /// </summary>
@@ -89,11 +85,7 @@ namespace FunctionZero.Maui.MvvmZero
         int GetVisiblePageCountForVm(object vm);
         Task<TViewModel> PushVmAsync<TViewModel>(Action<TViewModel> initViewModelAction, object hint = null, bool isModal = false, bool isAnimated = true) where TViewModel : class;
 
-        IView GetViewForViewModel(Type viewModel, object hint);
-
-        #endregion
-
-        #region Page stuff
+        IView GetViewForVm(Type viewModel, object hint);
 
         Func<Type, object> TypeFactory { get; }
 
@@ -106,17 +98,6 @@ namespace FunctionZero.Maui.MvvmZero
         (TPage page, TViewModel viewModel) GetMvvmPage<TPage, TViewModel>()
             where TPage : Page
             where TViewModel : class;
-
-        /// <summary>
-        /// Gets a Page of a given type.
-        /// Typically this is delegated to a factory that delegates to your IoC container.
-        /// It is then the container's responsibility to provide Singletons or Transient instances.
-        /// </summary>
-        /// <typeparam name="TPage">The type of the return value.</typeparam>
-        /// <returns>A page of the specified type.</returns>
-        TPage GetPage<TPage>() where TPage : Page;
-
-
 
         /// <summary>
         /// Retrieves a Page instance and a ViewModel instance,
@@ -164,11 +145,14 @@ namespace FunctionZero.Maui.MvvmZero
 
         Task<bool> PushPageAsync(Page page, bool isModal, bool animated = true);
 
+        /// <summary>
+        /// Gets an IView of a given type.
+        /// Typically this is delegated to a factory that delegates to your IoC container.
+        /// It is then the container's responsibility to provide Singletons or Transient instances.
+        /// </summary>
+        /// <typeparam name="TView">The type of the return value.</typeparam>
+        /// <returns>A page of the specified type.</returns>
         TView GetView<TView>() where TView : IView;
-
-        #endregion
-
-
 
 
         //void RemovePageAtIndex(int index);

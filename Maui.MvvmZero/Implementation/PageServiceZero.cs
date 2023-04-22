@@ -72,7 +72,7 @@ namespace FunctionZero.Maui.MvvmZero
         {
             return _viewMapper(typeof(TViewModel), hint);
         }
-        public IView GetViewForViewModel(Type viewModel, object hint)
+        public IView GetViewForVm(Type viewModel, object hint)
         {
             return _viewMapper(viewModel, hint);
         }
@@ -244,7 +244,7 @@ namespace FunctionZero.Maui.MvvmZero
             where TPage : Page
             where TViewModel : class
         {
-            TPage page = GetPage<TPage>();
+            TPage page = GetView<TPage>();
             var vm = GetViewModel<TViewModel>();
 
             try
@@ -257,12 +257,6 @@ namespace FunctionZero.Maui.MvvmZero
                 throw;
             }
             return (page, vm);
-        }
-
-        public TPage GetPage<TPage>() where TPage : Page
-        {
-            TPage page = GetInstance<TPage>();
-            return page;
         }
 
         public TView GetView<TView>() where TView : IView // IView allows Page. View doesn't. => IView can do everything. Is that a good thing?
@@ -323,7 +317,7 @@ namespace FunctionZero.Maui.MvvmZero
             if (CurrentNavigationPage == null)
                 return null;
 
-            TPage page = GetPage<TPage>();
+            TPage page = GetView<TPage>();
 
             await setStateAction(page);
             await PushPageAsync(page, isModal, isAnimated);
@@ -361,21 +355,13 @@ namespace FunctionZero.Maui.MvvmZero
                 await CurrentNavigationPage.PopModalAsync(animated);
         }
 
-        public async Task PopToRootAsync(bool animated = false)
+        public async Task PopToRootAsync(bool isModal = false, bool animated = true)
         {
-            var navStack = CurrentNavigationPage.NavigationStack;
-
-#if false // This has been fixed.
-            // CurrentNavigationPage.PopToRootAsync does not raise OnPageDisappearing on the top page,
-            // so we must do it here.
-            // Odd, given the appearing / disappearing methods are called when backgrounding, foregrounding etc.
-            if (navStack.Count > 1)
-            {
-                var topPage = navStack[navStack.Count - 1];
-                (topPage.BindingContext as IHasOwnerPage)?.OnOwnerPageDisappearing();
-            }
-#endif
-            await CurrentNavigationPage.PopToRootAsync(animated);
+            if (!isModal)
+                await CurrentNavigationPage.PopToRootAsync(animated);
+            else
+                while (CurrentNavigationPage.ModalStack.Count > 1)
+                    await CurrentNavigationPage.PopToRootAsync(animated);
         }
 
         public void RemovePageBelowTop()
@@ -414,7 +400,7 @@ namespace FunctionZero.Maui.MvvmZero
         {
             var page = GetInstance<TMultiPage>();
 
-            var multiPageItemTemplate = new ViewDataTemplateSelector(vmInitializer, () => GetPage<NavigationPage>(), (viewModelType) => GetViewForViewModel(viewModelType, typeof(TMultiPage)));
+            var multiPageItemTemplate = new ViewDataTemplateSelector(vmInitializer, () => GetView<NavigationPage>(), (viewModelType) => GetViewForVm(viewModelType, typeof(TMultiPage)));
 
             // AdaptedTabbedPage Because https://github.com/dotnet/maui/issues/14572
             if (page is AdaptedTabbedPage adaptedPage)

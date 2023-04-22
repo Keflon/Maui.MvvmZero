@@ -14,7 +14,7 @@ namespace SampleApp
                 .UseMauiApp<App>()
                 .UseMvvmZero(builder =>
                 {
-                    builder.MapVmToPage<CabbagesPageVm, CabbagesPage>();
+                    builder.MapVmToView<CabbagesPageVm, CabbagesPage>();
                 })
 
                 .ConfigureFonts(fonts =>

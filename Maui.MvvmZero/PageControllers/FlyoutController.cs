@@ -111,14 +111,14 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
 
         public void SetDetailVm(Type vmType, bool wrapInNavigation, object hint = null)
         {
-            var page = (Page)_pageService.GetViewForViewModel(vmType, hint);
+            var page = (Page)_pageService.GetViewForVm(vmType, hint);
             var vm = _pageService.TypeFactory(vmType);
 
             page.BindingContext = vm;
 
             if (wrapInNavigation)
             {
-                var root = _pageService.GetPage<NavigationPage>();
+                var root = _pageService.GetView<NavigationPage>();
                 root.PushAsync(page, false);
                 page = root;
             }

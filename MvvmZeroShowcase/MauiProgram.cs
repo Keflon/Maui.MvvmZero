@@ -16,8 +16,8 @@ namespace MvvmZeroShowcase
                 .UseMauiApp<App>()
                 .UseMvvmZero(config =>
                 {
-                    config.MapVmToPage<FlyoutFlyoutPageVm, FlyoutFlyoutPage>();
-                    config.MapVmToPage<FlyoutPlaceholderContentPageVm, FlyoutPlaceholderContentPage>();
+                    config.MapVmToView<FlyoutFlyoutPageVm, FlyoutFlyoutPage>();
+                    config.MapVmToView<FlyoutPlaceholderContentPageVm, FlyoutPlaceholderContentPage>();
                 }
                 )
                 .ConfigureFonts(fonts =>

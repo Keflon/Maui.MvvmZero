@@ -66,18 +66,24 @@ namespace FunctionZero.Maui.MvvmZero
             return this;
         }
 
-        public PageServiceBuilder MapVmToPage<TViewModel>(Func<ViewMapperParameters, IView> viewFactory)
+        //public PageServiceBuilder MapVmToPage<TViewModel>(Func<ViewMapperParameters, IView> viewFactory)
+        //{
+        //    _viewMap.Add(typeof(TViewModel), viewFactory);
+        //    return this;
+        //}
+
+        //public PageServiceBuilder MapVmToPage<TViewModel, TPage>() where TPage : Page
+        //{
+        //    var getter = (ViewMapperParameters p) => p.PageService.GetPage<TPage>();
+
+        //    _viewMap.Add(typeof(TViewModel), getter);
+
+        //    return this;
+        //}
+
+        public PageServiceBuilder MapVmToView<TViewModel>(Func<ViewMapperParameters, IView> viewFactory)
         {
             _viewMap.Add(typeof(TViewModel), viewFactory);
-            return this;
-        }
-
-        public PageServiceBuilder MapVmToPage<TViewModel, TPage>() where TPage : Page
-        {
-            var getter = (ViewMapperParameters p) => p.PageService.GetPage<TPage>();
-
-            _viewMap.Add(typeof(TViewModel), getter);
-
             return this;
         }
 

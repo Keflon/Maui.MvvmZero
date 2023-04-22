@@ -61,6 +61,10 @@ namespace FunctionZero.Maui.MvvmZero
                 return DefaultNavigationFinder(multiPage.CurrentPage, null);
 
             if (current is NavigationPage navPage)
+                if (navPage.CurrentPage == null)
+                    // If navPage is empty, it's ready to be filled.
+                    return navPage.Navigation;
+            else
                 // navPage.Navigation is a candidate. Recurse with it.
                 return DefaultNavigationFinder(navPage.CurrentPage, navPage.Navigation);
 

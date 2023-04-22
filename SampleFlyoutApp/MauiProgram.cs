@@ -17,12 +17,12 @@ namespace SampleFlyoutApp
                 .UseMauiApp<App>()
                 .UseMvvmZero(config =>
                 {
-                    config.MapVmToPage<FlyoutFlyoutPageVm, FlyoutFlyoutPage>();
-                    config.MapVmToPage<TestPageVm>(GetPageForTestPage);
+                    config.MapVmToView<FlyoutFlyoutPageVm, FlyoutFlyoutPage>();
+                    config.MapVmToView<TestPageVm>(GetPageForTestVm);
 
-                    config.MapVmToPage<HomePageVm, HomePage>();
-                    config.MapVmToPage<ListPageVm, ListPage>();
-                    config.MapVmToPage<TreePageVm, TreePage>();
+                    config.MapVmToView<HomePageVm, HomePage>();
+                    config.MapVmToView<ListPageVm, ListPage>();
+                    config.MapVmToView<TreePageVm, TreePage>();
 
 
                     //config.SetFlyoutFactory(() => new FlyoutPage());  // Test SetFlyoutFactory by swapping AdaptedFlyoutPage for FlyoutPage.
@@ -43,7 +43,7 @@ namespace SampleFlyoutApp
                .AddSingleton<FlyoutPage>()
                // because https://github.com/dotnet/maui/issues/14572
                //.AddSingleton<TabbedPage>()
-               .AddSingleton<AdaptedTabbedPage>()
+               .AddSingleton<MultiPage<Page>, AdaptedTabbedPage>()
                .AddSingleton<FlyoutPage, AdaptedFlyoutPage>()               
                .AddSingleton<HomePage>()
                .AddSingleton<HomePageVm>()
@@ -65,10 +65,10 @@ namespace SampleFlyoutApp
             return builder.Build();
         }
 
-        private static IView GetPageForTestPage(ViewMapperParameters arg)
+        private static IView GetPageForTestVm(ViewMapperParameters arg)
         {
             // Use arg to decide what type of page instance to return.
-            return (IView)arg.PageService.GetPage<TestPage>();
+            return (IView)arg.PageService.GetView<TestPage>();
         }
     }
 }
