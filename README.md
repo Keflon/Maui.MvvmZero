@@ -4,7 +4,7 @@
 This is a pre-release. All functionality for building and navigating pages is complete. 
 Some interfaces may not be final.  
 
-[Nuget](https://www.nuget.org/packages/FunctionZero.Maui.MvvmZero),  [Source](https://github.com/Keflon/FunctionZero.MvvmZero).  
+[Nuget](https://www.nuget.org/packages/FunctionZero.Maui.MvvmZero),  [Source](https://github.com/Keflon/Maui.MvvmZero).  
 
 This is an evolution of [MvvmZero for Xamarin](https://github.com/Keflon/FunctionZero.MvvmZero)  
 
@@ -23,7 +23,7 @@ apps using the MVVM design pattern.
 
 ## Ethos
 `MvvmZero` is there to guide the way, not get in the way.  
-If you understand the MVVM pattern and the UI stack for MAUI, the aim is for MvvmZero to be intuitive, and to remain so if 
+If you understand the MVVM pattern, the aim is for MvvmZero to be intuitive, and to remain so if 
 you go off the beaten track to do things your own way.
 
 
