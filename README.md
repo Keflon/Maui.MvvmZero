@@ -1,18 +1,19 @@
 # FunctionZero.Maui.MvvmZero
 
 ## Major Improvements
-This is a pre-release. All functionality for building and navigating pages is complete. 
-Some interfaces may not be final.  
+This is a first release for package 2.0.0. All functionality for building and navigating pages is complete. 
+Some interfaces may not be final, though any changes will be simple to accommodate.  
 
 [Nuget](https://www.nuget.org/packages/FunctionZero.Maui.MvvmZero),  [Source](https://github.com/Keflon/Maui.MvvmZero).  
 
-This is an evolution of [MvvmZero for Xamarin](https://github.com/Keflon/FunctionZero.MvvmZero)  
+`Maui.MvvmZero` is an evolution of [MvvmZero for Xamarin](https://github.com/Keflon/FunctionZero.MvvmZero)  
 
 ## Overview
 This library provides an exceptionally lightweight and easy to use framework for building cross-platform MAUI 
 apps using the MVVM design pattern.  
 - No naming conventions are enforced, so you can use your own, or none at all.
-    - There is a recommended naming convention and folder structure for the less maverick amongst us.
+    - There is a recommended naming convention and folder structure for those starting out fresh.
+- Useful base classes are provided for your ViewModels, but they are not required or enforced. 
 - The mapping of ViewModels to Views does not have to be 1:1
     - can be context-sensitive, or overridden at any time.
 - Navigation by ViewModel is recommended and has first-class support. 

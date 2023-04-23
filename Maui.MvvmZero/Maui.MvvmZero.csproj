@@ -18,7 +18,7 @@
 		<Description>An easy to use library for building cross-platform MAUI applications very quickly. Includes FunctionZero.zBind, allowing fully featured databinding to expressions.</Description>
 		<Copyright>FunctionZero Ltd. 2023</Copyright>
 		<PackageProjectUrl>https://github.com/Keflon/Maui.MvvmZero</PackageProjectUrl>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageReadmeFile>Readme.Nuget.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/Keflon/Maui.MvvmZero</RepositoryUrl>
 		<PackageTags>MAUI; Mvvm; Navigation; iOS; WinUI; Android; FunctionZero; zBind; </PackageTags>
 		<PackageReleaseNotes>First release of v2! All functionality for building and navigating pages is present. Interfaces may not be final. (any changes will be a simple refactor)</PackageReleaseNotes>
@@ -34,7 +34,7 @@
 	    <Pack>True</Pack>
 	    <PackagePath>\</PackagePath>
 	  </None>
-	  <None Include="..\README.md">
+	  <None Include="..\Readme.Nuget.md">
 	    <Pack>True</Pack>
 	    <PackagePath>\</PackagePath>
 	  </None>
