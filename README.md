@@ -8,6 +8,11 @@ Some interfaces may not be final, though any changes will be simple to accommoda
 
 `Maui.MvvmZero` is an evolution of [MvvmZero for Xamarin](https://github.com/Keflon/FunctionZero.MvvmZero)  
 
+## Ethos
+`MvvmZero` is there to guide the way, not get in the way.  
+If you understand the MVVM pattern, the aim is for MvvmZero to be intuitive, and to remain so if 
+you go off the beaten track to do things your own way.
+
 ## Overview
 This library provides an exceptionally lightweight and easy to use framework for building cross-platform MAUI 
 apps using the MVVM design pattern.  
@@ -21,11 +26,6 @@ apps using the MVVM design pattern.
 - Special support for Flyout and any derivatives.
 - Special support for IMultiPage<Page> (e.g. TabbedPage) and any derivatives.
 - ViewModel initialisation is typesafe, optional, and asynchronous if you want it to be.
-
-## Ethos
-`MvvmZero` is there to guide the way, not get in the way.  
-If you understand the MVVM pattern, the aim is for MvvmZero to be intuitive, and to remain so if 
-you go off the beaten track to do things your own way.
 
 
 ## QuickStart:
