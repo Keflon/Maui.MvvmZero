@@ -35,3 +35,6 @@ If you want to help:
 - If you use this, or any [other of my libraries](https://www.nuget.org/profiles/FunctionZero) 
 please tell your friends, star the repo, or even consider [sponsoring me](https://github.com/sponsors/Keflon).
 
+# Scratchpad
+
+# Contents
