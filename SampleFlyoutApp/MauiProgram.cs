@@ -24,7 +24,6 @@ namespace SampleFlyoutApp
                     config.MapVmToView<ListPageVm, ListPage>();
                     config.MapVmToView<TreePageVm, TreePage>();
 
-
                     //config.SetFlyoutFactory(() => new FlyoutPage());  // Test SetFlyoutFactory by swapping AdaptedFlyoutPage for FlyoutPage.
 
                 })

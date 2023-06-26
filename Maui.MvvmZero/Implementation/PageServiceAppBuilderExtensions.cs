@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,16 +16,13 @@ namespace FunctionZero.Maui.MvvmZero
             appBuilder.Services.AddSingleton<IMauiInitializeService, PageServiceInitializationService>();
 
             // Create the pageServiceBuilder.
-            var pageServiceBuilder = new PageServiceBuilder(DefaultNavigationFinder, DefaultMultiPageFinder, (type) => appBuilder.Services.BuildServiceProvider().GetService(type));
+            var pageServiceBuilder = new PageServiceBuilder(DefaultNavigationFinder, DefaultMultiPageFinder);
 
             // If there is a configuration callback provided by the user, call it and pass in the pageServiceBuilder.
             configureDelegate?.Invoke(pageServiceBuilder);
 
-            // Generate the PageService.
-            var pageService = pageServiceBuilder.Build();
-
-            // Add it to the Container as a Singleton.
-            appBuilder.Services.AddSingleton<IPageServiceZero>(pageService);
+            // Add IPageServiceZero to the Container as a Singleton.
+            appBuilder.Services.AddSingleton<IPageServiceZero>((serviceProvider)=>BuildPageService(serviceProvider, pageServiceBuilder));
 
             // Add a FlyoutController to the Container.
             appBuilder.Services.AddSingleton<IFlyoutController, FlyoutController>();
@@ -35,6 +33,23 @@ namespace FunctionZero.Maui.MvvmZero
             appBuilder.Services.AddTransient<NavigationPage>();
 
             return appBuilder;
+        }
+
+        /// <summary>
+        /// The PageService needs to know IServiceProvider, unless pageServiceBuilder specifies a replacement.
+        /// IServiceProvider is hidden from us prior to the ctor on App completing, so we get to it in a factory method registered to the container.
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        /// <param name="pageServiceBuilder"></param>
+        /// <returns></returns>
+        private static IPageServiceZero BuildPageService(IServiceProvider serviceProvider, PageServiceBuilder pageServiceBuilder)
+        {
+            if (pageServiceBuilder.HasTypeFactory == false)
+                pageServiceBuilder.SetTypeFactory(serviceProvider.GetService);
+
+            var pageService = pageServiceBuilder.Build();
+
+            return pageService;
         }
 
         #region NavigationFinder

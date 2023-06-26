@@ -14,15 +14,13 @@ namespace FunctionZero.Maui.MvvmZero
         private Dictionary<Type, Func<ViewMapperParameters, IView>> _viewMap;
         private readonly Func<INavigation> _defaultNavigationFinder;
         private readonly Func<MultiPage<Page>> _defaultMultiPageFinder;
-        private readonly Func<Type, object> _defaultTypeFactory;
         private Func<FlyoutPage> _flyoutFactory;
         private Func<MultiPage<Page>> _multiPageFinder;
 
-        internal PageServiceBuilder(Func<INavigation> defaultNavigationFinder, Func<MultiPage<Page>> defaultMultiPageFinder, Func<Type, object> defaultTypeFactory) : this()
+        internal PageServiceBuilder(Func<INavigation> defaultNavigationFinder, Func<MultiPage<Page>> defaultMultiPageFinder/*, Func<Type, object> defaultTypeFactory*/) : this()
         {
             _defaultNavigationFinder = defaultNavigationFinder;
             _defaultMultiPageFinder = defaultMultiPageFinder;
-            _defaultTypeFactory = defaultTypeFactory;
         }
 
         internal PageServiceBuilder()
@@ -48,7 +46,7 @@ namespace FunctionZero.Maui.MvvmZero
             return this;
         }
 
-
+        public bool HasTypeFactory => _typeFactory != null;
         public PageServiceBuilder SetTypeFactory(Func<Type, object> typeFactory)
         {
             if (_typeFactory != null)
@@ -100,7 +98,7 @@ namespace FunctionZero.Maui.MvvmZero
 
         public IPageServiceZero Build()
         {
-            _typeFactory = _typeFactory ?? _defaultTypeFactory;
+            //_typeFactory = _typeFactory ?? _defaultTypeFactory;
             _navigationFinder = _navigationFinder ?? _defaultNavigationFinder;
             _multiPageFinder = _multiPageFinder ?? _defaultMultiPageFinder;
             _flyoutFactory = _flyoutFactory ?? GetDefaultFlyout;
