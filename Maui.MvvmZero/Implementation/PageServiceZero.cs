@@ -333,6 +333,9 @@ namespace FunctionZero.Maui.MvvmZero
             var page = (Page)GetViewForViewModel<TViewModel>(hint);
             var vm = GetViewModel<TViewModel>();
 
+            if (initViewModelAction != null)
+                initViewModelAction(vm);
+
             try
             {
                 page.BindingContext = vm;
