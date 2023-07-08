@@ -118,9 +118,17 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
 
             if (wrapInNavigation)
             {
-                var root = _pageService.GetView<NavigationPage>();
-                root.PushAsync(page, false);
-                page = root;
+                // Has our page been previously wrapped (by us)?
+                if (page.Parent is NavigationPage navpage)
+                {
+                    page = navpage;
+                }
+                else
+                {
+                    var root = _pageService.GetView<NavigationPage>();
+                    root.PushAsync(page, false);
+                    page = root;
+                }
             }
             this.Detail = page;
         }

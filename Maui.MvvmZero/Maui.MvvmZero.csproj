@@ -21,10 +21,10 @@
 		<PackageReadmeFile>Readme.Nuget.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/Keflon/Maui.MvvmZero</RepositoryUrl>
 		<PackageTags>MAUI; Mvvm; Navigation; iOS; WinUI; Android; FunctionZero; zBind; </PackageTags>
-		<PackageReleaseNotes>PushVmAsync wasn't calling the vm initializer. Now it is.</PackageReleaseNotes>
+		<PackageReleaseNotes>Fixed FlyoutController exception when presenting a singleton page for the second time when wrapping it in a NavigationPage.</PackageReleaseNotes>
 		<PackageId>FunctionZero.Maui.MvvmZero</PackageId>
 		<RootNamespace>FunctionZero.Maui.MvvmZero</RootNamespace>
-		<Version>2.0.2</Version>
+		<Version>2.0.3</Version>
 		<Title>Maui.MvvmZero</Title>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 	</PropertyGroup>
