@@ -33,6 +33,7 @@ namespace FunctionZero.Maui.MvvmZero
                 // Set the page BC ...
                 page.BindingContext = item;
                 var root = _navPageGetter();
+                // TODO: root.SetBinding(TitleProperty, new Binding("Title", source: page));
                 root.Title = ((Page)page).Title;
                 root.PushAsync((Page)page, false);
                 return root;

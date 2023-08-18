@@ -1,5 +1,8 @@
 ﻿using FunctionZero.Maui.Controls;
 using FunctionZero.Maui.MvvmZero;
+using FunctionZero.Maui.MvvmZero.Interfaces;
+using FunctionZero.Maui.MvvmZero.PageControllers;
+using FunctionZero.Maui.Services;
 using Microsoft.Extensions.Logging;
 using SampleTabbedApp.Mvvm.Pages;
 using SampleTabbedApp.Mvvm.PageViewModels;
@@ -19,7 +22,8 @@ namespace SampleTabbedApp
                     serviceBuilder
                         .MapVmToView<ReadyPageVm, ReadyPage>()
                         .MapVmToView<SteadyPageVm, SteadyPage>()
-                        .MapVmToView<GoPageVm, GoPage>()
+                        //.MapVmToView<GoPageVm, GoPage>()
+                        .MapVmToView<GoPageVm>((thing) => PageGetter(thing))
                         ;
                 }
                 )
@@ -46,12 +50,43 @@ namespace SampleTabbedApp
                .AddSingleton<SteadyPageVm>()
                .AddSingleton<GoPageVm>()
 
+               .AddSingleton<IDisplayService, DisplayService>()
+
+
+               .AddTransient<ProxyPage>()
+
                // TestPage/Vm are transient because there can be more than one on a navigation stack at any time.
                .AddTransient<TestPage>()
                .AddTransient<TestPageVm>()
                ;
 
             return builder.Build();
+        }
+
+        private static IView PageGetter(ViewMapperParameters thing)
+        {
+            // Not really a ViewModel!
+            var proxy = (ProxyPage)(thing.PageService.GetViewModel<ProxyPage>());
+
+            var innerPage1 = thing.PageService.GetView<GoPage>();
+            var innerPage2 = thing.PageService.GetView<TestPage>();
+
+            DoTheThing(proxy, innerPage1, innerPage2);
+
+            proxy.CurrentPage = innerPage2;
+            return (IView)proxy;
+
+        }
+
+        private static async void DoTheThing(ProxyPage proxy, GoPage innerPage1, TestPage innerPage2)
+        {
+            while(true)
+            {
+                await Task.Delay(3000);
+                proxy.CurrentPage = innerPage1;
+                await Task.Delay(3000);
+                proxy.CurrentPage = innerPage2;
+            }
         }
     }
 }

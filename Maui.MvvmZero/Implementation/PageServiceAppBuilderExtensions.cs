@@ -83,6 +83,9 @@ namespace FunctionZero.Maui.MvvmZero
                 // navPage.Navigation is a candidate. Recurse with it.
                 return DefaultNavigationFinder(navPage.CurrentPage, navPage.Navigation);
 
+            if(current is ProxyPage proxyPage)
+                return DefaultNavigationFinder(proxyPage.CurrentPage, proxyPage.Navigation);
+
             if (current is Page)
                 // If the Page instance is on a nav-stack, lastNavigation will not be null.
                 return lastNavigation;

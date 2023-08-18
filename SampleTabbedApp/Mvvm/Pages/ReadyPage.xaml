@@ -10,6 +10,5 @@
             HorizontalOptions="Center" />
 
         <Button Text="{Binding PushTestPageCommand.Text}" Command="{Binding PushTestPageCommand}"/>
-
     </VerticalStackLayout>
 </ContentPage>

@@ -1,5 +1,7 @@
 ﻿using FunctionZero.Maui.Controls;
 using FunctionZero.Maui.MvvmZero;
+using FunctionZero.Maui.MvvmZero.Interfaces;
+using FunctionZero.Maui.Services;
 using SampleTabbedApp.Mvvm.PageViewModels;
 using System.Collections;
 using System.Diagnostics;
@@ -10,11 +12,13 @@ namespace SampleTabbedApp
 
     public partial class App : Application
     {
-        public App(IPageServiceZero pageService)
+        public App(IPageServiceZero pageService, IDisplayService displayService)
         {
             InitializeComponent();
-            
+
             pageService.Init(this);
+
+            displayService.RotationChanged += DisplayService_RotationChanged;
 
             var rootPage = pageService.GetMultiPage(VmInitializer, typeof(ReadyPageVm), typeof(SteadyPageVm), typeof(GoPageVm));
             var a = new ContentPage();
@@ -26,6 +30,28 @@ namespace SampleTabbedApp
                 return false; // Do not wrap the ReadyPage in a NavigationPage.
 
             return true;
+        }
+
+        private void DisplayService_RotationChanged(object sender, DisplayRotationEventArgs e)
+        {
+            switch (e.CurrentRotation)
+            {
+                case DisplayRotation.Unknown:
+                    this.Resources["IdiomZero"] = DisplayRotation.Rotation0.ToString();
+                    break;
+                case DisplayRotation.Rotation0:
+                    this.Resources["IdiomZero"] = e.CurrentRotation.ToString();
+                    break;
+                case DisplayRotation.Rotation90:
+                    this.Resources["IdiomZero"] = e.CurrentRotation.ToString();
+                    break;
+                case DisplayRotation.Rotation180:
+                    this.Resources["IdiomZero"] = e.CurrentRotation.ToString();
+                    break;
+                case DisplayRotation.Rotation270:
+                    this.Resources["IdiomZero"] = e.CurrentRotation.ToString();
+                    break;
+            }
         }
     }
 }

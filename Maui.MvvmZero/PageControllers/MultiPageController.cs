@@ -24,6 +24,7 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
         {
             get
             {
+                // TODO: _multiPageFinder may return null.
                 var multiPage = _multiPageFinder();
                 if (multiPage is AdaptedTabbedPage adaptedMultiPage)
                     return adaptedMultiPage.ItemsSource as ObservableCollection<object>;
