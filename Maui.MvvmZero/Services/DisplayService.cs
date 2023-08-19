@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FunctionZero.Maui.MvvmZero.EventArgs;
 using FunctionZero.Maui.MvvmZero.Interfaces;
 using FunctionZero.Maui.MvvmZero.Services;
 

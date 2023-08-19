@@ -1,5 +1,6 @@
 ﻿using FunctionZero.Maui.Controls;
 using FunctionZero.Maui.MvvmZero;
+using FunctionZero.Maui.MvvmZero.EventArgs;
 using FunctionZero.Maui.MvvmZero.Interfaces;
 using FunctionZero.Maui.MvvmZero.Services;
 using SampleTabbedApp.Mvvm.PageViewModels;
