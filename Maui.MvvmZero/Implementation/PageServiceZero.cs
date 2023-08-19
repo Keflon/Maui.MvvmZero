@@ -471,9 +471,7 @@ namespace FunctionZero.Maui.MvvmZero
                 WalkTree(item, doTheThing);
         }
 
-        //public async Task<TViewModel> PushPageAsync<TPage, TViewModel>(Func<TViewModel, Task> initViewModelActionAsync, bool isModal, bool animated)
-
-        public ProxyPage GetIdiomPage(Type viewModelType, IDictionary<string, Func<Page>> lookup) /*where TPage : Page*/
+        public ProxyPage GetIdiomPage(Type viewModelType, IDictionary<string, Func<Page>> lookup)
         {
             var proxyPage = new ProxyPage();
             proxyPage.Lookup = lookup;
@@ -481,7 +479,6 @@ namespace FunctionZero.Maui.MvvmZero
 
             return proxyPage;
         }
-
 
         public ProxyPage GetIdiomPage(Type viewModelType, IDictionary<string, Type> lookup)
         {

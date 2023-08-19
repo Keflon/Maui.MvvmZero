@@ -23,7 +23,7 @@ namespace SampleTabbedApp
                         .MapVmToView<ReadyPageVm, ReadyPage>()
                         .MapVmToView<SteadyPageVm, SteadyPage>()
                         //.MapVmToView<GoPageVm, GoPage>()
-                        .MapVmToView<GoPageVm>((thing) => PageGetter(thing))
+                        .MapVmToView<GoPageVm>((parameters) => PageGetter(parameters))
                         ;
                 }
                 )
@@ -64,20 +64,6 @@ namespace SampleTabbedApp
             return builder.Build();
         }
 
-        //private static IView PageGetter(ViewMapperParameters thing)
-        //{
-        //    // Not really a ViewModel!
-        //    var proxy = (ProxyPage)(thing.PageService.GetViewModel<ProxyPage>());
-
-        //    var innerPage1 = thing.PageService.GetView<GoPage>();
-        //    var innerPage2 = thing.PageService.GetView<TestPage>();
-
-        //    DoTheThing(proxy, innerPage1, innerPage2);
-
-        //    proxy.CurrentPage = innerPage2;
-        //    return (IView)proxy;
-
-        //}
         private static IView PageGetter(ViewMapperParameters parameters)
         {
             Dictionary<string, Type> viewMapper = new()
