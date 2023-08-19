@@ -67,6 +67,9 @@
 	  <MauiXaml Update="Mvvm\Pages\GoPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Mvvm\Pages\GoPortraitPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Mvvm\Pages\ReadyPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

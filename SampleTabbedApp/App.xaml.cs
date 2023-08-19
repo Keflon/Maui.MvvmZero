@@ -17,6 +17,7 @@ namespace SampleTabbedApp
             InitializeComponent();
 
             pageService.Init(this);
+            this.Resources["IdiomZero"] = "Portrait";
 
             displayService.RotationChanged += DisplayService_RotationChanged;
 
@@ -37,19 +38,19 @@ namespace SampleTabbedApp
             switch (e.CurrentRotation)
             {
                 case DisplayRotation.Unknown:
-                    this.Resources["IdiomZero"] = DisplayRotation.Rotation0.ToString();
+                    this.Resources["IdiomZero"] = "Portrait";
                     break;
                 case DisplayRotation.Rotation0:
-                    this.Resources["IdiomZero"] = e.CurrentRotation.ToString();
+                    this.Resources["IdiomZero"] = "Portrait";
                     break;
                 case DisplayRotation.Rotation90:
-                    this.Resources["IdiomZero"] = e.CurrentRotation.ToString();
+                    this.Resources["IdiomZero"] = "Landscape";
                     break;
                 case DisplayRotation.Rotation180:
-                    this.Resources["IdiomZero"] = e.CurrentRotation.ToString();
+                    this.Resources["IdiomZero"] = "Portrait";
                     break;
                 case DisplayRotation.Rotation270:
-                    this.Resources["IdiomZero"] = e.CurrentRotation.ToString();
+                    this.Resources["IdiomZero"] = "Landscape";
                     break;
             }
         }

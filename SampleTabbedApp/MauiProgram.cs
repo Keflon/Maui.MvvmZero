@@ -38,13 +38,14 @@ namespace SampleTabbedApp
 #endif
 
             builder.Services
-                // Get our root page from the container!
-                // AdaptedTabbedPage Because https://github.com/dotnet/maui/issues/14572
+               // Get our root page from the container!
+               // AdaptedTabbedPage Because https://github.com/dotnet/maui/issues/14572
                .AddSingleton<MultiPage<Page>, AdaptedTabbedPage>()
 
                .AddSingleton<ReadyPage>()
                .AddSingleton<SteadyPage>()
                .AddSingleton<GoPage>()
+               .AddSingleton<GoPortraitPage>()
 
                .AddSingleton<ReadyPageVm>()
                .AddSingleton<SteadyPageVm>()
@@ -63,29 +64,41 @@ namespace SampleTabbedApp
             return builder.Build();
         }
 
-        private static IView PageGetter(ViewMapperParameters thing)
+        //private static IView PageGetter(ViewMapperParameters thing)
+        //{
+        //    // Not really a ViewModel!
+        //    var proxy = (ProxyPage)(thing.PageService.GetViewModel<ProxyPage>());
+
+        //    var innerPage1 = thing.PageService.GetView<GoPage>();
+        //    var innerPage2 = thing.PageService.GetView<TestPage>();
+
+        //    DoTheThing(proxy, innerPage1, innerPage2);
+
+        //    proxy.CurrentPage = innerPage2;
+        //    return (IView)proxy;
+
+        //}
+        private static IView PageGetter(ViewMapperParameters parameters)
         {
-            // Not really a ViewModel!
-            var proxy = (ProxyPage)(thing.PageService.GetViewModel<ProxyPage>());
+            Dictionary<string, Type> viewMapper = new()
+            {
+                {"Landscape", typeof(GoPage) },
+                {"Portrait", typeof(GoPortraitPage) }
+            };
 
-            var innerPage1 = thing.PageService.GetView<GoPage>();
-            var innerPage2 = thing.PageService.GetView<TestPage>();
-
-            DoTheThing(proxy, innerPage1, innerPage2);
-
-            proxy.CurrentPage = innerPage2;
-            return (IView)proxy;
-
+            var proxyPage = parameters.PageService.GetIdiomPage(parameters.VmType, viewMapper);
+            return proxyPage;
         }
 
-        private static async void DoTheThing(ProxyPage proxy, GoPage innerPage1, TestPage innerPage2)
+        private static async void DoTheThing(ProxyPage proxy)
         {
-            while(true)
+            while (true)
             {
                 await Task.Delay(3000);
-                proxy.CurrentPage = innerPage1;
+                proxy.Resources["IdiomZero"] = "Landscape";
                 await Task.Delay(3000);
-                proxy.CurrentPage = innerPage2;
+                proxy.Resources["IdiomZero"] = "Portrait";
+
             }
         }
     }

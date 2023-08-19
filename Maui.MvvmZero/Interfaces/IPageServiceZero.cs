@@ -171,6 +171,10 @@ namespace FunctionZero.Maui.MvvmZero
         FlyoutPage GetFlyoutPage<TFlyoutFlyoutVm>()
             where TFlyoutFlyoutVm : class;
 
+        public ProxyPage GetIdiomPage(Type viewModelType, IDictionary<string, Func<Page>> lookup) /*where TPage : Page*/;
+        public ProxyPage GetIdiomPage(Type viewModelType, IDictionary<string, Type> lookup);
+        public ProxyPage GetIdiomPage<TViewModel>(IDictionary<string, Type> lookup) where TViewModel : class;
+
         #endregion
 
     }

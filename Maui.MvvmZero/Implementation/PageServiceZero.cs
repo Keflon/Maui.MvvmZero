@@ -104,7 +104,7 @@ namespace FunctionZero.Maui.MvvmZero
             currentApplication.PageDisappearing += CurrentApplication_PageDisappearing;
         }
 
-    private void CurrentApplication_PageDisappearing(object sender, Page e)
+        private void CurrentApplication_PageDisappearing(object sender, Page e)
         {
             Debug.WriteLine($"CurrentApplication_PageDisappearing: {e}");
         }
@@ -470,5 +470,38 @@ namespace FunctionZero.Maui.MvvmZero
             foreach (var item in visualElement.GetVisualChildren())
                 WalkTree(item, doTheThing);
         }
+
+        //public async Task<TViewModel> PushPageAsync<TPage, TViewModel>(Func<TViewModel, Task> initViewModelActionAsync, bool isModal, bool animated)
+
+        public ProxyPage GetIdiomPage(Type viewModelType, IDictionary<string, Func<Page>> lookup) /*where TPage : Page*/
+        {
+            var proxyPage = new ProxyPage();
+            proxyPage.Lookup = lookup;
+            proxyPage.BindingContext = GetInstance(viewModelType);
+            proxyPage.SetDynamicResource(ProxyPage.IdiomProperty, "IdiomZero");
+
+            return proxyPage;
+        }
+
+
+        public ProxyPage GetIdiomPage(Type viewModelType, IDictionary<string, Type> lookup)
+        {
+            var vm = GetInstance(viewModelType);
+
+            var newLookup = new Dictionary<string, Func<Page>>();
+
+            foreach (var item in lookup)
+            {
+                newLookup.Add(item.Key, () => (Page)GetInstance(item.Value));
+            }
+
+            return GetIdiomPage(viewModelType, newLookup);
+        }
+
+        public ProxyPage GetIdiomPage<TViewModel>(IDictionary<string, Type> lookup) where TViewModel : class
+        {
+            return GetIdiomPage(typeof(TViewModel), lookup);
+        }
+
     }
 }
