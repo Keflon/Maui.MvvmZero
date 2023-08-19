@@ -12,7 +12,6 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
     {
         public ProxyPage()
         {
-            //this.SetBinding(TitleProperty, new Binding("CurrentPage.Title", source: this));
             this.SetBinding(TitleProperty, new Binding("CurrentPage.Title", BindingMode.OneWay, source: this));
         }
 

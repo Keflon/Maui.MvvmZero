@@ -87,6 +87,7 @@ namespace SampleTabbedApp
             };
 
             var proxyPage = parameters.PageService.GetIdiomPage(parameters.VmType, viewMapper);
+            DoTheThing(proxyPage);
             return proxyPage;
         }
 
