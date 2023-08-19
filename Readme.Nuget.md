@@ -20,7 +20,7 @@ up `CanExecuteChanged` or having to manually disable other Commands whilst a lon
 Command is busy!   
 
 [Maui.Controls](https://github.com/Keflon/FunctionZero.Maui.Controls) for a TreeView, ListView 
-with TwoWay bindable ScrollOffset, and workarounds for bugs in `FlyoutPage` and `TabbedPage`.
+with TwoWay bindable ScrollOffset, MaskView, Expander, and workarounds for bugs in `FlyoutPage` and `TabbedPage`.
 
 These are standalone libraries that can save you time and effort whether you use MvvmZero or not.
 
