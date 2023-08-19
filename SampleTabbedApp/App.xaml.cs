@@ -1,7 +1,7 @@
 ﻿using FunctionZero.Maui.Controls;
 using FunctionZero.Maui.MvvmZero;
 using FunctionZero.Maui.MvvmZero.Interfaces;
-using FunctionZero.Maui.Services;
+using FunctionZero.Maui.MvvmZero.Services;
 using SampleTabbedApp.Mvvm.PageViewModels;
 using System.Collections;
 using System.Diagnostics;

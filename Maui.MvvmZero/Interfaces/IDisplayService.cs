@@ -1,4 +1,4 @@
-﻿using FunctionZero.Maui.Services;
+﻿using FunctionZero.Maui.MvvmZero.Services;
 
 namespace FunctionZero.Maui.MvvmZero.Interfaces
 {

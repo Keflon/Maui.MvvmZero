@@ -478,7 +478,6 @@ namespace FunctionZero.Maui.MvvmZero
             var proxyPage = new ProxyPage();
             proxyPage.Lookup = lookup;
             proxyPage.BindingContext = GetInstance(viewModelType);
-            proxyPage.SetDynamicResource(ProxyPage.IdiomProperty, "IdiomZero");
 
             return proxyPage;
         }

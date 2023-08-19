@@ -1,4 +1,4 @@
-﻿namespace FunctionZero.Maui.Services
+﻿namespace FunctionZero.Maui.MvvmZero.Services
 {
     public class DisplayRotationEventArgs
     {
