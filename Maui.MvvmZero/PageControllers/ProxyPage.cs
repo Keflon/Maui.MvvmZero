@@ -1,4 +1,5 @@
 ﻿using Microsoft.Maui.Controls;
+using Microsoft.Maui.Platform;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FunctionZero.Maui.MvvmZero.PageControllers
 {
-    public class ProxyPage : MultiPage<ContentPage>, IContentView
+    public class ProxyPage : Page, IContentView, IPageContainer<Page>
     {
         public ProxyPage()
         {
@@ -24,18 +25,9 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
                 CurrentPage.BindingContext = BindingContext;
         }
 
-        protected override void OnCurrentPageChanged()
-        {
-            base.OnCurrentPageChanged();
-            //SelectedItem = CurrentPage;
-            OnPropertyChanged(nameof(Content));
-            if (CurrentPage != null)
-                CurrentPage.BindingContext = BindingContext;
-        }
+        public object Content => ((IContentView)CurrentPage);
 
-        public object Content => ((IContentView)CurrentPage)?.Content;
-
-        public IView PresentedContent => ((IContentView)CurrentPage)?.PresentedContent;
+        public IView PresentedContent => ((IContentView)CurrentPage).PresentedContent;
 
         public Size CrossPlatformArrange(Rect bounds)
         {
@@ -45,12 +37,6 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
         public Size CrossPlatformMeasure(double widthConstraint, double heightConstraint)
         {
             return ((IContentView)CurrentPage)?.CrossPlatformMeasure(widthConstraint, heightConstraint) ?? new Size(30, 30);
-
-        }
-
-        protected override ContentPage CreateDefault(object item)
-        {
-            return new ContentPage() { BackgroundColor = Colors.AliceBlue };
         }
 
         #region bindable properties
@@ -82,7 +68,12 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
                     {
                         var page = pageGetter();
                         // TODO: Should be Page, e.g. NavigationPage only for one screen orientation. No, that can't work!
-                        CurrentPage = pageGetter() as ContentPage;
+                        CurrentPage = pageGetter() as Page;
+                        //InvalidateMeasure();
+                        //UpdateChildrenLayout();
+                        //ForceLayout();
+                        //CurrentPage.ForceLayout();
+                        //ForceLayout();
                     }
                 }
             }
@@ -93,6 +84,7 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
         #region IdiomProperty
 
         public static readonly BindableProperty IdiomProperty = BindableProperty.Create(nameof(Idiom), typeof(string), typeof(ProxyPage), null, BindingMode.OneWay, null, IdiomPropertyChanged);
+        private Page currentPage;
 
         public string Idiom
         {
@@ -105,6 +97,30 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
             var self = (ProxyPage)bindable;
 
             self.Update();
+        }
+
+
+        #endregion
+
+        #region CurrentPageProperty
+
+        public static readonly BindableProperty CurrentPageProperty = BindableProperty.Create(nameof(CurrentPage), typeof(Page), typeof(ProxyPage), null, BindingMode.OneWay, null, CurrentPagePropertyChanged);
+
+        public Page CurrentPage
+        {
+            get { return (Page)GetValue(CurrentPageProperty); }
+            set { SetValue(CurrentPageProperty, value); }
+        }
+
+        private static void CurrentPagePropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var self = (ProxyPage)bindable;
+            self.CurrentPage.BindingContext = self.BindingContext;
+
+            //self.OnPropertyChanged(nameof(CurrentPage));
+            self.OnPropertyChanged(nameof(Content));
+
+            self.Title = self.CurrentPage.Title;
         }
 
         #endregion
