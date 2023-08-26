@@ -21,11 +21,11 @@
 		<PackageReadmeFile>Readme.Nuget.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/Keflon/Maui.MvvmZero</RepositoryUrl>
 		<PackageTags>MAUI; Mvvm; Navigation; iOS; WinUI; Android; FunctionZero; zBind; Tizen</PackageTags>
-		<PackageReleaseNotes>Added ProxyPage and GetIdiomPage. Together, they allow multiple UI for each ViewModel, e.g. for each screen orientation.
+		<PackageReleaseNotes>IFlyoutController::SetDetailVm now has an initialiser for the vm. Added ProxyPage and GetIdiomPage. Together, they allow multiple UI for each ViewModel, e.g. for each screen orientation.
 - Improved ProxyPage implementation.</PackageReleaseNotes>
 		<PackageId>FunctionZero.Maui.MvvmZero</PackageId>
 		<RootNamespace>FunctionZero.Maui.MvvmZero</RootNamespace>
-		<Version>2.0.4.1</Version>
+		<Version>2.0.4.2-pre1</Version>
 		<Title>Maui.MvvmZero</Title>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 	</PropertyGroup>

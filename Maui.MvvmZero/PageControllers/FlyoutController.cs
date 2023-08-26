@@ -108,7 +108,34 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
             else if (e.PropertyName == nameof(FlyoutPage.FlyoutLayoutBehavior))
                 FlyoutLayoutBehavior = _flyoutPage.FlyoutLayoutBehavior;
         }
+        public void SetDetailVm<TViewModel>(bool wrapInNavigation, Action<TViewModel> initViewModelAction, object hint = null) where TViewModel : class
+        {
+            var page = (Page)_pageService.GetViewForVm(typeof(TViewModel), hint);
+            var vm = _pageService.GetViewModel<TViewModel>();
 
+            page.BindingContext = vm;
+
+            if (initViewModelAction != null)
+                initViewModelAction(vm);
+
+            if (wrapInNavigation)
+            {
+                // Has our page been previously wrapped (by us)?
+                if (page.Parent is NavigationPage navpage)
+                {
+                    page = navpage;
+                }
+                else
+                {
+                    var root = _pageService.GetView<NavigationPage>();
+                    root.PushAsync(page, false);
+                    page = root;
+                }
+            }
+            this.Detail = page;
+        }
+
+        [Obsolete]
         public void SetDetailVm(Type vmType, bool wrapInNavigation, object hint = null)
         {
             var page = (Page)_pageService.GetViewForVm(vmType, hint);

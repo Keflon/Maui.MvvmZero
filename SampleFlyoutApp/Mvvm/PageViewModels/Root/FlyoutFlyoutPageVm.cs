@@ -33,10 +33,10 @@ namespace SampleFlyoutApp.Mvvm.PageViewModels.Root
             ItemTappedCommand = new CommandBuilder().AddGuard(this).SetExecute(ItemTappedCommandExecute).Build();
             Items = new()
             {
-                new DetailPageItemVm("One", () => _pageService.FlyoutController.SetDetailVm(typeof(HomePageVm), true)),
-                new DetailPageItemVm("Two", () => _pageService.FlyoutController.SetDetailVm(typeof(ListPageVm), true)),
-                new DetailPageItemVm("Three", () => _pageService.FlyoutController.SetDetailVm(typeof(TreePageVm), true)),
-                new DetailPageItemVm("Test",  () => _pageService.FlyoutController.SetDetailVm(typeof(TestPageVm), true)),
+                new DetailPageItemVm("One", () => _pageService.FlyoutController.SetDetailVm<HomePageVm>(true, (vm)=>{ })),
+                new DetailPageItemVm("Two", () => _pageService.FlyoutController.SetDetailVm<ListPageVm>(true, (vm)=>{ })),
+                new DetailPageItemVm("Three", () => _pageService.FlyoutController.SetDetailVm<TreePageVm>(true, (vm)=>{ })),
+                new DetailPageItemVm("Test",  () => _pageService.FlyoutController.SetDetailVm<TestPageVm>(true, (vm)=>{ })),
                 //new DetailPageItemVm("Tabbed Test", () =>_pageService.FlyoutController.Detail = GetTabbedTestPage(pageService))
                 new DetailPageItemVm("Tabbed Test", () =>_pageService.FlyoutController.SetDetailMultiPage(VmInitializer, typeof(TestPageVm), typeof(TestPageVm), typeof(TestPageVm)))
             };

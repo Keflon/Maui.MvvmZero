@@ -13,6 +13,8 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
 
         event PropertyChangedEventHandler PropertyChanged;
 
+        void SetDetailVm<TViewModel>(bool wrapInNavigation, Action<TViewModel> initViewModelAction, object hint=null) where TViewModel : class;
+        [Obsolete]
         void SetDetailVm(Type vmType, bool wrapInNavigation, object hint=null);
         void SetDetailMultiPage(Func<object, bool> initializer, params Type[] vmTypes);
     }
