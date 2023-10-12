@@ -9,8 +9,13 @@
             Text="Welcome to .NET MAUI!"
             VerticalOptions="Center" 
             HorizontalOptions="Center" 
-            TranslationX="{z:Bind Sin(Count/5.0)*50}"
             />
+        <!--<Label 
+            Text="Welcome to .NET MAUI!"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" 
+            TranslationX="{z:Bind Sin(Count/5.0)*50}"
+            />-->
         <VerticalStackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
             <Label Text="Make your choice"/>
             <Button Command="{Binding CabbagesPageCommand}" Text="{Binding CabbagesPageCommand.Text}"/>

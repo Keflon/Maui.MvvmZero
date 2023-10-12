@@ -21,4 +21,5 @@ namespace SampleFlyoutApp.WinUI
 
         protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
     }
+
 }

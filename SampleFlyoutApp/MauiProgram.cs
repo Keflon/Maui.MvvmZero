@@ -1,5 +1,4 @@
-﻿using FunctionZero.Maui.Controls;
-using FunctionZero.Maui.MvvmZero;
+﻿using FunctionZero.Maui.MvvmZero;
 using Microsoft.Extensions.Logging;
 using SampleFlyoutApp.Mvvm.Pages;
 using SampleFlyoutApp.Mvvm.Pages.Root;
@@ -42,8 +41,8 @@ namespace SampleFlyoutApp
                .AddSingleton<FlyoutPage>()
                // because https://github.com/dotnet/maui/issues/14572
                //.AddSingleton<TabbedPage>()
-               .AddSingleton<MultiPage<Page>, AdaptedTabbedPage>()
-               .AddSingleton<FlyoutPage, AdaptedFlyoutPage>()               
+               .AddSingleton<MultiPage<Page>, TabbedPage>()
+               .AddSingleton<FlyoutPage, FlyoutPage>()               
                .AddSingleton<HomePage>()
                .AddSingleton<HomePageVm>()
                .AddSingleton<FlyoutFlyoutPage>()
