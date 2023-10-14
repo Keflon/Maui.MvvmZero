@@ -21,7 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-//using FunctionZero.Maui.Controls;
+using FunctionZero.Maui.Controls;
 using FunctionZero.Maui.MvvmZero;
 using FunctionZero.Maui.MvvmZero.PageControllers;
 using System;
@@ -407,12 +407,12 @@ namespace FunctionZero.Maui.MvvmZero
             var multiPageItemTemplate = new ViewDataTemplateSelector(vmInitializer, () => GetView<NavigationPage>(), (viewModelType) => GetViewForVm(viewModelType, typeof(TMultiPage)));
 
             // AdaptedTabbedPage Because https://github.com/dotnet/maui/issues/14572
-            //if (page is AdaptedTabbedPage adaptedPage)
-            //{
-            //    adaptedPage.ItemTemplate = multiPageItemTemplate;
-            //    adaptedPage.ItemsSource = vmCollection;
-            //}
-            //else
+            if (page is AdaptedTabbedPage adaptedPage)
+            {
+                adaptedPage.ItemTemplate = multiPageItemTemplate;
+                adaptedPage.ItemsSource = vmCollection;
+            }
+            else
             {
                 page.ItemTemplate = multiPageItemTemplate;
                 page.ItemsSource = vmCollection;

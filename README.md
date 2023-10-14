@@ -1,7 +1,7 @@
 # FunctionZero.Maui.MvvmZero
 
-## Major Improvements
-This is a first release for package 2.0.0. All functionality for building and navigating pages is complete. 
+## NET 8 is now supported.
+Use version 8.0.0 and above if building for MAUI .NET 8. 
 Some interfaces may not be final, though any changes will be simple to accommodate.  
 
 [Nuget](https://www.nuget.org/packages/FunctionZero.Maui.MvvmZero),  [Source](https://github.com/Keflon/Maui.MvvmZero).  

@@ -1,4 +1,5 @@
-﻿using FunctionZero.Maui.MvvmZero;
+﻿using FunctionZero.Maui.Controls;
+using FunctionZero.Maui.MvvmZero;
 using FunctionZero.Maui.MvvmZero.Interfaces;
 using FunctionZero.Maui.MvvmZero.PageControllers;
 using FunctionZero.Maui.Services;
@@ -39,7 +40,7 @@ namespace SampleTabbedApp
             builder.Services
                // Get our root page from the container!
                // AdaptedTabbedPage Because https://github.com/dotnet/maui/issues/14572
-               .AddSingleton<MultiPage<Page>, TabbedPage>()
+               .AddSingleton<MultiPage<Page>, AdaptedTabbedPage>()
 
                .AddSingleton<ReadyPage>()
                .AddSingleton<SteadyPage>()

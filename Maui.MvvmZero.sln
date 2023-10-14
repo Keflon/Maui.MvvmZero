@@ -7,9 +7,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Maui.MvvmZero", "Maui.MvvmZ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleTabbedApp", "SampleTabbedApp\SampleTabbedApp.csproj", "{25F3ED37-7F97-4A80-917F-A5F6C62364A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleFlyoutApp", "SampleFlyoutApp\SampleFlyoutApp.csproj", "{046343EC-324D-4372-8C8C-28B3B6BF28E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleFlyoutApp", "SampleFlyoutApp\SampleFlyoutApp.csproj", "{046343EC-324D-4372-8C8C-28B3B6BF28E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApp", "SampleApp\SampleApp.csproj", "{4A36C9F1-7B56-470E-89E5-4AAB2B6ADE9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleApp", "SampleApp\SampleApp.csproj", "{4A36C9F1-7B56-470E-89E5-4AAB2B6ADE9E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{E450E1B2-A69F-4EFF-AD52-7FC5D5765719}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE.txt = LICENSE.txt
+		README.md = README.md
+		Readme.Nuget.md = Readme.Nuget.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

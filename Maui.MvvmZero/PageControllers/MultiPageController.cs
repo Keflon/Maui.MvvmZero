@@ -1,4 +1,4 @@
-﻿//using FunctionZero.Maui.Controls;
+﻿using FunctionZero.Maui.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,9 +26,9 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
             {
                 // TODO: _multiPageFinder may return null.
                 var multiPage = _multiPageFinder();
-                //if (multiPage is AdaptedTabbedPage adaptedMultiPage)
-                //    return adaptedMultiPage.ItemsSource as ObservableCollection<object>;
-                //else
+                if (multiPage is AdaptedTabbedPage adaptedMultiPage)
+                    return adaptedMultiPage.ItemsSource as ObservableCollection<object>;
+                else
                     return multiPage.ItemsSource as ObservableCollection<object>;
             }
         }
