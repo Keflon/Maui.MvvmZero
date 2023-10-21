@@ -1,5 +1,8 @@
 # FunctionZero.Maui.MvvmZero
 
+## Latest update
+Version 8+ are built for NET 8.
+
 This is an evolution of [MvvmZero for Xamarin](https://github.com/Keflon/FunctionZero.MvvmZero)  
 
 ## Ethos
@@ -35,6 +38,4 @@ If you want to help:
 - If you use this, or any [other of my libraries](https://www.nuget.org/profiles/FunctionZero) 
 please tell your friends, star the repo, or even consider [sponsoring me](https://github.com/sponsors/Keflon).
 
-# Scratchpad
 
-# Contents

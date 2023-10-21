@@ -116,6 +116,16 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
         {
             var self = (ProxyPage)bindable;
             self.CurrentPage.BindingContext = self.BindingContext;
+            /*
+            if(oldValue is Page oldPage)
+                oldPage.BindingContext = null;
+
+            if(newValue is Page newPage)
+                newPage.BindingContext= self.BindingContext;
+
+
+
+            */
 
             //self.OnPropertyChanged(nameof(CurrentPage));
             self.OnPropertyChanged(nameof(Content));
