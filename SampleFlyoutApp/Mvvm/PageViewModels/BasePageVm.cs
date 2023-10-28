@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FunctionZero.Maui.Showcase.Mvvm.PageViewModels
+namespace SampleFlyoutApp.Mvvm.PageViewModels
 {
     public abstract class BasePageVm : MvvmZeroBasePageVm
     {

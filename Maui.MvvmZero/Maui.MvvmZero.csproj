@@ -47,7 +47,7 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="FunctionZero.CommandZero" Version="1.1.0" />
-		<PackageReference Include="FunctionZero.Maui.Controls" Version="8.0.0" />
+		<PackageReference Include="FunctionZero.Maui.Controls" Version="8.0.0.1-pre3" />
 		<PackageReference Include="FunctionZero.Maui.zBind" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />

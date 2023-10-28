@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AnimationZero.Animation
 {
-    public class Animation : IClockEventHandler
+    public class AnimationZero : IClockEventHandler
     {
         private readonly Func<double> _getStartValue;
         private readonly Func<double> _getEndValue;
@@ -24,7 +24,7 @@ namespace AnimationZero.Animation
         // https://github.com/dotnet/maui/blob/main/src/Core/src/Animations/Easing.cs
         public static readonly Func<double, double> CubicInOut = (x => x < 0.5f ? Math.Pow(x * 2.0f, 3.0f) / 2.0f : (Math.Pow((x - 1) * 2.0f, 3.0f) + 2.0f) / 2.0f);
 
-        public Animation(Func<double> getStartValue,
+        public AnimationZero(Func<double> getStartValue,
                           Func<double> getEndValue,
                           Func<double, double> easingFunc,
                           Action<double> setValue,

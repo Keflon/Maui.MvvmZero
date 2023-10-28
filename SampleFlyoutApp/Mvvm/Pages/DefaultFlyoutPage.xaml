@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:z="clr-namespace:FunctionZero.Maui.zBind.z;assembly=FunctionZero.Maui.zBind"
+             xmlns:tz="clr-namespace:SampleFlyoutApp.MarkupExtensions"
+             x:Class="SampleFlyoutApp.Mvvm.Pages.DefaultFlyoutPage"
+             Title="DefaultFlyoutPage">
+    <VerticalStackLayout VerticalOptions="Center" 
+                         HorizontalOptions="Center"
+                         TranslationX="{z:Bind Sin(Count/7.0)*15}"
+                         TranslationY="{z:Bind Sin(Count/9.0)*19}"
+                         Rotation="{z:Bind Sin(Count/9.0)*9}"
+    >
+        <Label Padding="30" 
+               TranslationX="{z:Bind Sin(Count/7.0)*15}"
+               TranslationY="{z:Bind Sin(Count/9.0)*19}"
+               Rotation="{z:Bind Sin(Count/9.0)*9}"
+            Text="{tz:Lang TextId=E_Welcome}" 
+            HorizontalOptions="Center" >
+            <Label.Shadow>
+                <Shadow Brush="Blue"
+                Offset="10,10"
+                Radius="12"
+                Opacity="0.9" />
+            </Label.Shadow>
+        </Label>
+    </VerticalStackLayout>
+</ContentPage>

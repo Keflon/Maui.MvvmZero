@@ -1,20 +1,53 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:z="clr-namespace:FunctionZero.Maui.zBind.z;assembly=FunctionZero.Maui.zBind"
+             xmlns:cz="clr-namespace:FunctionZero.Maui.Controls;assembly=FunctionZero.Maui.Controls"
+             xmlns:tz="clr-namespace:SampleFlyoutApp.MarkupExtensions"
              x:Class="SampleFlyoutApp.Mvvm.Pages.Root.FlyoutFlyoutPage"
              Title="FlyoutFlyoutPage"
              x:Name="Self"
              >
     <!--IconImageSource="hamburger.png"-->
-   
-    <VerticalStackLayout 
-        BackgroundColor="Red"
-        BindableLayout.ItemsSource="{Binding Items}"
-        >
-        <BindableLayout.ItemTemplate>
-            <DataTemplate>
-                <Button Text="{Binding Name}" Command="{Binding BindingContext.ItemTappedCommand, Source={x:Reference Self}}" CommandParameter="{Binding}"/>
-            </DataTemplate>
-        </BindableLayout.ItemTemplate>
+
+    <ContentPage.Resources>
+        <DataTemplate x:Key="NodeTemplate">
+            <cz:ExpanderZero Margin="5"
+                    EaseIn="{x:Static Easing.CubicInOut}"
+                    EaseOut="{x:Static Easing.CubicInOut}"
+                    DurationMilliseconds="400"
+                    
+                    IsExpanded="{Binding IsExpanded, Mode=TwoWay}"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand"
+                >
+                <cz:ExpanderZero.Header>
+                    <Label Text="{TemplateBinding BindingContext.Title}"   Margin="5" Padding="15"  BackgroundColor="AliceBlue"                 
+                               HorizontalOptions="FillAndExpand"
+                               VerticalOptions="FillAndExpand">
+                    </Label>
+                </cz:ExpanderZero.Header>
+                <HorizontalStackLayout>
+                    <!--Note the use of z:Bind to avoid the need to write a BindingConverter-->
+                    <BoxView WidthRequest="{z:Bind (NestLevel+1)*20}" BackgroundColor="Transparent"/>
+                    <VerticalStackLayout
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand"
+                        BindableLayout.ItemsSource="{Binding Children}"
+                        BindableLayout.ItemTemplate="{StaticResource NodeTemplate}"/>
+                </HorizontalStackLayout>
+            </cz:ExpanderZero>
+        </DataTemplate>
+    </ContentPage.Resources>
+
+    <VerticalStackLayout>
+        <!--A little test for our internationalisation-->
+        <Label Text="{tz:Lang TextId=E_Hello}"/>
+        <Label Text="{tz:Lang TextId=E_World}"/>
+
+        <!--Display a tree-like view representing our side-bar items-->
+        <VerticalStackLayout BindableLayout.ItemsSource="{Binding Items}" BindableLayout.ItemTemplate="{StaticResource NodeTemplate}" >
+
+        </VerticalStackLayout>
     </VerticalStackLayout>
 </ContentPage>

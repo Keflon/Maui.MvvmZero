@@ -2,6 +2,32 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Title>AnimationZero</Title>
+    <Copyright>Function Zero Ltd 2023</Copyright>
+    <PackageProjectUrl>https://github.com/Keflon/Maui.MvvmZero</PackageProjectUrl>
+    <PackageIcon>F0 gravatar.png</PackageIcon>
+    <Description>An animation library that is not coupled to a UI framework.</Description>
+    <PackageReadmeFile></PackageReadmeFile>
+    <RepositoryUrl>https://github.com/Keflon/Maui.MvvmZero</RepositoryUrl>
+    <PackageTags>Animation Easing ViewModel </PackageTags>
+    <PackageReleaseNotes>First release.</PackageReleaseNotes>
+    <AssemblyVersion></AssemblyVersion>
+    <Version>1.0.0-pre1</Version>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\..\OneDrive - Function Zero Ltd\FunctionZeroBuildResources\F0 gravatar.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+
+    <None Update="Docs\Readme.Nuget.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>

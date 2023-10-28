@@ -56,13 +56,24 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="FunctionZero.TreeZero" Version="1.0.2" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0-rc.2.23479.6" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\AnimationZero\AnimationZero.csproj" />
 	  <ProjectReference Include="..\Maui.MvvmZero\Maui.MvvmZero.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Mvvm\Pages\DefaultFlyoutPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Mvvm\Pages\TestAnimationPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 	<!-- Build Properties must be defined within these property groups to ensure successful publishing

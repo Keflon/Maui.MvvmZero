@@ -1,6 +1,5 @@
 ﻿using FunctionZero.CommandZero;
 using FunctionZero.Maui.MvvmZero;
-using FunctionZero.Maui.Showcase.Mvvm.PageViewModels;
 using SampleFlyoutApp.Mvvm.Pages;
 using System;
 using System.Collections.Generic;

@@ -1,5 +1,4 @@
 ﻿using FunctionZero.Maui.MvvmZero;
-using FunctionZero.Maui.Showcase.Mvvm.PageViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
