@@ -18,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{E450E1B2-A
 		Readme.Nuget.md = Readme.Nuget.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnimationZero", "AnimationZero\AnimationZero.csproj", "{B382C4DD-5F1A-49D5-8F39-8995B7D07520}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +48,10 @@ Global
 		{4A36C9F1-7B56-470E-89E5-4AAB2B6ADE9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A36C9F1-7B56-470E-89E5-4AAB2B6ADE9E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4A36C9F1-7B56-470E-89E5-4AAB2B6ADE9E}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{B382C4DD-5F1A-49D5-8F39-8995B7D07520}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B382C4DD-5F1A-49D5-8F39-8995B7D07520}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B382C4DD-5F1A-49D5-8F39-8995B7D07520}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B382C4DD-5F1A-49D5-8F39-8995B7D07520}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
