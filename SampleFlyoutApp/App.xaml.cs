@@ -12,7 +12,8 @@ namespace SampleFlyoutApp
             InitializeComponent();
 
             pageService.Init(this);
-            translationService.SetLanguage(Application.Current.Resources, "English");
+            translationService.Init(this.Resources);
+            translationService.SetLanguage("English");
 
 
             // Uses AdaptedFlyoutPage because https://github.com/dotnet/maui/issues/13496

@@ -22,6 +22,10 @@ namespace SampleFlyoutApp.MarkupExtensions
     /// </summary>
     public class LangExtension : BaseLanguageExtension<LangStrings>
     {
+        public LangExtension() : base("languageResource")
+        {
+
+        }
     }
 
 

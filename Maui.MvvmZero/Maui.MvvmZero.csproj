@@ -21,10 +21,10 @@
 		<PackageReadmeFile>Readme.Nuget.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/Keflon/Maui.MvvmZero</RepositoryUrl>
 		<PackageTags>MAUI; Mvvm; Navigation; iOS; WinUI; Android; FunctionZero; zBind; Tizen</PackageTags>
-		<PackageReleaseNotes>Built against .NET 8.</PackageReleaseNotes>
+		<PackageReleaseNotes>Built with the latest ExpressionParserZero.</PackageReleaseNotes>
 		<PackageId>FunctionZero.Maui.MvvmZero</PackageId>
 		<RootNamespace>FunctionZero.Maui.MvvmZero</RootNamespace>
-		<Version>8.0.0</Version>
+		<Version>8.0.1</Version>
 		<Title>Maui.MvvmZero</Title>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 		<PackageIcon>F0 gravatar.png</PackageIcon>	
@@ -47,8 +47,8 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="FunctionZero.CommandZero" Version="1.1.0" />
-		<PackageReference Include="FunctionZero.Maui.Controls" Version="8.0.0.1-pre3" />
-		<PackageReference Include="FunctionZero.Maui.zBind" Version="8.0.0" />
+		<PackageReference Include="FunctionZero.Maui.Controls" Version="8.0.0.2-pre4" />
+		<PackageReference Include="FunctionZero.Maui.zBind" Version="8.0.2" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 	</ItemGroup>

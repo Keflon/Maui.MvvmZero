@@ -1,6 +1,7 @@
 ﻿using FunctionZero.Maui.MvvmZero;
 using FunctionZero.Maui.MvvmZero.Interfaces;
 using FunctionZero.Maui.MvvmZero.Services;
+using FunctionZero.Maui.Services;
 using SampleTabbedApp.Mvvm.PageViewModels;
 using System.Collections;
 using System.Diagnostics;
@@ -11,11 +12,13 @@ namespace SampleTabbedApp
 
     public partial class App : Application
     {
-        public App(IPageServiceZero pageService, IDisplayService displayService)
+        public App(IPageServiceZero pageService, IDisplayService displayService, TranslationService translationService)
         {
             InitializeComponent();
 
             pageService.Init(this);
+            translationService.Init(this.Resources);
+            translationService.SetLanguage("English");
             this.Resources["IdiomZero"] = "Portrait";
 
             displayService.RotationChanged += DisplayService_RotationChanged;
