@@ -6,6 +6,7 @@ using FunctionZero.Maui.Services;
 using Microsoft.Extensions.Logging;
 using SampleTabbedApp.Mvvm.Pages;
 using SampleTabbedApp.Mvvm.PageViewModels;
+using static FunctionZero.Maui.Services.TranslationService;
 
 namespace SampleTabbedApp
 {
@@ -59,10 +60,31 @@ namespace SampleTabbedApp
                // TestPage/Vm are transient because there can be more than one on a navigation stack at any time.
                .AddTransient<TestPage>()
                .AddTransient<TestPageVm>()
-               ;
+
+
+            // Services ...
+            .AddSingleton<TranslationService>(GetConfiguredLanguageService)
+
+            ;
 
             return builder.Build();
         }
+
+        #region Language translation setup
+        private static TranslationService GetConfiguredLanguageService(IServiceProvider provider)
+        {
+            var translationService = new TranslationService();
+            translationService.RegisterLanguage("English", new LanguageProvider(GetEnglish, "English"));
+            translationService.RegisterLanguage("German", new LanguageProvider(GetGerman, "Deutsch"));
+
+            return translationService;
+        }
+
+        // Example
+        private static string[] GetEnglish() => new string[] { "Hello", "World", "Welcome to the Moasure Playground!" };
+        private static string[] GetGerman() => new string[] { "Hallo", "Welt", "Willkommen auf dem Moasure Spielplatz!" };
+
+        #endregion
 
         private static IView PageGetter(ViewMapperParameters parameters)
         {
