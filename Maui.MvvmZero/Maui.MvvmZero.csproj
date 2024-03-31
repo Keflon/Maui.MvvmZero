@@ -22,10 +22,10 @@
 		<RepositoryUrl>https://github.com/Keflon/Maui.MvvmZero</RepositoryUrl>
 		<PackageTags>MAUI; Mvvm; Navigation; iOS; WinUI; Android; FunctionZero; zBind; Tizen</PackageTags>
 		<PackageReleaseNotes>Built with the latest FunctionZero.Maui.Controls and FunctionZero.Maui.Controls.zBind.
-The experimental localisation has been removed from the Controls library in favour of a much simpler and more capable independent library that is currently in test.</PackageReleaseNotes>
+The experimental localisation has been removed (more completely) from the Controls library in favour of a much simpler and more capable independent library that is currently in test.</PackageReleaseNotes>
 		<PackageId>FunctionZero.Maui.MvvmZero</PackageId>
 		<RootNamespace>FunctionZero.Maui.MvvmZero</RootNamespace>
-		<Version>8.0.2</Version>
+		<Version>8.0.3</Version>
 		<Title>Maui.MvvmZero</Title>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 		<PackageIcon>F0 gravatar.png</PackageIcon>	
@@ -48,7 +48,7 @@ The experimental localisation has been removed from the Controls library in favo
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="FunctionZero.CommandZero" Version="1.1.0" />
-		<PackageReference Include="FunctionZero.Maui.Controls" Version="8.0.0.4" />
+		<PackageReference Include="" Version="8.0.0.5" />
 		<PackageReference Include="FunctionZero.Maui.zBind" Version="8.1.1" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.14" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.14" />
