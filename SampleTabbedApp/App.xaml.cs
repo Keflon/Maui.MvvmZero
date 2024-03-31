@@ -12,13 +12,11 @@ namespace SampleTabbedApp
 
     public partial class App : Application
     {
-        public App(IPageServiceZero pageService, IDisplayService displayService, TranslationService translationService)
+        public App(IPageServiceZero pageService, IDisplayService displayService)
         {
             InitializeComponent();
 
             pageService.Init(this);
-            translationService.Init(this.Resources);
-            translationService.SetLanguage("English");
             this.Resources["IdiomZero"] = "Portrait";
 
             displayService.RotationChanged += DisplayService_RotationChanged;

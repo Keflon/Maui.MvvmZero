@@ -6,7 +6,6 @@ using SampleFlyoutApp.Mvvm.Pages.Root;
 using SampleFlyoutApp.Mvvm.PageViewModels;
 using SampleFlyoutApp.Mvvm.PageViewModels.Root;
 using FunctionZero.Maui.Services;
-using static FunctionZero.Maui.Services.TranslationService;
 
 namespace SampleFlyoutApp
 {
@@ -73,7 +72,7 @@ namespace SampleFlyoutApp
                .AddSingleton<TestAnimationZeroPage>()
 
             // Services ...
-            .AddSingleton<TranslationService>(GetConfiguredLanguageService);
+            //.AddSingleton<TranslationService>(GetConfiguredLanguageService);
 
             ;
 
@@ -86,21 +85,5 @@ namespace SampleFlyoutApp
             // Use arg to decide what type of page instance to return.
             return (IView)arg.PageService.GetView<TestPage>();
         }
-
-        #region Language translation setup
-        private static TranslationService GetConfiguredLanguageService(IServiceProvider provider)
-        {
-            var translationService = new TranslationService();
-            translationService.RegisterLanguage("English", new LanguageProvider(GetEnglish, "English"));
-            translationService.RegisterLanguage("German", new LanguageProvider(GetGerman, "Deutsch"));
-
-            return translationService;
-        }
-
-        // Example
-        private static string[] GetEnglish() => new string[] { "Hello", "World", "Welcome to the Moasure Playground!" };
-        private static string[] GetGerman() => new string[] { "Hallo", "Welt", "Willkommen auf dem Moasure Spielplatz!" };
-
-        #endregion
     }
 }
