@@ -48,7 +48,7 @@ The experimental localisation has been removed (more completely) from the Contro
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="FunctionZero.CommandZero" Version="1.1.0" />
-		<PackageReference Include="" Version="8.0.0.5" />
+		<PackageReference Include="FunctionZero.Maui.Controls" Version="8.0.0.5" />
 		<PackageReference Include="FunctionZero.Maui.zBind" Version="8.1.1" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.14" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.14" />
